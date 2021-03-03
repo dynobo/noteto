@@ -58,12 +58,23 @@ html {
   border: 3px solid hsl(204, 86%, 53%);
 }
 
+#sidebar > #block-options-box .block-buttons {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 #sidebar > .box {
 border: 3px solid hsl(0, 0%, 72.9%);
 }
 
 #sidebar div.field.is-grouped > .field {
   width: 50%;
+}
+
+#delete-button {
+  background-color: #fff
+}
+#delete-button:hover {
+  background-color: #f14668
 }
 
 /******************
