@@ -1,0 +1,18 @@
+env:
+  browser: true
+  es2021: true
+extends:
+  - airbnb-base
+parserOptions:
+  ecmaVersion: 12
+  sourceType: module
+rules:
+  max-len:
+    - error
+    - code: 100
+  import/extensions:
+    - error
+    - js: always
+  no-console:
+    - error
+    - allow: ['warn', 'error']

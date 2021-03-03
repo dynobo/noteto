@@ -1,0 +1,60 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Template Tool</title>
+  <script src="https://unpkg.com/interactjs@1.10.3/dist/interact.min.js"></script>
+  <script src="https://unpkg.com/canvg@3.0.1/lib/umd.js"></script>
+  <script type="module" src="/js/script.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  </link>
+</head>
+
+<body>
+
+  <div id="sidebar" class="block">
+    <div class="box">
+      <h1 class="title has-text-centered is-size-4">Template-Tool</h1>
+      <h2 class="subtitle has-text-centered is-size-6">For Notetaking</h2>
+    </div>
+
+    <div id="block-options-box" class="box has-background-info-light hidden">
+      <div class="tabs is-toggle is-centered">
+        <ul>
+        </ul>
+      </div>
+      <div class="tabs-content">
+      </div>
+    </div>
+
+    <div id="global-options-box" class="box">
+      <div class="tabs is-toggle is-centered">
+        <ul>
+        </ul>
+      </div>
+      <div class="tabs-content">
+      </div>
+    </div>
+
+    <div class="box">
+      <div id="library">
+      </div>
+    </div>
+
+    <div class="box">
+      <button id="export-button" class="button is-link is-outlined is-fullwidth">
+        Export as PNG
+      </button>
+    </div>
+  </div>
+  <div id="paper-container">
+    <svg id="paper-svg" version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 1404 1872" width="1404" height="1872">
+    </svg>
+  </div>
+  </div>
+</body>
+
+</html>

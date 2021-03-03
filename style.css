@@ -1,0 +1,100 @@
+@import 'https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css';
+
+html {
+  font-size: 62.5%;
+  background-color: hsl(0, 0%, 48%);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/******************
+  Left Sidebar
+  *****************/
+
+#sidebar {
+  width: 250px;
+  height: 100%;
+  margin: 15px;
+}
+
+#sidebar .tabs-content > div {
+  display: none;
+}
+#sidebar .tabs-content > div.is-active {
+  display: block;
+}
+
+#library > div > .image {
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px;
+}
+#library > div > .image:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 3px 0px #777777;
+}
+#library > div {
+  display: inline-block;
+  position: relative;
+  margin: 7px;
+  width: 96px;
+}
+#library > div:hover::after {
+  position: absolute;
+  display: inline-block;
+  content: 'Click to add';
+  bottom: 7px;
+  left: 0px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+}
+
+#sidebar > #block-options-box {
+  border: 3px solid hsl(204, 86%, 53%);
+}
+
+#sidebar > .box {
+border: 3px solid hsl(0, 0%, 72.9%);
+}
+
+#sidebar div.field.is-grouped > .field {
+  width: 50%;
+}
+
+/******************
+  Paper Template
+  *****************/
+
+#paper-container {
+  width: 250px;
+  margin: 15px 15px 15px 15px;
+}
+
+#paper-svg {
+  background-color: #fff;
+  /*  height: calc(100vh - 30px);*/
+  position: absolute;
+  top: 15px;
+  left: 285px;
+}
+
+#paper-svg .dragit {
+  touch-action: none;
+  user-select: none;
+}
+#paper-svg .dragit:hover {
+  cursor: grabbing;
+  filter: drop-shadow(0px 0px 2px #777777);
+}
+#paper-svg .dragit.selected .blockBorder {
+  fill: hsl(206, 70%, 96%);
+}
+
+#paper-svg .dragit::before {
+  content:"TEST"
+}
