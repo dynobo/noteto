@@ -269,6 +269,20 @@ function onBlockClick(event) {
   showOptions(blockOptions);
 }
 
+function onClickToFrontOrBack(event) {
+  const container = document.getElementById('block-options-box');
+  const blockId = container.getAttribute('data-scope');
+
+  // Reorder SVG
+  const svg = document.getElementById(blockId);
+  svg.parentElement.removeChild(svg);
+  if (event.currentTarget.getAttribute('id') === 'front-button') {
+    svgRoot.append(svg);
+  } else {
+    svgRoot.prepend(svg);
+  }
+}
+
 /** *******************
  * INIT
  ******************** */
@@ -285,6 +299,12 @@ function init() {
 
   const deleteBtn = document.getElementById('delete-button');
   deleteBtn.addEventListener('click', onClickDeleteBlock);
+
+  const toFrontBtn = document.getElementById('front-button');
+  toFrontBtn.addEventListener('click', onClickToFrontOrBack);
+
+  const toBackBtn = document.getElementById('back-button');
+  toBackBtn.addEventListener('click', onClickToFrontOrBack);
 
   const restrictions = [
     interact.modifiers.snap({
