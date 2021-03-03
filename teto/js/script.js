@@ -56,6 +56,8 @@ function getFormRowsHtml(tab, options) {
     const rowHtml = `<div class="field is-grouped">${fieldDiv}</div>`;
     rowsHtml += rowHtml;
   }
+
+  console.log(rowsHtml);
   return rowsHtml;
 }
 
