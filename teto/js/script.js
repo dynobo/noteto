@@ -56,7 +56,6 @@ function getFormRowsHtml(tab, options) {
     const rowHtml = `<div class="field is-grouped">${fieldDiv}</div>`;
     rowsHtml += rowHtml;
   }
-
   return rowsHtml;
 }
 
@@ -116,12 +115,14 @@ function showOptions(options) {
     // Toggle visibility of block options
     const container = document.getElementById('block-options-box');
     const selectedBlock = document.querySelector('svg.dragit.selected');
+
     if (selectedBlock) {
+      container.setAttribute('data-scope', options.scope);
       container.classList.remove('hidden');
     } else {
+      container.setAttribute('data-scope', '');
       container.classList.add('hidden');
       // no need to rebuild options when hiding
-      return;
     }
   }
   buildOptionsForm(options);
@@ -149,6 +150,21 @@ function onClickBlockInLibrary(blockType) {
   const newBlock = new blockType.Class(grid, globalOptions);
   newBlock.add(svgRoot);
   blocks[newBlock.id] = newBlock;
+}
+
+function onClickDeleteBlock() {
+  const container = document.getElementById('block-options-box');
+  const blockId = container.getAttribute('data-scope');
+
+  // Remove SVG
+  const svg = document.getElementById(blockId);
+  svg.parentElement.removeChild(svg);
+
+  // Remove entry from blocks dict
+  delete blocks[blockId];
+
+  // Hide options box
+  container.classList.add('hidden');
 }
 
 function onClickTabSelector(event) {
@@ -266,6 +282,9 @@ function init() {
 
   const exportBtn = document.getElementById('export-button');
   exportBtn.addEventListener('click', downloadSvgAsPng);
+
+  const deleteBtn = document.getElementById('delete-button');
+  deleteBtn.addEventListener('click', onClickDeleteBlock);
 
   const restrictions = [
     interact.modifiers.snap({
