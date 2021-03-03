@@ -57,7 +57,6 @@ function getFormRowsHtml(tab, options) {
     rowsHtml += rowHtml;
   }
 
-  console.log(rowsHtml);
   return rowsHtml;
 }
 
