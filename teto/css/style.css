@@ -73,6 +73,9 @@ border: 3px solid hsl(0, 0%, 72.9%);
 #delete-button {
   background-color: #fff
 }
+#delete-button:hover {
+  background-color: #f14668
+}
 
 /******************
   Paper Template
