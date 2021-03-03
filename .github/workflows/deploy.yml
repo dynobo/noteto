@@ -1,0 +1,23 @@
+name: Deploy to Webserver
+
+on: 
+  push:
+    tags:
+      - v*
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Copy via FTP
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+      env:
+        FTP_SERVER: ${{ secrets.WEBGO_HOST }}
+        FTP_USERNAME: ${{ secrets.WEBGO_USER }}
+        FTP_PASSWORD: ${{ secrets.WEBGO_PASSWORD }}
+        METHOD: ftp
+        LOCAL_DIR: teto
+        REMOTE_DIR: /  # is on remote: home/www/needleinthehay
+        ARGS: --reverse --no-perms --parallel=3 --delete --only-newer --ignore-time -vvv
