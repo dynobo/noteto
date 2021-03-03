@@ -19,8 +19,9 @@ jobs:
       run: npm ci
     - name: ESlint
       run: npm run lint:report
+      continue-on-error: true
     - name: Annotate Code Linting Results
-        uses: ataylorme/eslint-annotate-action@1.1.2
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          report-json: "eslint_report.json"
+      uses: ataylorme/eslint-annotate-action@1.1.2
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        report-json: "eslint_report.json"

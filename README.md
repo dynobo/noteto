@@ -33,7 +33,7 @@ If you plan to contribute PRs back to this repo, please also install and run `es
 
 ```
 npm install
-eslint .
+eslint ./teto/
 ```
 
 ## Further *free* reMarkable template ressources

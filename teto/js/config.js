@@ -2,9 +2,7 @@ import BaseBlock from './blocks/BaseBlock.js';
 import LineBlock from './blocks/LineBlock.js';
 import TimeBlock from './blocks/TimeBlock.js';
 
-let globalOptionsConfig;
-
-globalOptionsConfig = {
+const globalOptionsConfig = {
   borderMargin: {
     group: 'Borders',
     label: 'Border Margin',

@@ -5,7 +5,7 @@
   "main": "script.js",
   "scripts": {
     "lint": "eslint --format compact ./teto/",
-    "lint:report": "eslint --output-file eslint_report.json --format json ./teto/"
+    "lint:report": "eslint --output-file eslint_report.json --format json ./teto/ || :"
   },
   "author": "",
   "license": "ISC",
