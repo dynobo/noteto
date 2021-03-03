@@ -19,5 +19,7 @@ jobs:
         node-version: 15.x
     - name: Install Dependencies 
       run: npm ci
+    - name: Add problem matcher
+      run: echo "::add-matcher::eslint-compact-problem-matcher.json"
     - name: ESlint
       run: npm run test

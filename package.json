@@ -4,7 +4,7 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "test": "eslint ./teto/"
+    "test": "eslint -f compact ./teto/"
   },
   "author": "",
   "license": "ISC",

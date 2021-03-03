@@ -5,8 +5,8 @@ on:
     tags:
       - v*
 jobs:
-  build:
-    name: Build
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
