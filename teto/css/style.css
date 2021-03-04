@@ -19,6 +19,18 @@ html {
   margin: 15px;
 }
 
+#sidebar h1 {
+  position: relative;
+}
+
+#sidebar h1 > span.alpha-warning {
+  position: absolute;
+  transform: rotate(10deg);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  right: 5px;
+  top: 5px;
+}
+
 #sidebar .tabs-content > div {
   display: none;
 }
