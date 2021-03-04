@@ -1,7 +1,7 @@
 import Options from './blocks/Options.js';
 import { globalOptionsConfig, blockTypes } from './config.js';
 import {
-  calcGrid, downloadSvgAsPng, htmlToElement, removeChildren,
+  calcGrid, downloadSvgAsPng, htmlToElement, removeChildren, downloadDictAsJson, uploadJsonFromDisk,
 } from './utils.js';
 
 /** *******************
@@ -11,8 +11,8 @@ import {
 /* global interact */
 
 const svgRoot = document.getElementById('paper-svg');
-const blocks = {};
-const globalOptions = new Options(globalOptionsConfig, 'global');
+let blocks = {};
+let globalOptions = new Options(globalOptionsConfig, 'global');
 let grid = {};
 
 /** *******************
@@ -131,7 +131,7 @@ function showOptions(options) {
 function renderBlockLibrary() {
   // Add preview for every block type
   const library = document.getElementById('library');
-  blockTypes.forEach((blockType) => {
+  Object.values(blockTypes).forEach((blockType) => {
     const img = htmlToElement(`
     <div>
       <img src="img/${blockType.thumb}" class="image is-96x96">
@@ -165,6 +165,74 @@ function onClickDeleteBlock() {
 
   // Hide options box
   container.classList.add('hidden');
+}
+
+function loadTemplate(data) {
+  // Remove existing blocks
+  removeChildren(svgRoot);
+  blocks = {};
+  // Hide block specific options
+  const blockOptionsBox = document.getElementById('block-options-box');
+  blockOptionsBox.classList.add('hidden');
+
+  // Load options
+  globalOptions = new Options(data.globalOptionsConfig, 'global');
+  const globalOptionsBox = document.getElementById('global-options-box');
+  Object.entries(globalOptions.opts).forEach(([optionName, optionProps]) => {
+    const field = globalOptionsBox.querySelector(`input[data-option="${optionName}"]`);
+    field.value = optionProps.value;
+  });
+
+  // Load Blocks
+  Object.values(data.blocks).forEach((blockData) => {
+    try {
+      const newBlock = new blockTypes[blockData.type].Class(grid, globalOptions);
+      newBlock.width = blockData.width;
+      newBlock.height = blockData.height;
+      newBlock.x = blockData.x;
+      newBlock.y = blockData.y;
+      newBlock.dataX = blockData.dataX;
+      newBlock.dataY = blockData.dataY;
+      newBlock.blockOpts.opts = blockData.blockOpts.opts;
+      newBlock.svg.style.webkitTransform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
+      newBlock.svg.style.transform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
+      newBlock.add(svgRoot);
+      blocks[newBlock.id] = newBlock;
+    } catch (error) {
+      console.error(`Error loading block ${blockData.id} of type ${blockData.type}. Skipping.`);
+      console.error(error);
+    }
+  });
+}
+
+function onFileLoaded(data) {
+  let obj;
+  try {
+    obj = JSON.parse(data);
+  } catch (error) {
+    console.error('Loading from JSON file failed!');
+    console.error(error);
+    return;
+  }
+  if (!('grid' in obj && 'blocks' in obj && 'globalOptionsConfig' in obj)) {
+    console.error('JSON file didn\'t contain the expected data.');
+    return;
+  }
+  loadTemplate(obj);
+}
+
+function onClickLoadFileButton() {
+  uploadJsonFromDisk(onFileLoaded);
+}
+
+function onClickSaveFileButton() {
+  // Compose object with necessary data
+  const data = {};
+  data.blocks = blocks;
+  data.grid = grid;
+  data.globalOptionsConfig = globalOptions.opts;
+
+  downloadDictAsJson(data);
 }
 
 function onClickTabSelector(event) {
@@ -296,6 +364,12 @@ function init() {
 
   const exportBtn = document.getElementById('export-button');
   exportBtn.addEventListener('click', downloadSvgAsPng);
+
+  const loadBtn = document.getElementById('load-button');
+  loadBtn.addEventListener('click', onClickLoadFileButton);
+
+  const saveBtn = document.getElementById('save-button');
+  saveBtn.addEventListener('click', onClickSaveFileButton);
 
   const deleteBtn = document.getElementById('delete-button');
   deleteBtn.addEventListener('click', onClickDeleteBlock);

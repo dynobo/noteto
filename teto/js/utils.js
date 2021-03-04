@@ -78,6 +78,40 @@ function removeChildren(el) {
   }
 }
 
+function downloadDictAsJson(obj) {
+  const data = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(obj))}`;
+  const a = document.createElement('a');
+  a.href = data;
+  a.download = 'teto-template.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function uploadJsonFromDisk(callback) {
+  function readFile(e) {
+    const file = e.target.files[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function execCallback(event) {
+      const contents = event.target.result;
+      fileInput.func(contents);
+      document.body.removeChild(fileInput);
+    };
+    reader.readAsText(file);
+  }
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = '.json';
+  fileInput.style.display = 'none';
+  fileInput.onchange = readFile;
+  fileInput.func = callback;
+  document.body.appendChild(fileInput);
+  fileInput.click();
+}
+
 export {
-  calcGrid, downloadSvgAsPng, htmlToElement, removeChildren,
+  calcGrid, downloadSvgAsPng, htmlToElement, removeChildren, downloadDictAsJson, uploadJsonFromDisk,
 };

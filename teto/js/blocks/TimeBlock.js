@@ -3,6 +3,7 @@ import BaseBlock from './BaseBlock.js';
 class TimeBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
+    this.type = 'TimeBlock';
 
     // Extend block specific options
     // (will show up in the left sidebar on block select)
