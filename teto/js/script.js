@@ -312,38 +312,25 @@ function init() {
       range: Infinity,
       relativePoints: [{ x: 0, y: 0 }],
     }),
-    /*
+    interact.modifiers.restrictSize({
+      min: { width: grid.x, height: grid.y },
+    }), /*
     interact.modifiers.restrictRect({
       restriction: 'parent',
     }),
-    interact.modifiers.restrict({
-      restriction: 'parent',
-      elementRect: {
-        top: 0, left: 0, bottom: 1, right: 1,
-      },
-      endOnly: false,
-    }),
-
+    */
     /*
-    interact.modifiers.snapEdges({
-      targets: [
-        interact.snappers.grid(snap_grid),
-      ],
-    }),
-
     interact.modifiers.restrictEdges({
       outer: 'parent',
     }),
-
-    interact.modifiers.restrictSize({
-      min: { width: grid_width, height: grid_height },
-    }),
-
+    */
+    /*
     interact.modifiers.snapSize({
       targets: [
-        interact.snappers.grid(snap_grid),
+        interact.snappers.grid(grid),
       ],
-    }), */
+    }),
+    */
   ];
 
   interact('.dragit')
