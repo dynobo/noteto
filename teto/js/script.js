@@ -314,23 +314,10 @@ function init() {
     }),
     interact.modifiers.restrictSize({
       min: { width: grid.x, height: grid.y },
-    }), /*
-    interact.modifiers.restrictRect({
-      restriction: 'parent',
     }),
-    */
-    /*
     interact.modifiers.restrictEdges({
       outer: 'parent',
     }),
-    */
-    /*
-    interact.modifiers.snapSize({
-      targets: [
-        interact.snappers.grid(grid),
-      ],
-    }),
-    */
   ];
 
   interact('.dragit')
