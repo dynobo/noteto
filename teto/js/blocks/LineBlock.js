@@ -1,6 +1,11 @@
 import BaseBlock from './BaseBlock.js';
 
 class LineBlock extends BaseBlock {
+  constructor(grid, globalOptions) {
+    super(grid, globalOptions);
+    this.type = 'LineBlock';
+  }
+
   clearLines() {
     const lines = this.svg.querySelectorAll('.horizontal-line');
     lines.forEach((line) => {

@@ -9,7 +9,8 @@
   <script src="https://unpkg.com/canvg@3.0.1/lib/umd.js"></script>
   <script type="module" src="js/script.js"></script>
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css">
   </link>
 </head>
 
@@ -17,13 +18,16 @@
 
   <div id="sidebar" class="block">
     <div class="box p-2">
-      <h1 class="title has-text-centered is-size-3">TeTo</h1>
-      <p class="subtitle has-text-centered is-size-6 mb-1"><strong>Te</strong>mplate <strong>To</strong>ol for Notetaking</p>
-      <p class="subtitle has-text-centered is-size-6"><a href="https://needleinthehay.de/projects/tetu">About</a> – <a href="https://github.com/dynobo/teto" target="_new">Github</a></p>
+      <h1 class="title has-text-centered is-size-3">TeTo <span class="alpha-warning has-text-danger is-size-5">Early Alpha!</span></span></h1>
+      <p class="subtitle has-text-centered is-size-6 mb-1"><strong>Te</strong>mplate <strong>To</strong>ol for
+        Notetaking</p>
+      <p class="subtitle has-text-centered is-size-6"><a href="https://needleinthehay.de/projects/tetu">About</a> – <a
+          href="https://github.com/dynobo/teto" target="_new">Github</a></p>
 
     </div>
 
     <div id="block-options-box" class="box has-background-info-light hidden">
+      <p class="box-title has-text-centered is-size-7 is-uppercase has-text-weight-bold">Box-Specific Options</p>
       <div class="tabs is-centered">
         <ul>
         </ul>
@@ -42,17 +46,18 @@
           <span class="icon is-small">
             <i class="fa fa-arrow-down"></i>
           </span>
-        </button>          
+        </button>
         <button id="delete-button" class="button is-danger is-outlined">
           <span>Delete</span>
           <span class="icon is-small">
             <i class="fa fa-trash"></i>
           </span>
-        </button>        
+        </button>
       </div>
     </div>
 
     <div id="global-options-box" class="box">
+      <p class="box-title has-text-centered is-size-7 is-uppercase has-text-weight-bold">Global Options</p>
       <div class="tabs is-centered">
         <ul>
         </ul>
@@ -67,10 +72,28 @@
     </div>
 
     <div class="box">
-      <button id="export-button" class="button is-link is-outlined is-fullwidth">
-        Export as PNG
+      <div class="mb-3">
+        <button id="save-button" class="button">
+          <span class="icon">
+            <i class="fa fa-download"></i>
+          </span>
+          <span>Save as JSON</span>
+        </button>
+        <button id="load-button" class="button">
+          <span class="icon">
+            <i class="fa fa-upload"></i>
+          </span>
+          <span>Load from JSON</span>
+        </button>
+      </div>
+      <button id="export-button" class="button is-link is-fullwidth">
+        <span class="icon">
+          <i class="fa fa-file-text-o"></i>
+        </span>
+        <span>Export to PNG</span>
       </button>
     </div>
+
   </div>
   <div id="paper-container">
     <svg id="paper-svg" version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"

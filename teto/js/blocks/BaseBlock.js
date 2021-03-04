@@ -4,6 +4,7 @@ class BaseBlock {
   constructor(grid, globalOptions) {
     // Unique ID to identify an individual block instance
     this.id = `id_${Math.random().toString(16).slice(2)}`;
+    this.type = 'BaseBlock';
 
     // Position information. Handled by interact.js. Don't change manually.
     this.width = grid.x * 3;

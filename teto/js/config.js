@@ -81,10 +81,10 @@ if (preview) {
   globalOptionsConfig.titleFontSize.value = 32;
 }
 
-const blockTypes = [
-  { thumb: 'base-block.png', Class: BaseBlock },
-  { thumb: 'line-block.png', Class: LineBlock },
-  { thumb: 'time-block.png', Class: TimeBlock },
-];
+const blockTypes = {
+  BaseBlock: { thumb: 'base-block.png', Class: BaseBlock },
+  LineBlock: { thumb: 'line-block.png', Class: LineBlock },
+  TimeBlock: { thumb: 'time-block.png', Class: TimeBlock },
+};
 
 export { globalOptionsConfig, blockTypes };

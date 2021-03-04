@@ -19,6 +19,18 @@ html {
   margin: 15px;
 }
 
+#sidebar h1 {
+  position: relative;
+}
+
+#sidebar h1 > span.alpha-warning {
+  position: absolute;
+  transform: rotate(10deg);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  right: 5px;
+  top: 5px;
+}
+
 #sidebar .tabs-content > div {
   display: none;
 }
@@ -66,6 +78,11 @@ html {
 border: 3px solid hsl(0, 0%, 72.9%);
 }
 
+#sidebar p.box-title {
+  margin-top: -0.75rem;
+  margin-bottom: 0.5rem;
+}
+
 #sidebar div.field.is-grouped > .field {
   width: 50%;
 }
@@ -76,6 +93,12 @@ border: 3px solid hsl(0, 0%, 72.9%);
 #delete-button:hover {
   background-color: #f14668
 }
+
+#save-button,
+#load-button {
+  width: 49.4%;
+}
+
 
 /******************
   Paper Template
