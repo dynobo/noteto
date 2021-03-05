@@ -77,6 +77,15 @@ const globalOptionsConfig = {
     type: 'color',
     value: '#dddddd',
   },
+  fontFamily: {
+    group: 'Titles',
+    label: 'Font Family',
+    type: 'select',
+    codes: {
+      Roboto: 'Roboto',
+    },
+    value: 2,
+  },
 };
 
 const preview = false;

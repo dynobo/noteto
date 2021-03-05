@@ -9,6 +9,7 @@ import {
   downloadDictAsJson,
   uploadJsonFromDisk,
 } from './utils.js';
+import { fontRobotoBase64 } from './fonts.js';
 
 /** *******************
  * Global Variables
@@ -189,9 +190,20 @@ function onClickDeleteBlock() {
   container.classList.add('hidden');
 }
 
+function initSvgRoot() {
+  removeChildren(svgRoot);
+  const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+  style.innerHTML = `
+  @font-face {
+    font-family: 'Roboto';
+    src: url(${fontRobotoBase64});
+  }`;
+  svgRoot.prepend(style);
+}
+
 function loadTemplate(data) {
   // Remove existing blocks
-  removeChildren(svgRoot);
+  initSvgRoot();
   blocks = {};
   // Hide block specific options
   const blockOptionsBox = document.getElementById('block-options-box');
@@ -369,7 +381,7 @@ function onClickToFrontOrBack(event) {
   if (event.currentTarget.getAttribute('id') === 'front-button') {
     svgRoot.append(svg);
   } else {
-    svgRoot.prepend(svg);
+    svgRoot.insertBefore(svg, svgRoot.firstChild.nextSibling);
   }
 }
 
@@ -377,6 +389,8 @@ function onClickToFrontOrBack(event) {
  * INIT
  ******************** */
 function init() {
+  initSvgRoot();
+
   grid = calcGrid(svgRoot);
 
   showOptions(globalOptions);

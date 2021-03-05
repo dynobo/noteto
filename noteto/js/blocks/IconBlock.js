@@ -103,8 +103,8 @@ class IconBlock extends BaseBlock {
     let iconWidth = 0;
     for (let i = 1; i <= iconCount; i += 1) {
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      // text.class = 'icon';
-      text.setAttribute('class', 'icon');
+      text.class = 'icon';
+      // text.setAttribute('class', 'icon');
       text.setAttribute('font-size', iconSize);
       text.setAttribute('fill', iconColor);
       text.setAttribute('dominant-baseline', 'central');
