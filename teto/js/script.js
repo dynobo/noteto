@@ -1,7 +1,13 @@
 import Options from './blocks/Options.js';
 import { globalOptionsConfig, blockTypes } from './config.js';
 import {
-  generateBlockPreview, calcGrid, downloadSvgAsPng, htmlToElement, removeChildren, downloadDictAsJson, uploadJsonFromDisk,
+  generateBlockPreview,
+  calcGrid,
+  downloadSvgAsPng,
+  htmlToElement,
+  removeChildren,
+  downloadDictAsJson,
+  uploadJsonFromDisk,
 } from './utils.js';
 
 /** *******************

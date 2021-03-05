@@ -100,7 +100,6 @@ class TimeBlock extends BaseBlock {
         this.svg.appendChild(text);
         currentHour += 1;
         maxLabelWidth = Math.max(maxLabelWidth, text.getBBox().width);
-        console.log(maxLabelWidth);
       }
     }
 
