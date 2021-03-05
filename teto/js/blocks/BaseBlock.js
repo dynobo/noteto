@@ -30,6 +30,35 @@ class BaseBlock {
     this.createBaseElements();
   }
 
+  get innerWidth() {
+    return (this.width
+      - this.globalOpts.get('borderStrokeWidth') * 2
+      - this.globalOpts.get('borderMargin') * 2);
+  }
+
+  get innerHeight() {
+    let innerHeight = (this.height
+      - this.globalOpts.get('borderStrokeWidth') * 2
+      - this.globalOpts.get('borderMargin') * 2);
+    if (this.blockOpts.get('titleText').length > 0) {
+      innerHeight -= this.globalOpts.get('titleFontSize');
+      innerHeight -= this.globalOpts.get('titlePadding') * 2;
+    }
+    return innerHeight;
+  }
+
+  get xOffset() {
+    return this.globalOpts.get('borderStrokeWidth') + this.globalOpts.get('borderMargin');
+  }
+
+  get yOffset() {
+    let yOffset = this.globalOpts.get('borderStrokeWidth') + this.globalOpts.get('borderMargin');
+    if (this.blockOpts.get('titleText').length > 0) {
+      yOffset += this.globalOpts.get('titleFontSize') + this.globalOpts.get('titlePadding') * 2;
+    }
+    return yOffset;
+  }
+
   createBaseElements() {
     // Block Container
     this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
