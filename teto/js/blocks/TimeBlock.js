@@ -13,7 +13,7 @@ class TimeBlock extends BaseBlock {
         group: 'Time Settings',
         label: 'Font Size',
         type: 'number',
-        value: 14,
+        value: 16,
       },
       startHour: {
         group: 'Time Settings',

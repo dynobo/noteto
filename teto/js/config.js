@@ -2,6 +2,12 @@ import BaseBlock from './blocks/BaseBlock.js';
 import LineBlock from './blocks/LineBlock.js';
 import TimeBlock from './blocks/TimeBlock.js';
 
+const blockTypes = {
+  BaseBlock: { thumb: 'base-block.png', Class: BaseBlock },
+  LineBlock: { thumb: 'line-block.png', Class: LineBlock },
+  TimeBlock: { thumb: 'time-block.png', Class: TimeBlock },
+};
+
 const globalOptionsConfig = {
   borderMargin: {
     group: 'Borders',
@@ -80,11 +86,5 @@ if (preview) {
   globalOptionsConfig.lineDistance.value = 42;
   globalOptionsConfig.titleFontSize.value = 32;
 }
-
-const blockTypes = {
-  BaseBlock: { thumb: 'base-block.png', Class: BaseBlock },
-  LineBlock: { thumb: 'line-block.png', Class: LineBlock },
-  TimeBlock: { thumb: 'time-block.png', Class: TimeBlock },
-};
 
 export { globalOptionsConfig, blockTypes };
