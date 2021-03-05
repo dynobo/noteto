@@ -1,11 +1,13 @@
 import BaseBlock from './blocks/BaseBlock.js';
 import LineBlock from './blocks/LineBlock.js';
 import TimeBlock from './blocks/TimeBlock.js';
+import IconBlock from './blocks/IconBlock.js';
 
 const blockTypes = {
-  BaseBlock: { thumb: 'base-block.png', Class: BaseBlock },
-  LineBlock: { thumb: 'line-block.png', Class: LineBlock },
-  TimeBlock: { thumb: 'time-block.png', Class: TimeBlock },
+  BaseBlock: { Class: BaseBlock },
+  LineBlock: { Class: LineBlock },
+  TimeBlock: { Class: TimeBlock },
+  IconBlock: { Class: IconBlock },
 };
 
 const globalOptionsConfig = {

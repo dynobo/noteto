@@ -133,9 +133,8 @@ border: 3px solid hsl(0, 0%, 72.9%);
   content:"TEST"
 }
 
-
 /******************
-  Paper Template
+  Helper elements
   *****************/
 #render-container {
   position: absolute;

@@ -52,7 +52,7 @@ function downloadSvgAsPng() {
     ctxt.drawImage(img, 0, 0);
     const a = document.createElement('a');
     a.href = canvas.toDataURL('image/png');
-    a.download = 'template.png';
+    a.download = 'noteto-template.png';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -89,7 +89,7 @@ function downloadDictAsJson(obj) {
   const data = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(obj))}`;
   const a = document.createElement('a');
   a.href = data;
-  a.download = 'teto-template.json';
+  a.download = 'noteto-template.json';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

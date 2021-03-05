@@ -18,6 +18,6 @@ jobs:
         FTP_USERNAME: ${{ secrets.WEBGO_USER }}
         FTP_PASSWORD: ${{ secrets.WEBGO_PASSWORD }}
         METHOD: ftp
-        LOCAL_DIR: teto
+        LOCAL_DIR: noteto
         REMOTE_DIR: /  # is on remote: home/www/needleinthehay
         ARGS: --reverse --no-perms --parallel=3 --delete --only-newer --ignore-time -vvv

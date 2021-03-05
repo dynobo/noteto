@@ -35,21 +35,36 @@ function getFormRowsHtml(tab, options) {
       return;
     }
     counter += 1;
-    fieldDiv += `
+    if (optVals.type !== 'select') {
+      fieldDiv += `
+        <div class="field">
+        <label class="label">${optVals.label}</label>
+        <div class="control">
+        <input class="input" 
+        type="${optVals.type}"
+        value="${optVals.value}"
+        data-option="${optKey}"
+        data-scope="${options.scope}"
+        ${optVals.type === 'number' ? 'min="0"' : ''}
+        >
+        </input>
+        </div>
+        </div>
+    `;
+    } else {
+      fieldDiv += `
       <div class="field">
       <label class="label">${optVals.label}</label>
-      <div class="control">
-      <input class="input" 
-      type="${optVals.type}"
-      value="${optVals.value}"
-      data-option="${optKey}"
-      data-scope="${options.scope}"
-      ${optVals.type === 'number' ? 'min="0"' : ''}
-      >
-      </input>
-      </div>
-      </div>
-    `;
+        <div class="control select">
+          <select type="${optVals.type}" data-option="${optKey}" data-scope="${options.scope}">`;
+      Object.entries(optVals.codes).forEach(([desc, code]) => {
+        fieldDiv += `<option value="${code}">${desc}</option>`;
+      });
+      fieldDiv += `
+          </select>
+        </div>
+      </div>`;
+    }
 
     if (counter % 2 === 0) {
       const rowHtml = `<div class="field is-grouped">${fieldDiv}</div>`;
@@ -111,7 +126,7 @@ function buildOptionsForm(options) {
   });
 
   // Add event listeners on form elements
-  container.querySelectorAll('div > div > input').forEach((el) => {
+  container.querySelectorAll('div > div > input, div > div > select').forEach((el) => {
     el.addEventListener('input', onOptionChange);
   });
 }
