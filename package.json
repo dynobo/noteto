@@ -4,8 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "lint": "eslint --format compact ./teto/",
-    "lint:report": "eslint --output-file eslint_report.json --format json ./teto/ && exit 0"
+    "lint": "eslint --format compact ./noteto/",
+    "lint:report": "eslint --output-file eslint_report.json --format json ./noteto/ && exit 0"
   },
   "author": "",
   "license": "ISC",

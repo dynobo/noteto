@@ -1,6 +1,6 @@
-# TeTo  *alpha*
+# NoTeTo  *alpha*
 
-> Template Tool for the reMarkable tablet (and maybe others?) 
+> Notetaking Template Tool for the reMarkable tablet (and maybe others?) 
 
 **Visit the *alpha-state* web-application on: <https://teto.needleinthehay.de>**
 
@@ -23,17 +23,17 @@ Development setup is kept minimal, no build is required. Just:
 
 For example run:
 ```
-git clone https://github.com/dynobo/teto.git
-cd teto
+git clone https://github.com/dynobo/noteto.git
+cd noteto
 python -m http.server
 ```
-Then open <http://0.0.0.0:8000/teto/> in your browser.
+Then open <http://0.0.0.0:8000/noteto/> in your browser.
 
 If you plan to contribute PRs back to this repo, please also install and run `eslint` to ensure correct code formatting etc. In repo root, run:
 
 ```
 npm install
-eslint ./teto/
+eslint ./noteto/
 ```
 
 ## Further *free* reMarkable template ressources
