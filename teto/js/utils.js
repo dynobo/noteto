@@ -1,3 +1,6 @@
+import { globalOptionsConfig } from './config.js';
+import Options from './blocks/Options.js';
+
 /**
  * Calculate greatest common divisor of two numbers
  * @param {int} a first number
@@ -78,6 +81,10 @@ function removeChildren(el) {
   }
 }
 
+function camelCaseToSpaceSeparated(str) {
+  return str.replace(/([a-z])([A-Z])/g, '$1 $2');
+}
+
 function downloadDictAsJson(obj) {
   const data = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(obj))}`;
   const a = document.createElement('a');
@@ -112,6 +119,54 @@ function uploadJsonFromDisk(callback) {
   fileInput.click();
 }
 
+function generateBlockPreview(blockType, blockOpts) {
+  const previewSize = 288;
+
+  const optionsCopy = JSON.parse(JSON.stringify(globalOptionsConfig));
+  const previewOptions = new Options(optionsCopy, 'preview');
+  previewOptions.opts.borderMargin.value = 0;
+  previewOptions.opts.borderRadius.value = 15;
+  previewOptions.opts.titleFontSize.value = 28;
+  previewOptions.opts.titlePadding.value = 8;
+
+  const previewGrid = {
+    x: previewSize / 3,
+    y: previewSize / 3,
+    offset: { x: 0, y: 0 },
+  };
+
+  const img = new Image();
+  img.onload = function onImgLoad() {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctxt = canvas.getContext('2d');
+    ctxt.fillStyle = '#fff';
+    ctxt.fillRect(0, 0, canvas.width, canvas.height);
+    ctxt.drawImage(img, 0, 0);
+    const imageData = canvas.toDataURL('image/png');
+    const previewContainer = document.getElementById(`library-${blockType}`);
+    previewContainer.src = imageData;
+  };
+
+  const renderDiv = document.getElementById('render-container');
+  const block = new blockOpts.Class(previewGrid, previewOptions);
+  block.blockOpts.opts.titleText.value = camelCaseToSpaceSeparated(blockType);
+  block.add(renderDiv);
+  block.svg.setAttribute('width', previewSize);
+  block.svg.setAttribute('height', previewSize);
+  removeChildren(renderDiv);
+
+  const svgText = (new XMLSerializer()).serializeToString(block.svg);
+  img.src = `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
+}
+
 export {
-  calcGrid, downloadSvgAsPng, htmlToElement, removeChildren, downloadDictAsJson, uploadJsonFromDisk,
+  calcGrid,
+  downloadSvgAsPng,
+  htmlToElement,
+  removeChildren,
+  downloadDictAsJson,
+  uploadJsonFromDisk,
+  generateBlockPreview,
 };

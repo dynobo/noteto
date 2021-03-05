@@ -1,7 +1,7 @@
 import Options from './blocks/Options.js';
 import { globalOptionsConfig, blockTypes } from './config.js';
 import {
-  calcGrid, downloadSvgAsPng, htmlToElement, removeChildren, downloadDictAsJson, uploadJsonFromDisk,
+  generateBlockPreview, calcGrid, downloadSvgAsPng, htmlToElement, removeChildren, downloadDictAsJson, uploadJsonFromDisk,
 } from './utils.js';
 
 /** *******************
@@ -131,14 +131,15 @@ function showOptions(options) {
 function renderBlockLibrary() {
   // Add preview for every block type
   const library = document.getElementById('library');
-  Object.values(blockTypes).forEach((blockType) => {
+  Object.entries(blockTypes).forEach(([blockType, blockOpts]) => {
     const img = htmlToElement(`
     <div>
-      <img src="img/${blockType.thumb}" class="image is-96x96">
+    <img id="library-${blockType}" class="image is-96x96">
     </div>
     `);
-    img.addEventListener('click', () => { onClickBlockInLibrary(blockType); });
+    img.addEventListener('click', () => { onClickBlockInLibrary(blockOpts); });
     library.append(img);
+    generateBlockPreview(blockType, blockOpts);
   });
 }
 

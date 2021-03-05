@@ -132,3 +132,15 @@ border: 3px solid hsl(0, 0%, 72.9%);
 #paper-svg .dragit::before {
   content:"TEST"
 }
+
+
+/******************
+  Paper Template
+  *****************/
+#render-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  opacity:0;
+  z-index: -100;
+}
