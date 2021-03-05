@@ -269,7 +269,7 @@ function onClickTabSelector(event) {
   event.currentTarget.classList.add('is-active');
 
   // Set only corresponding tab content to active
-  const tabContentContainers = optionsBox.querySelector('.tabs-content').children;
+  const tabContentContainers = optionsBox.querySelectorAll('.tabs-content > *');
   tabContentContainers.forEach((el) => {
     el.classList.remove('is-active');
   });

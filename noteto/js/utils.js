@@ -1,6 +1,8 @@
 import { globalOptionsConfig } from './config.js';
 import Options from './blocks/Options.js';
 
+/* global canvg */
+
 /**
  * Calculate greatest common divisor of two numbers
  * @param {int} a first number
@@ -58,8 +60,11 @@ function downloadSvgAsPng() {
     document.body.removeChild(a);
   };
   const svgClone = svg.cloneNode(true);
+
+  const renderDiv = document.getElementById('render-container');
   svgClone.setAttribute('width', svgClone.viewBox.baseVal.width);
   svgClone.setAttribute('height', svgClone.viewBox.baseVal.height);
+  renderDiv.appendChild(svgClone);
   const svgText = (new XMLSerializer()).serializeToString(svgClone);
   img.src = `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
 }
@@ -122,6 +127,7 @@ function uploadJsonFromDisk(callback) {
 function generateBlockPreview(blockType, blockOpts) {
   const previewSize = 288;
 
+  // Prepare Block
   const optionsCopy = JSON.parse(JSON.stringify(globalOptionsConfig));
   const previewOptions = new Options(optionsCopy, 'preview');
   previewOptions.opts.borderMargin.value = 0;
@@ -135,30 +141,18 @@ function generateBlockPreview(blockType, blockOpts) {
     offset: { x: 0, y: 0 },
   };
 
-  const img = new Image();
-  img.onload = function onImgLoad() {
-    const canvas = document.createElement('canvas');
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
-    const ctxt = canvas.getContext('2d');
-    ctxt.fillStyle = '#fff';
-    ctxt.fillRect(0, 0, canvas.width, canvas.height);
-    ctxt.drawImage(img, 0, 0);
-    const imageData = canvas.toDataURL('image/png');
-    const previewContainer = document.getElementById(`library-${blockType}`);
-    previewContainer.src = imageData;
-  };
-
   const renderDiv = document.getElementById('render-container');
   const block = new blockOpts.Class(previewGrid, previewOptions);
   block.blockOpts.opts.titleText.value = camelCaseToSpaceSeparated(blockType);
   block.add(renderDiv);
   block.svg.setAttribute('width', previewSize);
   block.svg.setAttribute('height', previewSize);
-  removeChildren(renderDiv);
 
-  const svgText = (new XMLSerializer()).serializeToString(block.svg);
-  img.src = `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
+  // Serialize and insert into image
+  const xml = new XMLSerializer().serializeToString(block.svg);
+  const data = `data:image/svg+xml;utf8,${encodeURIComponent(xml)}`;
+  const img = document.getElementById(`library-${blockType}`);
+  img.setAttribute('src', data);
 }
 
 export {

@@ -1,4 +1,5 @@
 import BaseBlock from './BaseBlock.js';
+import { fontAwesomeBase64 } from '../fonts.js';
 
 class IconBlock extends BaseBlock {
   constructor(grid, globalOptions) {
@@ -73,6 +74,7 @@ class IconBlock extends BaseBlock {
         value: 30,
       },
     };
+    this.loadFontDefinition();
   }
 
   clearIcons() {
@@ -80,6 +82,16 @@ class IconBlock extends BaseBlock {
     icons.forEach((icon) => {
       icon.remove();
     });
+  }
+
+  loadFontDefinition() {
+    const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+    style.innerHTML = `
+      @font-face {
+        font-family: 'FontAwesome';
+        src: url(${fontAwesomeBase64});
+      }`;
+    this.svg.prepend(style);
   }
 
   renderIcons() {
@@ -90,8 +102,8 @@ class IconBlock extends BaseBlock {
 
     let iconWidth = 0;
     for (let i = 1; i <= iconCount; i += 1) {
-      // Use filled rect as line, because line doesn't work well with mask
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      // text.class = 'icon';
       text.setAttribute('class', 'icon');
       text.setAttribute('font-size', iconSize);
       text.setAttribute('fill', iconColor);
@@ -99,6 +111,7 @@ class IconBlock extends BaseBlock {
       text.setAttribute('text-anchor', 'middle');
       text.setAttribute('y', this.innerHeight / 2 + this.yOffset);
       text.setAttribute('font-family', 'FontAwesome');
+
       text.textContent = iconCode;
       this.svg.appendChild(text);
 
