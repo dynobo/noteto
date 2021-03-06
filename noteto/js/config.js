@@ -81,7 +81,7 @@ const globalOptionsConfig = {
     group: 'Titles',
     label: 'Font Family',
     type: 'select',
-    codes: {
+    codes: { // TODO: Rename to "options"
       Roboto: 'RobotoRegular',
       'Roboto Light': 'RobotoLight',
       'Roboto Bold': 'RobotoBold',

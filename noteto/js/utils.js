@@ -217,12 +217,12 @@ function loadFont(fontName, file) {
 
 export {
   loadFont,
-  calcGrid,
-  downloadSvgAsPng,
   htmlToElement,
+  calcGrid, // TODO: Move grid calculation to different file
   removeChildElements,
   removeElements,
-  downloadObjectAsJson,
-  uploadJsonFromDisk,
   generateBlockPreview,
+  uploadJsonFromDisk,
+  downloadObjectAsJson,
+  downloadSvgAsPng,
 };
