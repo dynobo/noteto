@@ -9,7 +9,7 @@ parserOptions:
 rules:
   max-len:
     - error
-    - code: 100
+    - code: 110
   import/extensions:
     - error
     - js: always
