@@ -1,8 +1,6 @@
 import { globalOptionsConfig } from './config.js';
 import Options from './blocks/Options.js';
 
-/* global canvg */
-
 /**
  * Calculate greatest common divisor of two numbers
  * @param {int} a first number
@@ -177,7 +175,7 @@ function loadFont(fontName, file) {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', file, true);
   xhr.responseType = 'arraybuffer';
-  xhr.onload = function (event) {
+  xhr.onload = function () {
     if (this.status === 200) {
       const codes = new Uint8Array(this.response);
       const bin = String.fromCharCode.apply(null, codes);
@@ -194,7 +192,7 @@ function loadFont(fontName, file) {
       });
     }
   };
-  xhr.onerror = function (event) {
+  xhr.onerror = function () {
     alert(`Error ${FocusEvent.target.status} occurred while receiving the document.`);
   };
   xhr.send();
