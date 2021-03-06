@@ -7,7 +7,6 @@ class IconBlock extends BaseBlock {
     this.blockOpts.opts.titleText.value = 'Remember to smile!';
 
     // Extend block specific options
-    // (will show up in the left sidebar on block select)
     this.blockOpts.opts = {
       ...this.blockOpts.opts,
       iconCode: {
@@ -75,6 +74,9 @@ class IconBlock extends BaseBlock {
     };
   }
 
+  /**
+   * Delete all icons from block.
+   */
   clearIcons() {
     const icons = this.svg.querySelectorAll('.icon');
     icons.forEach((icon) => {
@@ -82,14 +84,17 @@ class IconBlock extends BaseBlock {
     });
   }
 
+  /**
+   * Add icons to block and style them.
+   */
   renderIcons() {
     const iconSize = this.blockOpts.get('iconSize');
     const iconColor = this.blockOpts.get('iconColor');
     const iconCount = this.blockOpts.get('iconCount');
     const iconCode = this.blockOpts.get('iconCode');
 
-    let iconWidth = 0;
-    for (let i = 1; i <= iconCount; i += 1) {
+    let iconWidth;
+    for (let i = 0; i < iconCount; i += 1) {
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       text.setAttribute('class', 'icon');
       text.setAttribute('font-size', iconSize);
@@ -99,14 +104,21 @@ class IconBlock extends BaseBlock {
       text.setAttribute('y', this.innerHeight / 2 + this.yOffset);
       text.setAttribute('font-family', 'FontAwesomeb64');
 
+      // Add icon to block's svg to be able to calculate its dimensions
       text.textContent = iconCode;
       this.svg.appendChild(text);
 
-      iconWidth = Math.max(iconWidth, text.getBBox().width);
-      text.setAttribute('x', this.xOffset + (this.innerWidth / (iconCount + 1)) * i);
+      // Retrieve width of icon and adjust x position it accordingly
+      iconWidth = iconWidth || text.getBBox().width;
+      const iconDistance = (this.innerWidth - iconCount * iconWidth) / (iconCount + 1);
+      const posX = iconDistance + iconWidth / 2 + (iconDistance + iconWidth) * i;
+      text.setAttribute('x', this.xOffset + posX);
     }
   }
 
+  /**
+   * Hook that gets execute after rendering of the parents class elements
+   */
   onRender() {
     this.clearIcons();
     this.renderIcons();
