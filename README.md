@@ -2,7 +2,7 @@
 
 > Notetaking Template Tool for the reMarkable tablet (and maybe others?) 
 
-**Visit the *alpha-state* web-application on: <https://teto.needleinthehay.de>**
+**Visit the *alpha-state* web-application on: <https://noteto.needleinthehay.de>**
 
 ## Overview
 
