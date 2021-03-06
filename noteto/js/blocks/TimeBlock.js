@@ -7,8 +7,6 @@ class TimeBlock extends BaseBlock {
     this.blockOpts.opts.titleText.value = 'Agenda';
 
     // Extend block specific options
-    // (will show up in the left sidebar on block select)
-
     this.blockOpts.opts = {
       ...this.blockOpts.opts,
       hourFontSize: {
@@ -38,22 +36,21 @@ class TimeBlock extends BaseBlock {
     };
   }
 
+  /**
+   * Delete all line from block.
+   */
   clearLines() {
-    const lines = this.svg.querySelectorAll('.horizontal-line');
+    const lines = this.svg.querySelectorAll('.horizontal-line, .hour-label');
     lines.forEach((line) => {
       line.remove();
     });
-    const hourLabels = this.svg.querySelectorAll('.hour-label');
-    hourLabels.forEach((label) => {
-      label.remove();
-    });
   }
 
+  /**
+   * Add line to block and style them.
+   */
   renderLines() {
-    const borderMargin = this.globalOpts.get('borderMargin');
-    const borderStrokeWidth = this.globalOpts.get('borderStrokeWidth');
     const titlePadding = this.globalOpts.get('titlePadding');
-    const titleFontSize = this.globalOpts.get('titleFontSize');
     const lineStrokeWidth = this.globalOpts.get('lineStrokeWidth');
     const lineStrokeColor = this.globalOpts.get('lineStrokeColor');
 
@@ -62,15 +59,9 @@ class TimeBlock extends BaseBlock {
     const linesPerHour = this.blockOpts.get('linesPerHour');
     const hourFontSize = this.blockOpts.get('hourFontSize');
 
-    // Offset depends on title visibility
-    let yOffset = borderMargin;
-    if (this.blockOpts.get('titleText').length > 0) {
-      yOffset += titleFontSize + titlePadding * 2;
-    }
-
     // Number of lines to draw
     const lineCount = (endHour - startHour + 1) * linesPerHour;
-    const lineDistance = (this.height - yOffset) / lineCount;
+    const lineDistance = (this.innerHeight) / lineCount;
 
     // Draw lines
     let currentHour = startHour;
@@ -79,14 +70,15 @@ class TimeBlock extends BaseBlock {
       // Use filled rect as line, because line doesn't work well with mask
       const lineRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       lineRect.setAttribute('class', 'horizontal-line');
-      lineRect.setAttribute('x', borderMargin + borderStrokeWidth);
-      lineRect.setAttribute('y', lineDistance * i + yOffset);
-      lineRect.setAttribute('width', this.width - borderMargin * 2 - borderStrokeWidth * 2);
+      lineRect.setAttribute('x', this.xOffset);
+      lineRect.setAttribute('y', lineDistance * i + this.yOffset);
+      lineRect.setAttribute('width', this.innerWidth);
       lineRect.setAttribute('height', lineStrokeWidth);
       lineRect.setAttribute('fill', lineStrokeColor);
       lineRect.setAttribute('mask', `url(#${this.id}_clip)`);
+      // Make inter-hour lines semi-transparent
       if ((i) % linesPerHour !== 0) {
-        lineRect.setAttribute('opacity', '0.35');
+        lineRect.setAttribute('opacity', '0.5');
       }
       this.svg.appendChild(lineRect);
 
@@ -97,21 +89,24 @@ class TimeBlock extends BaseBlock {
         text.setAttribute('font-size', hourFontSize);
         text.setAttribute('text-anchor', 'end');
         text.setAttribute('dominant-baseline', 'central');
+        text.setAttribute('y', lineDistance * i + this.yOffset - lineDistance * 0.5);
         text.textContent = `${currentHour}:00`;
-        text.setAttribute('y', lineDistance * i + yOffset - lineDistance * 0.5);
         this.svg.appendChild(text);
         currentHour += 1;
         maxLabelWidth = Math.max(maxLabelWidth, text.getBBox().width);
       }
     }
 
-    // Align labels to the right
+    // As we know the length of the longest label now, let's align labels to the right
     const hourLabels = this.svg.querySelectorAll('.hour-label');
     hourLabels.forEach((label) => {
-      label.setAttribute('x', borderMargin + borderStrokeWidth + maxLabelWidth + titlePadding);
+      label.setAttribute('x', this.xOffset + maxLabelWidth + titlePadding);
     });
   }
 
+  /**
+   * Hook that gets execute after rendering of the parents class elements
+   */
   onRender() {
     this.clearLines();
     this.renderLines();
