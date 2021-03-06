@@ -3,7 +3,7 @@ import BaseBlock from './BaseBlock.js';
 class LineBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
-    this.type = 'LineBlock';
+    this.type = 'Line Block';
     this.blockOpts.opts.titleText.value = 'Notes';
   }
 

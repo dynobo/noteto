@@ -3,7 +3,7 @@ import BaseBlock from './BaseBlock.js';
 class IconBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
-    this.type = 'IconBlock';
+    this.type = 'Icon Block';
     this.blockOpts.opts.titleText.value = 'Remember to smile!';
 
     // Extend block specific options
@@ -31,7 +31,7 @@ class IconBlock extends BaseBlock {
           Flag: '\uf11d', // fa-flag
           Gift: '\uf06b', // fa-gift
           Hand: '\uf256', // fa-hand-stop-o
-          Hear: '\uf08a', // fa-heart-o
+          Heart: '\uf08a', // fa-heart-o
           Inbox: '\uf01c', // fa-inbox
           'Hour Glass': '\uf253', // fa-hourglass
           Learn: '\uf19d', // fa-graduation-cap

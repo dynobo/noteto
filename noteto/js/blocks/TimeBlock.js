@@ -3,7 +3,7 @@ import BaseBlock from './BaseBlock.js';
 class TimeBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
-    this.type = 'TimeBlock';
+    this.type = 'Time Block';
     this.blockOpts.opts.titleText.value = 'Agenda';
 
     // Extend block specific options

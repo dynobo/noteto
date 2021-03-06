@@ -3,11 +3,18 @@ import LineBlock from './blocks/LineBlock.js';
 import TimeBlock from './blocks/TimeBlock.js';
 import IconBlock from './blocks/IconBlock.js';
 
-const blockTypes = {
+const blockTypesOld = {
   BaseBlock: { Class: BaseBlock },
   LineBlock: { Class: LineBlock },
   TimeBlock: { Class: TimeBlock },
   IconBlock: { Class: IconBlock },
+};
+
+const blockTypes = {
+  'Base Block': BaseBlock,
+  'Line Block': LineBlock,
+  'Time Block': TimeBlock,
+  'Icon Block': IconBlock,
 };
 
 const globalOptionsConfig = {

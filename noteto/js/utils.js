@@ -93,10 +93,6 @@ function removeNodes(els) {
   });
 }
 
-function camelCaseToSpaceSeparated(str) {
-  return str.replace(/([a-z])([A-Z])/g, '$1 $2');
-}
-
 function downloadDictAsJson(obj) {
   const data = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(obj))}`;
   const a = document.createElement('a');
@@ -131,7 +127,7 @@ function uploadJsonFromDisk(callback) {
   fileInput.click();
 }
 
-function generateBlockPreview(blockType, blockOpts) {
+function generateBlockPreview(blockType, BlockClass) {
   const previewSize = 288;
 
   // Prepare Block
@@ -149,8 +145,8 @@ function generateBlockPreview(blockType, blockOpts) {
   };
   const renderContainer = document.getElementById('paper-svg');
 
-  const block = new blockOpts.Class(previewGrid, previewOptions);
-  block.blockOpts.opts.titleText.value = camelCaseToSpaceSeparated(blockType);
+  const block = new BlockClass(previewGrid, previewOptions);
+  block.blockOpts.opts.titleText.value = blockType;
   block.add(renderContainer);
   block.svg.setAttribute('width', previewSize);
   block.svg.setAttribute('height', previewSize);

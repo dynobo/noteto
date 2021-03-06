@@ -6,7 +6,7 @@ class BaseBlock {
     this.id = `id_${Math.random().toString(16).slice(2)}`;
 
     // Unique type to identify it in the library. This has to be added to config.js:blockTypes
-    this.type = 'BaseBlock';
+    this.type = 'Base Block';
 
     // Position information. Handled by interact.js. Don't change manually.
     this.width = grid.x * 3;

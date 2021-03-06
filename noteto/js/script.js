@@ -154,24 +154,24 @@ function showOptions(options) {
 function renderBlockLibrary() {
   // Add preview for every block type
   const library = document.getElementById('library');
-  Object.entries(blockTypes).forEach(([blockType, blockOpts]) => {
+  Object.entries(blockTypes).forEach(([blockType, BlockClass]) => {
     const img = htmlToElement(`
     <div>
     <canvas id="library-${blockType}" width="288px" height="288px" class="image is-96x96">
     </div>
     `);
-    img.addEventListener('click', () => { onClickBlockInLibrary(blockOpts); });
+    img.addEventListener('click', () => { onClickBlockInLibrary(BlockClass); });
     library.append(img);
-    generateBlockPreview(blockType, blockOpts);
+    generateBlockPreview(blockType, BlockClass);
   });
 }
 
 /** *******************
  * LISTENERS
  ******************** */
-function onClickBlockInLibrary(blockType) {
+function onClickBlockInLibrary(BlockClass) {
   // Insert new block instance into root svg
-  const newBlock = new blockType.Class(grid, globalOptions);
+  const newBlock = new BlockClass(grid, globalOptions);
   newBlock.add(svgRoot);
   blocks[newBlock.id] = newBlock;
 }
@@ -217,7 +217,7 @@ function loadTemplate(data) {
   // Load Blocks
   Object.values(data.blocks).forEach((blockData) => {
     try {
-      const newBlock = new blockTypes[blockData.type].Class(grid, globalOptions);
+      const newBlock = new blockTypes[blockData.type](grid, globalOptions);
       newBlock.width = blockData.width;
       newBlock.height = blockData.height;
       newBlock.x = blockData.x;
