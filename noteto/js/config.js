@@ -111,14 +111,4 @@ const fonts = {
   OpenSansCondensedLight: 'fonts/open-sans-condensed-v15-latin-300.woff2',
 };
 
-const preview = false;
-if (preview) {
-  globalOptionsConfig.borderMargin.value = 2;
-  globalOptionsConfig.borderStrokeWidth.value = 2;
-  globalOptionsConfig.borderRadius.value = 16;
-  globalOptionsConfig.lineStrokeWidth.value = 2;
-  globalOptionsConfig.lineDistance.value = 42;
-  globalOptionsConfig.titleFontSize.value = 32;
-}
-
 export { globalOptionsConfig, blockTypes, fonts };
