@@ -73,7 +73,6 @@ class IconBlock extends BaseBlock {
         value: 30,
       },
     };
-    // this.loadFontDefinition();
   }
 
   clearIcons() {
@@ -81,19 +80,6 @@ class IconBlock extends BaseBlock {
     icons.forEach((icon) => {
       icon.remove();
     });
-  }
-
-  loadFontDefinition() {
-    const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-    style.innerHTML = `
-      @font-face {
-        font-family: 'FontAwesome64';
-        src: url(${fonts.FontAwesome});
-      }
-      text.icon {
-        font-family: FontAwesome64;
-      }`;
-    this.svg.prepend(style);
   }
 
   renderIcons() {
