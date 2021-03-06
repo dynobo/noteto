@@ -6,9 +6,9 @@ import {
   calcGrid,
   downloadSvgAsPng,
   htmlToElement,
-  removeChildren,
-  removeNodes,
-  downloadDictAsJson,
+  removeChildElements,
+  removeElements,
+  downloadObjectAsJson,
   uploadJsonFromDisk,
 } from './utils.js';
 
@@ -101,7 +101,7 @@ function buildOptionsForm(options) {
 
   // Create tab selectors
   const tabSelectorContainer = container.querySelector('ul');
-  removeChildren(tabSelectorContainer);
+  removeChildElements(tabSelectorContainer);
   tabs.forEach((tab) => {
     const li = htmlToElement(`
       <li data-tab="${tab}" 
@@ -116,7 +116,7 @@ function buildOptionsForm(options) {
 
   // Create tab content containers
   const tabContentContainer = container.querySelector('.tabs-content');
-  removeChildren(tabContentContainer);
+  removeChildElements(tabContentContainer);
   tabs.forEach((tab) => {
     const contentDiv = htmlToElement(`
     <div data-content="${tab}"
@@ -199,7 +199,7 @@ function loadFonts() {
 
 function loadTemplate(data) {
   // Remove existing blocks
-  removeNodes(svgRoot.querySelectorAll('svg'));
+  removeElements(svgRoot.querySelectorAll('svg'));
   loadFonts();
   blocks = {};
   // Hide block specific options
@@ -263,7 +263,7 @@ function onClickSaveFileButton() {
   data.grid = grid;
   data.globalOptionsConfig = globalOptions.opts;
 
-  downloadDictAsJson(data);
+  downloadObjectAsJson(data);
 }
 
 function onClickTabSelector(event) {

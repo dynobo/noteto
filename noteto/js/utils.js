@@ -39,14 +39,19 @@ function calcGrid(root) {
   };
 }
 
-function convertSvgToPng(svg, callback) {
+/**
+ * Convert a SVG element to a CANVAS element (with white background).
+ * @param {SVG} svg Element to convert to canvas
+ * @param {func} callback Function that gets call when canvas is ready, with the canvas as argument
+ */
+function convertSvgToCanvas(svg, callback) {
   const img = new Image();
   img.onload = function onImgLoad() {
+    // Create canvas and fill from image
     const canvas = document.createElement('canvas');
     canvas.width = img.naturalWidth;
     canvas.height = img.naturalHeight;
     const ctxt = canvas.getContext('2d');
-    // ctxt.font = '26pt Roboto';
     ctxt.fillStyle = '#fff';
     ctxt.fillRect(0, 0, canvas.width, canvas.height);
     ctxt.drawImage(img, 0, 0);
@@ -58,13 +63,17 @@ function convertSvgToPng(svg, callback) {
   img.setAttribute('src', data);
 }
 
+// TODO: svg as arg
+// TODO: Add file name as parameter
 function downloadSvgAsPng() {
   const svg = document.getElementById('paper-svg');
-  convertSvgToPng(svg, (canvas) => {
+  convertSvgToCanvas(svg, (canvas) => {
+    // Put encoded file into <a> href
     const a = document.createElement('a');
     a.href = canvas.toDataURL('image/png');
     a.download = 'noteto-template.png';
     document.body.appendChild(a);
+    // Trigger download dialog
     a.click();
     document.body.removeChild(a);
   });
@@ -72,7 +81,7 @@ function downloadSvgAsPng() {
 
 /**
  * @param {String} str representing a single element
- * @return {Element}
+ * @return {Element} DOM element
  */
 function htmlToElement(str) {
   const template = document.createElement('template');
@@ -81,20 +90,32 @@ function htmlToElement(str) {
   return template.content.firstChild;
 }
 
-function removeChildren(el) {
+/**
+ * @param {Array} elements Array of elements to remove from DOM
+ */
+function removeElements(elements) {
+  elements.forEach((el) => {
+    el.parentElement.removeChild(el);
+  });
+}
+
+/**
+ * @param {Element} el DOM element which childs should be removed
+ */
+function removeChildElements(el) {
   while (el.firstChild) {
     el.removeChild(el.firstChild);
   }
 }
 
-function removeNodes(els) {
-  els.forEach((el) => {
-    el.parentElement.removeChild(el);
-  });
-}
-
-function downloadDictAsJson(obj) {
-  const data = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(obj))}`;
+/**
+ * Convert JS-Object as JSON and triggers its download.
+ * @param {Object} obj JavaScript object to be transformed to json
+ */
+// TODO: Add file name as parameter
+function downloadObjectAsJson(obj) {
+  const encodedObj = encodeURIComponent(JSON.stringify(obj));
+  const data = `data:text/json;charset=utf-8,${encodedObj}`;
   const a = document.createElement('a');
   a.href = data;
   a.download = 'noteto-template.json';
@@ -104,6 +125,7 @@ function downloadDictAsJson(obj) {
 }
 
 function uploadJsonFromDisk(callback) {
+  const fileInput = document.createElement('input');
   function readFile(e) {
     const file = e.target.files[0];
     if (!file) {
@@ -117,7 +139,6 @@ function uploadJsonFromDisk(callback) {
     };
     reader.readAsText(file);
   }
-  const fileInput = document.createElement('input');
   fileInput.type = 'file';
   fileInput.accept = '.json';
   fileInput.style.display = 'none';
@@ -125,6 +146,7 @@ function uploadJsonFromDisk(callback) {
   fileInput.func = callback;
   document.body.appendChild(fileInput);
   fileInput.click();
+  document.body.removeChild(fileInput);
 }
 
 function generateBlockPreview(blockType, BlockClass) {
@@ -151,12 +173,12 @@ function generateBlockPreview(blockType, BlockClass) {
   block.svg.setAttribute('width', previewSize);
   block.svg.setAttribute('height', previewSize);
 
-  convertSvgToPng(renderContainer, (canvas) => {
+  convertSvgToCanvas(renderContainer, (canvas) => {
     const img = document.createElement('img');
     img.setAttribute('src', canvas.toDataURL('image/png'));
     const targetCanvas = document.getElementById(`library-${blockType}`);
     const ctx = targetCanvas.getContext('2d');
-    img.onload = function () {
+    img.onload = function onload() {
       ctx.drawImage(img,
         0, 0,
         previewGrid.x * 3, previewGrid.y * 3,
@@ -164,19 +186,18 @@ function generateBlockPreview(blockType, BlockClass) {
         288, 288);
     };
   });
-  removeNodes(renderContainer.querySelectorAll('svg'));
+  removeElements(renderContainer.querySelectorAll('svg'));
 }
 
 function loadFont(fontName, file) {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', file, true);
   xhr.responseType = 'arraybuffer';
-  xhr.onload = function () {
+  xhr.onload = function onload() {
     if (this.status === 200) {
       const codes = new Uint8Array(this.response);
       const bin = String.fromCharCode.apply(null, codes);
       const fontBase64 = btoa(bin);
-
       document.querySelectorAll('svg > defs.font-defs').forEach((defs) => {
         const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
         style.innerHTML = `
@@ -188,9 +209,9 @@ function loadFont(fontName, file) {
       });
     }
   };
-  xhr.onerror = function () {
-    alert(`Error ${FocusEvent.target.status} occurred while receiving the document.`);
-  };
+  xhr.onerror = (() => {
+    console.error('Error occurred while receiving the document.');
+  });
   xhr.send();
 }
 
@@ -199,9 +220,9 @@ export {
   calcGrid,
   downloadSvgAsPng,
   htmlToElement,
-  removeChildren,
-  removeNodes,
-  downloadDictAsJson,
+  removeChildElements,
+  removeElements,
+  downloadObjectAsJson,
   uploadJsonFromDisk,
   generateBlockPreview,
 };
