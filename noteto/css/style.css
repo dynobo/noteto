@@ -126,7 +126,8 @@ border: 3px solid hsl(0, 0%, 72.9%);
   filter: drop-shadow(0px 0px 2px #777777);
 }
 #paper-svg .dragit.selected .blockBorder {
-  fill: hsl(206, 70%, 96%);
+  fill: hsl(205, 100%, 98%);
+  stroke: hsl(204, 86%, 53%)
 }
 
 #paper-svg .dragit::before {
