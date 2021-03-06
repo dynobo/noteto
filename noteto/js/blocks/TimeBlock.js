@@ -4,16 +4,18 @@ class TimeBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
     this.type = 'TimeBlock';
+    this.blockOpts.opts.titleText.value = 'Agenda';
 
     // Extend block specific options
     // (will show up in the left sidebar on block select)
+
     this.blockOpts.opts = {
       ...this.blockOpts.opts,
       hourFontSize: {
         group: 'Time Settings',
         label: 'Font Size',
         type: 'number',
-        value: 16,
+        value: 24,
       },
       startHour: {
         group: 'Time Settings',

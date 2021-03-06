@@ -23,7 +23,7 @@ class BaseBlock {
         group: 'Base Settings',
         label: 'Title',
         type: 'text',
-        value: 'Click to adjust options',
+        value: 'Scribble',
       },
     }, this.id);
 

@@ -15,7 +15,7 @@ const globalOptionsConfig = {
     group: 'Borders',
     label: 'Border Margin',
     type: 'number',
-    value: 2,
+    value: 4,
   },
   borderStrokeWidth: {
     group: 'Borders',
@@ -45,19 +45,19 @@ const globalOptionsConfig = {
     group: 'Lines',
     label: 'Line Distance',
     type: 'number',
-    value: 50,
+    value: 75,
   },
   lineStrokeColor: {
     group: 'Lines',
     label: 'Line Color',
     type: 'color',
-    value: '#999999',
+    value: '#888888',
   },
   titleFontSize: {
     group: 'Titles',
     label: 'Font Size',
     type: 'number',
-    value: 16,
+    value: 28,
   },
   titleFontColor: {
     group: 'Titles',
@@ -69,7 +69,7 @@ const globalOptionsConfig = {
     group: 'Titles',
     label: 'Title Padding',
     type: 'number',
-    value: 16,
+    value: 4,
   },
   titleBackgroundColor: {
     group: 'Titles',

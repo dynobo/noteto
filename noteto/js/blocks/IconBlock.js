@@ -4,7 +4,7 @@ class IconBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
     this.type = 'IconBlock';
-    this.blockOpts.opts.titleText.value = '';
+    this.blockOpts.opts.titleText.value = 'Remember to smile!';
 
     // Extend block specific options
     // (will show up in the left sidebar on block select)
@@ -70,7 +70,7 @@ class IconBlock extends BaseBlock {
         group: 'Icon Settings',
         label: 'Icon Size',
         type: 'number',
-        value: 30,
+        value: 48,
       },
     };
   }

@@ -50,7 +50,7 @@ html {
 #library > div {
   display: inline-block;
   position: relative;
-  margin: 7px;
+  margin: 6px;
   width: 96px;
 }
 #library > div:hover::after {

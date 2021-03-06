@@ -4,6 +4,7 @@ class LineBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
     this.type = 'LineBlock';
+    this.blockOpts.opts.titleText.value = 'Notes';
   }
 
   clearLines() {
