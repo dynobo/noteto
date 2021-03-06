@@ -4,6 +4,8 @@ class BaseBlock {
   constructor(grid, globalOptions) {
     // Unique ID to identify an individual block instance
     this.id = `id_${Math.random().toString(16).slice(2)}`;
+
+    // Unique type to identify it in the library. This has to be added to config.js:blockTypes
     this.type = 'BaseBlock';
 
     // Position information. Handled by interact.js. Don't change manually.
@@ -30,27 +32,55 @@ class BaseBlock {
     this.createBaseElements();
   }
 
+  /**
+   * Gets inner width of the content section (without block border and block margin)
+   * @return {int} width in pixel
+   */
   get innerWidth() {
     return (this.width
       - this.globalOpts.get('borderStrokeWidth') * 2
       - this.globalOpts.get('borderMargin') * 2);
   }
 
+  /**
+   * Gets inner height of the block's  content section (without title section, block border and block margin).
+   * @return {int} height in pixel
+   */
   get innerHeight() {
-    let innerHeight = (this.height
+    return (this.height
       - this.globalOpts.get('borderStrokeWidth') * 2
-      - this.globalOpts.get('borderMargin') * 2);
-    if (this.blockOpts.get('titleText').length > 0) {
-      innerHeight -= this.globalOpts.get('titleFontSize');
-      innerHeight -= this.globalOpts.get('titlePadding') * 2;
-    }
-    return innerHeight;
+      - this.globalOpts.get('borderMargin') * 2
+      - this.titleHeight);
   }
 
-  get xOffset() {
+  /**
+   * Gets height of the block's title section (title text + padding).
+   * @return {int} height in pixel
+   */
+  get titleHeight() {
+    const calcHeight = this.globalOpts.get('titleFontSize') + this.globalOpts.get('titlePadding') * 2;
+    return (this.blockOpts.get('titleText').length <= 0) ? 0 : calcHeight;
+  }
+
+  /**
+     * Gets space occupied by the block's border (stroke width + border margin).
+     */
+  get borderWidth() {
     return this.globalOpts.get('borderStrokeWidth') + this.globalOpts.get('borderMargin');
   }
 
+  /**
+   * Gets left offset of the block's content section. Alias to borderWidth().
+   * @return {int} x coord of top left
+   */
+  get xOffset() {
+    return this.borderWidth;
+  }
+
+  /**
+   * Gets top offset of the block's content section
+   * @return {int} height in pixel
+   */
   get yOffset() {
     let yOffset = this.globalOpts.get('borderStrokeWidth') + this.globalOpts.get('borderMargin');
     if (this.blockOpts.get('titleText').length > 0) {
@@ -59,12 +89,16 @@ class BaseBlock {
     return yOffset;
   }
 
+  /**
+   * Create blocks root svg element, block border, clip mask and container for title and style.
+   */
   createBaseElements() {
-    // Block Container
+    // Block's root container
     this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
-    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    // Style container
     this.styleDef = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
     defs.append(this.styleDef);
     this.svg.append(defs);
 
@@ -75,18 +109,28 @@ class BaseBlock {
     mask.setAttribute('id', `${this.id}_clip`);
     this.svg.appendChild(mask);
 
-    // Add border and empty group for title
+    // Add border
     this.borderRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    this.titleGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     this.svg.appendChild(this.borderRect);
+
+    // Add title container group
+    this.titleGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    this.titleGroup.setAttribute('class', 'title-group');
     this.svg.appendChild(this.titleGroup);
   }
 
+  /**
+   * Add this block to the paper.
+   * @param {SVG} svgRoot Paper's root SVG element
+   */
   add(svgRoot) {
     svgRoot.appendChild(this.svg);
     this.render();
   }
 
+  /**
+   * Remove this block from the paper.
+   */
   remove() {
     const blockSvg = document.getElementById(this.id);
     if (blockSvg) {
@@ -94,41 +138,53 @@ class BaseBlock {
     }
   }
 
+  /**
+   * Add title text and background to the svg title group
+   */
   renderTitle() {
+    // Clear existing title
     this.titleGroup.innerHTML = '';
+
+    // Check if title should be drawn at all
     if (this.blockOpts.get('titleText').length <= 0) {
       return;
     }
-    const borderMargin = this.globalOpts.get('borderMargin');
-    const borderStrokeWidth = this.globalOpts.get('borderStrokeWidth');
+
+    // Crop mask
+    this.titleGroup.setAttribute('mask', `url(#${this.id}_clip)`);
+
+    // Necessary option values
     const titlePadding = this.globalOpts.get('titlePadding');
     const titleFontSize = this.globalOpts.get('titleFontSize');
     const titleFontColor = this.globalOpts.get('titleFontColor');
     const titleBackgroundColor = this.globalOpts.get('titleBackgroundColor');
 
-    this.titleGroup.setAttribute('mask', `url(#${this.id}_clip)`);
-
+    // Background
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    rect.setAttribute('x', borderMargin + borderStrokeWidth);
-    rect.setAttribute('y', borderMargin + borderStrokeWidth);
-    rect.setAttribute('width', this.width - borderStrokeWidth * 2 - borderMargin * 2);
-    rect.setAttribute('height', titleFontSize + titlePadding * 2);
+    rect.setAttribute('x', this.borderWidth);
+    rect.setAttribute('y', this.borderWidth);
+    rect.setAttribute('width', this.innerWidth);
+    rect.setAttribute('height', this.titleHeight);
     rect.setAttribute('fill', titleBackgroundColor);
-
-    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    text.setAttribute('x', borderMargin + borderStrokeWidth + titlePadding);
-    text.setAttribute(
-      'y',
-      borderMargin + borderStrokeWidth + titlePadding + titleFontSize * 0.8,
-    );
-    text.setAttribute('font-size', titleFontSize);
-    text.setAttribute('fill', titleFontColor);
-    text.textContent = this.blockOpts.get('titleText');
-
     this.titleGroup.append(rect);
+
+    // Text
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', this.borderWidth + titlePadding);
+    text.setAttribute('y', this.borderWidth + this.titleHeight / 2);
+    text.setAttribute('dominant-baseline', 'central');
+    text.setAttribute('fill', titleFontColor);
+    text.setAttribute('font-size', titleFontSize);
+    text.textContent = this.blockOpts.get('titleText');
     this.titleGroup.append(text);
   }
 
+  /**
+   * Add css definitions for font.
+   * It's necessary to reference the fonts here. It's also important that the font in the reference itself
+   * is base64 encoded and embedded in the parent svg (paper). Otherwise, it will not be respected during
+   * the conversion to <canvas> (used for preview and png export).
+   */
   renderStyleDef() {
     this.styleDef.innerHTML = `
     #${this.id} text {
@@ -139,12 +195,10 @@ class BaseBlock {
     }`;
   }
 
-  renderBorder() {
-    const borderMargin = this.globalOpts.get('borderMargin');
-    const borderStrokeWidth = this.globalOpts.get('borderStrokeWidth');
-    const borderRadius = this.globalOpts.get('borderRadius');
-    const borderStrokeColor = this.globalOpts.get('borderStrokeColor');
-
+  /**
+   * Setup size of the block's root svg element.
+   */
+  renderContainer() {
     this.svg.classList.add('dragit');
     this.svg.setAttribute('id', this.id);
     this.svg.setAttribute('version', '1.2');
@@ -156,6 +210,16 @@ class BaseBlock {
     this.svg.setAttribute('data-y', this.dataY);
     this.svg.setAttribute('width', this.width);
     this.svg.setAttribute('height', this.height);
+  }
+
+  /**
+   * Setup the border style and position.
+   */
+  renderBorder() {
+    const borderMargin = this.globalOpts.get('borderMargin');
+    const borderStrokeWidth = this.globalOpts.get('borderStrokeWidth');
+    const borderRadius = this.globalOpts.get('borderRadius');
+    const borderStrokeColor = this.globalOpts.get('borderStrokeColor');
 
     this.borderRect.classList.add('blockBorder');
     this.borderRect.setAttribute('x', borderMargin + borderStrokeWidth / 2);
@@ -180,12 +244,20 @@ class BaseBlock {
     this.maskRect.setAttribute('stroke', 'black');
   }
 
+  /**
+   * Hook to be overwritten by child class.
+   * Get's executed after the rendering/setup of the base elements.
+   */
   onRender() {
-    // To be overwritten by child classes to render block specific element
     return this;
   }
 
+  /**
+   * Render the whole block.
+   * Called when the block is added to the paper or when options are updated.
+   */
   render() {
+    this.renderContainer();
     this.renderStyleDef();
     this.renderTitle();
     this.renderBorder();
