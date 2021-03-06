@@ -1,5 +1,4 @@
 import BaseBlock from './BaseBlock.js';
-import { fontAwesomeBase64 } from '../fonts.js';
 
 class IconBlock extends BaseBlock {
   constructor(grid, globalOptions) {
@@ -74,7 +73,7 @@ class IconBlock extends BaseBlock {
         value: 30,
       },
     };
-    this.loadFontDefinition();
+    // this.loadFontDefinition();
   }
 
   clearIcons() {
@@ -88,8 +87,11 @@ class IconBlock extends BaseBlock {
     const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
     style.innerHTML = `
       @font-face {
-        font-family: 'FontAwesome';
-        src: url(${fontAwesomeBase64});
+        font-family: 'FontAwesome64';
+        src: url(${fonts.FontAwesome});
+      }
+      text.icon {
+        font-family: FontAwesome64;
       }`;
     this.svg.prepend(style);
   }
@@ -103,14 +105,13 @@ class IconBlock extends BaseBlock {
     let iconWidth = 0;
     for (let i = 1; i <= iconCount; i += 1) {
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.class = 'icon';
-      // text.setAttribute('class', 'icon');
+      text.setAttribute('class', 'icon');
       text.setAttribute('font-size', iconSize);
       text.setAttribute('fill', iconColor);
       text.setAttribute('dominant-baseline', 'central');
       text.setAttribute('text-anchor', 'middle');
       text.setAttribute('y', this.innerHeight / 2 + this.yOffset);
-      text.setAttribute('font-family', 'FontAwesome');
+      text.setAttribute('font-family', 'FontAwesomeb64');
 
       text.textContent = iconCode;
       this.svg.appendChild(text);

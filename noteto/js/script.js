@@ -1,6 +1,7 @@
 import Options from './blocks/Options.js';
-import { globalOptionsConfig, blockTypes } from './config.js';
+import { globalOptionsConfig, blockTypes, fonts } from './config.js';
 import {
+  loadFont,
   generateBlockPreview,
   calcGrid,
   downloadSvgAsPng,
@@ -9,7 +10,6 @@ import {
   downloadDictAsJson,
   uploadJsonFromDisk,
 } from './utils.js';
-import { fontRobotoBase64 } from './fonts.js';
 
 /** *******************
  * Global Variables
@@ -156,7 +156,7 @@ function renderBlockLibrary() {
   Object.entries(blockTypes).forEach(([blockType, blockOpts]) => {
     const img = htmlToElement(`
     <div>
-    <img id="library-${blockType}" class="image is-96x96">
+    <canvas id="library-${blockType}" width="288px" height="288px" class="image is-96x96">
     </div>
     `);
     img.addEventListener('click', () => { onClickBlockInLibrary(blockOpts); });
@@ -190,20 +190,16 @@ function onClickDeleteBlock() {
   container.classList.add('hidden');
 }
 
-function initSvgRoot() {
-  removeChildren(svgRoot);
-  const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-  style.innerHTML = `
-  @font-face {
-    font-family: 'Roboto';
-    src: url(${fontRobotoBase64});
-  }`;
-  svgRoot.prepend(style);
+function loadFonts() {
+  Object.entries(fonts).forEach(([fontName, fontFile]) => {
+    loadFont(fontName, fontFile);
+  });
 }
 
 function loadTemplate(data) {
   // Remove existing blocks
-  initSvgRoot();
+  removeChildren(svgRoot.querySelector('.content-group'));
+  loadFonts();
   blocks = {};
   // Hide block specific options
   const blockOptionsBox = document.getElementById('block-options-box');
@@ -340,13 +336,11 @@ function onOptionChange(event) {
   const optScope = target.getAttribute('data-scope');
   const optValue = dataType === 'number' ? parseInt(target.value, 10) : target.value;
 
-  const blockKeys = Object.keys(blocks);
-
   // If target provides global scope, apply options to all blocks,
   // else consider scope as blockId and apply option to individual block.
   if (optScope === 'global') {
     globalOptions.opts[optName].value = optValue;
-    blockKeys.forEach((blockKey) => {
+    Object.keys(blocks).forEach((blockKey) => {
       blocks[blockKey].globalOpts = globalOptions;
       blocks[blockKey].render();
     });
@@ -377,19 +371,31 @@ function onClickToFrontOrBack(event) {
 
   // Reorder SVG
   const svg = document.getElementById(blockId);
-  svg.parentElement.removeChild(svg);
+  const svgParent = svg.parentElement;
+  svgParent.removeChild(svg);
   if (event.currentTarget.getAttribute('id') === 'front-button') {
-    svgRoot.append(svg);
+    svgParent.append(svg);
   } else {
-    svgRoot.insertBefore(svg, svgRoot.firstChild.nextSibling);
+    svgParent.prepend(svg);
   }
+}
+
+function onFontsLoaded(callback) {
+  window.setTimeout(() => {
+    const countFonts = document.querySelectorAll('#paper-svg > defs.font-defs > style').length;
+    if (countFonts >= Object.keys(fonts).length) {
+      callback();
+    } else {
+      onFontsLoaded(callback);
+    }
+  }, 200);
 }
 
 /** *******************
  * INIT
  ******************** */
 function init() {
-  initSvgRoot();
+  loadFonts();
 
   grid = calcGrid(svgRoot);
 
@@ -460,7 +466,8 @@ function init() {
       modifiers: restrictions,
     })
     .on('tap', onBlockClick);
-  renderBlockLibrary();
+
+  onFontsLoaded(renderBlockLibrary);
 }
 
 // wait for external resources to load if any
