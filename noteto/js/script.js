@@ -1,11 +1,13 @@
 import Options from './blocks/Options.js';
-import { globalOptionsConfig, blockTypes } from './config.js';
+import { globalOptionsConfig, blockTypes, fonts } from './config.js';
 import {
+  loadFont,
   generateBlockPreview,
   calcGrid,
   downloadSvgAsPng,
   htmlToElement,
   removeChildren,
+  removeNodes,
   downloadDictAsJson,
   uploadJsonFromDisk,
 } from './utils.js';
@@ -155,7 +157,7 @@ function renderBlockLibrary() {
   Object.entries(blockTypes).forEach(([blockType, blockOpts]) => {
     const img = htmlToElement(`
     <div>
-    <img id="library-${blockType}" class="image is-96x96">
+    <canvas id="library-${blockType}" width="288px" height="288px" class="image is-96x96">
     </div>
     `);
     img.addEventListener('click', () => { onClickBlockInLibrary(blockOpts); });
@@ -189,9 +191,16 @@ function onClickDeleteBlock() {
   container.classList.add('hidden');
 }
 
+function loadFonts() {
+  Object.entries(fonts).forEach(([fontName, fontFile]) => {
+    loadFont(fontName, fontFile);
+  });
+}
+
 function loadTemplate(data) {
   // Remove existing blocks
-  removeChildren(svgRoot);
+  removeNodes(svgRoot.querySelectorAll('svg'));
+  loadFonts();
   blocks = {};
   // Hide block specific options
   const blockOptionsBox = document.getElementById('block-options-box');
@@ -201,7 +210,7 @@ function loadTemplate(data) {
   globalOptions = new Options(data.globalOptionsConfig, 'global');
   const globalOptionsBox = document.getElementById('global-options-box');
   Object.entries(globalOptions.opts).forEach(([optionName, optionProps]) => {
-    const field = globalOptionsBox.querySelector(`input[data-option="${optionName}"]`);
+    const field = globalOptionsBox.querySelector(`*[data-option="${optionName}"]`);
     field.value = optionProps.value;
   });
 
@@ -269,7 +278,7 @@ function onClickTabSelector(event) {
   event.currentTarget.classList.add('is-active');
 
   // Set only corresponding tab content to active
-  const tabContentContainers = optionsBox.querySelector('.tabs-content').children;
+  const tabContentContainers = optionsBox.querySelectorAll('.tabs-content > *');
   tabContentContainers.forEach((el) => {
     el.classList.remove('is-active');
   });
@@ -328,13 +337,11 @@ function onOptionChange(event) {
   const optScope = target.getAttribute('data-scope');
   const optValue = dataType === 'number' ? parseInt(target.value, 10) : target.value;
 
-  const blockKeys = Object.keys(blocks);
-
   // If target provides global scope, apply options to all blocks,
   // else consider scope as blockId and apply option to individual block.
   if (optScope === 'global') {
     globalOptions.opts[optName].value = optValue;
-    blockKeys.forEach((blockKey) => {
+    Object.keys(blocks).forEach((blockKey) => {
       blocks[blockKey].globalOpts = globalOptions;
       blocks[blockKey].render();
     });
@@ -365,18 +372,32 @@ function onClickToFrontOrBack(event) {
 
   // Reorder SVG
   const svg = document.getElementById(blockId);
-  svg.parentElement.removeChild(svg);
+  const svgParent = svg.parentElement;
+  svgParent.removeChild(svg);
   if (event.currentTarget.getAttribute('id') === 'front-button') {
-    svgRoot.append(svg);
+    svgParent.append(svg);
   } else {
-    svgRoot.prepend(svg);
+    svgParent.prepend(svg);
   }
+}
+
+function onFontsLoaded(callback) {
+  window.setTimeout(() => {
+    const countFonts = document.querySelectorAll('#paper-svg > defs.font-defs > style').length;
+    if (countFonts >= Object.keys(fonts).length) {
+      callback();
+    } else {
+      onFontsLoaded(callback);
+    }
+  }, 200);
 }
 
 /** *******************
  * INIT
  ******************** */
 function init() {
+  loadFonts();
+
   grid = calcGrid(svgRoot);
 
   showOptions(globalOptions);
@@ -446,7 +467,8 @@ function init() {
       modifiers: restrictions,
     })
     .on('tap', onBlockClick);
-  renderBlockLibrary();
+
+  onFontsLoaded(renderBlockLibrary);
 }
 
 // wait for external resources to load if any

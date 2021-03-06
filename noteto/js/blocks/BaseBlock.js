@@ -63,6 +63,11 @@ class BaseBlock {
     // Block Container
     this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    this.styleDef = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+    defs.append(this.styleDef);
+    this.svg.append(defs);
+
     // Mask to crop off everything outside the border
     const mask = document.createElementNS('http://www.w3.org/2000/svg', 'mask');
     this.maskRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -94,7 +99,6 @@ class BaseBlock {
     if (this.blockOpts.get('titleText').length <= 0) {
       return;
     }
-
     const borderMargin = this.globalOpts.get('borderMargin');
     const borderStrokeWidth = this.globalOpts.get('borderStrokeWidth');
     const titlePadding = this.globalOpts.get('titlePadding');
@@ -123,6 +127,16 @@ class BaseBlock {
 
     this.titleGroup.append(rect);
     this.titleGroup.append(text);
+  }
+
+  renderStyleDef() {
+    this.styleDef.innerHTML = `
+    #${this.id} text {
+      font-family: '${this.globalOpts.get('fontFamily')}b64';
+    }
+    #${this.id} text.icon {
+      font-family: 'FontAwesomeb64';
+    }`;
   }
 
   renderBorder() {
@@ -172,6 +186,7 @@ class BaseBlock {
   }
 
   render() {
+    this.renderStyleDef();
     this.renderTitle();
     this.renderBorder();
     this.onRender();
