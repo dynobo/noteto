@@ -89,6 +89,12 @@ function removeChildren(el) {
   }
 }
 
+function removeNodes(els) {
+  els.forEach((el) => {
+    el.parentElement.removeChild(el);
+  });
+}
+
 function camelCaseToSpaceSeparated(str) {
   return str.replace(/([a-z])([A-Z])/g, '$1 $2');
 }
@@ -164,7 +170,7 @@ function generateBlockPreview(blockType, blockOpts) {
         288, 288);
     };
   });
-  removeChildren(renderContainer.querySelector('g.content-group'));
+  removeNodes(renderContainer.querySelectorAll('svg'));
 }
 
 function loadFont(fontName, file) {
@@ -200,6 +206,7 @@ export {
   downloadSvgAsPng,
   htmlToElement,
   removeChildren,
+  removeNodes,
   downloadDictAsJson,
   uploadJsonFromDisk,
   generateBlockPreview,

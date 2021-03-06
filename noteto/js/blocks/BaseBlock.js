@@ -83,8 +83,7 @@ class BaseBlock {
   }
 
   add(svgRoot) {
-    const content_group = svgRoot.querySelector('.content-group');
-    content_group.appendChild(this.svg);
+    svgRoot.appendChild(this.svg);
     this.render();
   }
 

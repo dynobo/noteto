@@ -7,6 +7,7 @@ import {
   downloadSvgAsPng,
   htmlToElement,
   removeChildren,
+  removeNodes,
   downloadDictAsJson,
   uploadJsonFromDisk,
 } from './utils.js';
@@ -198,7 +199,7 @@ function loadFonts() {
 
 function loadTemplate(data) {
   // Remove existing blocks
-  removeChildren(svgRoot.querySelector('.content-group'));
+  removeNodes(svgRoot.querySelectorAll('svg'));
   loadFonts();
   blocks = {};
   // Hide block specific options
@@ -209,7 +210,7 @@ function loadTemplate(data) {
   globalOptions = new Options(data.globalOptionsConfig, 'global');
   const globalOptionsBox = document.getElementById('global-options-box');
   Object.entries(globalOptions.opts).forEach(([optionName, optionProps]) => {
-    const field = globalOptionsBox.querySelector(`input[data-option="${optionName}"]`);
+    const field = globalOptionsBox.querySelector(`*[data-option="${optionName}"]`);
     field.value = optionProps.value;
   });
 
