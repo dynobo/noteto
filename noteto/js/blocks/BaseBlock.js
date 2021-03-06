@@ -121,10 +121,10 @@ class BaseBlock {
 
   /**
    * Add this block to the paper.
-   * @param {SVG} svgRoot Paper's root SVG element
+   * @param {SVG} paperSvg Paper's root SVG element
    */
-  add(svgRoot) {
-    svgRoot.appendChild(this.svg);
+  add(paperSvg) {
+    paperSvg.appendChild(this.svg);
     this.render();
   }
 
