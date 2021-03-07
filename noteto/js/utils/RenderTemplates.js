@@ -1,4 +1,4 @@
-import { DomUtils } from './index.js';
+import DomUtils from './DomUtils.js';
 import Options from '../blocks/Options.js';
 import { blockTypes } from '../config.js';
 

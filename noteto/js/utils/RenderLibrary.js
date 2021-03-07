@@ -1,7 +1,7 @@
 /**
  * Helper methods that render and/or insert elements in the DOM
  */
-import { GraphicUtils } from './index.js';
+import GraphicUtils from './GraphicUtils.js';
 
 const RenderLibrary = {
   /**

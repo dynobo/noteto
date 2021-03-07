@@ -3,7 +3,7 @@
  */
 import { globalOptionsConfig } from '../config.js';
 import Options from '../blocks/Options.js';
-import { DomUtils } from './index.js';
+import DomUtils from './DomUtils.js';
 
 const GraphicUtils = {
   /**

@@ -1,7 +1,7 @@
 /**
  * Helper methods that render and/or insert elements in the DOM
  */
-import { DomUtils } from './index.js';
+import DomUtils from './DomUtils.js';
 
 const RenderOptions = {
   // TODO: Refactor, create elements earlier, pairwise
@@ -57,8 +57,13 @@ const RenderOptions = {
       const rowHtml = `<div class="field is-grouped">${fieldDiv}</div>`;
       rowsHtml += rowHtml;
     }
-    // const tempElement = DomUtils.htmlToElement(rowsHtml);
-    targetElement.innerHTML = rowsHtml;
+
+    // Render HTML in temp element than copy over to targetElement
+    const temp = document.createElement('template');
+    temp.innerHTML = rowsHtml;
+    while (temp.hasChildNodes()) {
+      targetElement.appendChild(temp.removeChild(temp.firstChild));
+    }
   },
 
   addTabs(tabNames, container, callback) {

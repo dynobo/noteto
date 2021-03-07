@@ -1,14 +1,12 @@
 import Options from './blocks/Options.js';
 import { globalOptionsConfig, blockTypes, fonts } from './config.js';
-import {
-  GraphicUtils,
-  GridUtils,
-  RenderLibrary,
-  RenderFonts,
-  RenderOptions,
-  RenderTemplates,
-  TransferUtils,
-} from './utils/index.js';
+import RenderFonts from './utils/RenderFonts.js';
+import RenderLibrary from './utils/RenderLibrary.js';
+import RenderOptions from './utils/RenderOptions.js';
+import RenderTemplates from './utils/RenderTemplates.js';
+import GraphicUtils from './utils/GraphicUtils.js';
+import GridUtils from './utils/GridUtils.js';
+import TransferUtils from './utils/TransferUtils.js';
 
 /** *******************
  * Global Variables
