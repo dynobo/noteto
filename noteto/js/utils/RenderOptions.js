@@ -61,8 +61,8 @@ const RenderOptions = {
     // Render HTML in temp element than copy over to targetElement
     const temp = document.createElement('template');
     temp.innerHTML = rowsHtml;
-    while (temp.hasChildNodes()) {
-      targetElement.appendChild(temp.removeChild(temp.firstChild));
+    while (temp.content.hasChildNodes()) {
+      targetElement.appendChild(temp.content.removeChild(temp.content.firstChild));
     }
   },
 
