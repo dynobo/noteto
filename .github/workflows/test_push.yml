@@ -18,4 +18,4 @@ jobs:
     - name: Install Dependencies 
       run: npm ci
     - name: ESlint
-      run: npm run lint:report
+      run: npm run lint
