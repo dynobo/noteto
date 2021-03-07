@@ -4,7 +4,9 @@ import {
   DomUtils,
   GraphicUtils,
   GridUtils,
-  Render,
+  RenderLibrary,
+  RenderFonts,
+  RenderOptions,
   TransferUtils,
 } from './utils/index.js';
 
@@ -45,17 +47,12 @@ function onClickDeleteBlock() {
   container.classList.add('hidden');
 }
 
-function loadFonts() {
-  Object.entries(fonts).forEach(([fontName, fontFile]) => {
-    const defs = document.querySelector('#paper-svg > defs.font-defs');
-    Render.addStyleWithFontFamilyB64(fontName, fontFile, defs);
-  });
-}
-
+// TODO: Move to utils
 function loadTemplate(data) {
   // Remove existing blocks
   DomUtils.removeElements(svgRoot.querySelectorAll('svg'));
-  loadFonts();
+  RenderFonts.addFontsToSvg(fonts, svgRoot);
+
   blocks = {};
   // Hide block specific options
   const blockOptionsBox = document.getElementById('block-options-box');
@@ -202,7 +199,7 @@ function onBlockClick(event) {
   if (selectedBlock) {
     // If a block is select, render and show the options
     const blockOptions = blocks[currentTarget.id].blockOpts;
-    Render.renderOptions(blockOptions, onOptionChange);
+    RenderOptions.renderOptions(blockOptions, onOptionChange);
     container.setAttribute('data-scope', blockOptions.scope);
     container.classList.remove('hidden');
   } else {
@@ -248,11 +245,11 @@ function onClickDownloadSvgAsPng() {
  * INIT
  ******************** */
 function init() {
-  loadFonts();
+  RenderFonts.addFontsToSvg(fonts, svgRoot);
 
   grid = GridUtils.calcGrid(svgRoot);
 
-  Render.renderOptions(globalOptions, onOptionChange);
+  RenderOptions.renderOptions(globalOptions, onOptionChange);
 
   // Prevent default events for dragging
   document.addEventListener('dragstart', (event) => event.preventDefault());
@@ -322,7 +319,7 @@ function init() {
 
   onFontsLoaded(() => {
     const libraryEl = document.getElementById('library');
-    Render.renderBlockLibrary(libraryEl, blockTypes, onClickBlockInLibrary);
+    RenderLibrary.renderBlockLibrary(libraryEl, blockTypes, onClickBlockInLibrary);
   });
 }
 
