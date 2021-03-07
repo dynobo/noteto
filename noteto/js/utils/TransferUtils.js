@@ -50,7 +50,6 @@ const TransferUtils = {
       reader.onload = function execCallback(event) {
         const contents = event.target.result;
         fileInput.func(contents);
-        document.body.removeChild(fileInput);
       };
       reader.readAsText(file);
     }
@@ -58,10 +57,10 @@ const TransferUtils = {
     fileInput.accept = '.json';
     fileInput.style.display = 'none';
     fileInput.onchange = readFile;
-    fileInput.func = callback;
-    document.body.appendChild(fileInput);
+    fileInput.func = (data) => {
+      callback(JSON.parse(data));
+    };
     fileInput.click();
-    document.body.removeChild(fileInput);
   },
 };
 

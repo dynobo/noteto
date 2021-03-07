@@ -7,6 +7,7 @@ import {
   RenderLibrary,
   RenderFonts,
   RenderOptions,
+  RenderTemplates,
   TransferUtils,
 } from './utils/index.js';
 
@@ -88,20 +89,13 @@ function loadTemplate(data) {
   });
 }
 
-function onFileLoaded(data) {
-  let obj;
-  try {
-    obj = JSON.parse(data);
-  } catch (error) {
-    console.error('Loading from JSON file failed!');
-    console.error(error);
-    return;
-  }
+function onFileLoaded(obj) {
+  // Validate roughly
   if (!('grid' in obj && 'blocks' in obj && 'globalOptionsConfig' in obj)) {
     console.error('JSON file didn\'t contain the expected data.');
     return;
   }
-  loadTemplate(obj);
+  [blocks, globalOptions] = RenderTemplates.loadTemplate(obj, svgRoot, grid);
 }
 
 function onClickLoadFileButton() {
