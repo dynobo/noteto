@@ -2,7 +2,7 @@
  * Various helper methods downloading or uploading files.
  */
 
-const Transfer = {
+const TransferUtils = {
   /**
  * Convert CANVAS to encoded PNG and trigger its download.
  * @param {Element} canvas Canvas element with image to download
@@ -65,4 +65,4 @@ const Transfer = {
   },
 };
 
-export default Transfer;
+export default TransferUtils;

@@ -5,7 +5,7 @@ import { globalOptionsConfig } from '../config.js';
 import Options from '../blocks/Options.js';
 import { DomUtils } from './index.js';
 
-const Graphics = {
+const GraphicUtils = {
   /**
  * Convert a SVG element to a CANVAS element (with white background).
  * @param {SVG} svg Element to convert to canvas
@@ -61,7 +61,7 @@ const Graphics = {
     block.svg.setAttribute('width', previewSize);
     block.svg.setAttribute('height', previewSize);
 
-    Graphics.convertSvgToCanvas(renderContainer, (canvas) => {
+    GraphicUtils.convertSvgToCanvas(renderContainer, (canvas) => {
       const img = document.createElement('img');
       img.setAttribute('src', canvas.toDataURL('image/png'));
       img.onload = function onload() {
@@ -72,4 +72,4 @@ const Graphics = {
   },
 };
 
-export default Graphics;
+export default GraphicUtils;

@@ -2,10 +2,10 @@ import Options from './blocks/Options.js';
 import { globalOptionsConfig, blockTypes, fonts } from './config.js';
 import {
   DomUtils,
-  Graphics,
+  GraphicUtils,
   GridUtils,
   Render,
-  Transfer,
+  TransferUtils,
 } from './utils/index.js';
 
 /** *******************
@@ -20,136 +20,9 @@ let globalOptions = new Options(globalOptionsConfig, 'global');
 let grid = {};
 
 /** *******************
- * Renderers
- ******************** */
-
-function getFormRowsHtml(tab, options) {
-  // Fill tab content containers with form elments
-  let rowsHtml = '';
-  let fieldDiv = '';
-  let counter = 0;
-  Object.entries(options.opts).forEach(([optKey, optVals]) => {
-    if (optVals.group !== tab) {
-      return;
-    }
-    counter += 1;
-    if (optVals.type !== 'select') {
-      fieldDiv += `
-        <div class="field">
-        <label class="label">${optVals.label}</label>
-        <div class="control">
-        <input class="input" 
-        type="${optVals.type}"
-        value="${optVals.value}"
-        data-option="${optKey}"
-        data-scope="${options.scope}"
-        ${optVals.type === 'number' ? 'min="0"' : ''}
-        >
-        </input>
-        </div>
-        </div>
-    `;
-    } else {
-      fieldDiv += `
-      <div class="field">
-      <label class="label">${optVals.label}</label>
-        <div class="control select">
-          <select type="${optVals.type}" data-option="${optKey}" data-scope="${options.scope}">`;
-      Object.entries(optVals.codes).forEach(([desc, code]) => {
-        fieldDiv += `<option value="${code}">${desc}</option>`;
-      });
-      fieldDiv += `
-          </select>
-        </div>
-      </div>`;
-    }
-
-    if (counter % 2 === 0) {
-      const rowHtml = `<div class="field is-grouped">${fieldDiv}</div>`;
-      rowsHtml += rowHtml;
-      fieldDiv = '';
-    }
-  });
-
-  if (fieldDiv.length > 0) {
-    const rowHtml = `<div class="field is-grouped">${fieldDiv}</div>`;
-    rowsHtml += rowHtml;
-  }
-  return rowsHtml;
-}
-
-function buildOptionsForm(options) {
-  // Select container to use depending on scope
-  let container;
-  if (options.scope === 'global') {
-    container = document.getElementById('global-options-box');
-  } else {
-    container = document.getElementById('block-options-box');
-  }
-
-  // Get needed tabs
-  const tabs = [];
-  Object.values(options.opts).forEach((optValues) => {
-    if (tabs.indexOf(optValues.group) < 0) {
-      tabs.push(optValues.group);
-    }
-  });
-
-  // Create tab selectors
-  const tabSelectorContainer = container.querySelector('ul');
-  DomUtils.removeChilds(tabSelectorContainer);
-  tabs.forEach((tab) => {
-    const li = DomUtils.htmlToElement(`
-      <li data-tab="${tab}" 
-        class="${tabSelectorContainer.children.length === 0 ? 'is-active' : ''}"
-      >
-        <a>${tab}</a>
-      </li>
-    `);
-    li.addEventListener('click', onClickTabSelector);
-    tabSelectorContainer.appendChild(li);
-  });
-
-  // Create tab content containers
-  const tabContentContainer = container.querySelector('.tabs-content');
-  DomUtils.removeChilds(tabContentContainer);
-  tabs.forEach((tab) => {
-    const contentDiv = DomUtils.htmlToElement(`
-    <div data-content="${tab}"
-    class="${tabContentContainer.children.length === 0 ? 'is-active' : ''}"
-    ></div>
-    `);
-    contentDiv.innerHTML = getFormRowsHtml(tab, options);
-    tabContentContainer.appendChild(contentDiv);
-  });
-
-  // Add event listeners on form elements
-  container.querySelectorAll('div > div > input, div > div > select').forEach((el) => {
-    el.addEventListener('input', onOptionChange);
-  });
-}
-
-function showOptions(options) {
-  if (options.scope !== 'global') {
-    // Toggle visibility of block options
-    const container = document.getElementById('block-options-box');
-    const selectedBlock = document.querySelector('svg.dragit.selected');
-
-    if (selectedBlock) {
-      container.setAttribute('data-scope', options.scope);
-      container.classList.remove('hidden');
-    } else {
-      container.setAttribute('data-scope', '');
-      container.classList.add('hidden');
-      // no need to rebuild options when hiding
-    }
-  }
-  buildOptionsForm(options);
-}
-
-/** *******************
  * LISTENERS
  ******************** */
+
 function onClickBlockInLibrary(BlockClass) {
   // Insert new block instance into root svg
   const newBlock = new BlockClass(grid, globalOptions);
@@ -235,7 +108,7 @@ function onFileLoaded(data) {
 }
 
 function onClickLoadFileButton() {
-  Transfer.uploadJsonFromDisk(onFileLoaded);
+  TransferUtils.uploadJsonFromDisk(onFileLoaded);
 }
 
 function onClickSaveFileButton() {
@@ -245,28 +118,7 @@ function onClickSaveFileButton() {
   data.grid = grid;
   data.globalOptionsConfig = globalOptions.opts;
 
-  Transfer.downloadObjectAsJson(data, 'noteto-template.json');
-}
-
-function onClickTabSelector(event) {
-  // Get root options div
-  const optionsBox = event.currentTarget.parentNode.parentNode.parentNode;
-
-  // Set only clicked tab to active
-  const tabSelectors = optionsBox.querySelectorAll('.tabs > ul > li');
-  tabSelectors.forEach((el) => {
-    el.classList.remove('is-active');
-  });
-  event.currentTarget.classList.add('is-active');
-
-  // Set only corresponding tab content to active
-  const tabContentContainers = optionsBox.querySelectorAll('.tabs-content > *');
-  tabContentContainers.forEach((el) => {
-    el.classList.remove('is-active');
-  });
-  const clickedTab = event.currentTarget.getAttribute('data-tab');
-  const activeContentContainer = optionsBox.querySelector(`div[data-content="${clickedTab}"]`);
-  activeContentContainer.classList.add('is-active');
+  TransferUtils.downloadObjectAsJson(data, 'noteto-template.json');
 }
 
 function onDragMove(event) {
@@ -344,8 +196,20 @@ function onBlockClick(event) {
       allBlocks[i].classList.remove('selected');
     }
   }
-  const blockOptions = blocks[currentTarget.id].blockOpts;
-  showOptions(blockOptions);
+
+  const container = document.getElementById('block-options-box');
+  const selectedBlock = document.querySelector('svg.dragit.selected');
+  if (selectedBlock) {
+    // If a block is select, render and show the options
+    const blockOptions = blocks[currentTarget.id].blockOpts;
+    Render.renderOptions(blockOptions, onOptionChange);
+    container.setAttribute('data-scope', blockOptions.scope);
+    container.classList.remove('hidden');
+  } else {
+    // Just hide the block options
+    container.setAttribute('data-scope', '');
+    container.classList.add('hidden');
+  }
 }
 
 function onClickToFrontOrBack(event) {
@@ -375,8 +239,8 @@ function onFontsLoaded(callback) {
 }
 
 function onClickDownloadSvgAsPng() {
-  Graphics.convertSvgToCanvas(svgRoot, (canvas) => {
-    Transfer.downloadCanvasAsPng(canvas, 'noteto-template.png');
+  GraphicUtils.convertSvgToCanvas(svgRoot, (canvas) => {
+    TransferUtils.downloadCanvasAsPng(canvas, 'noteto-template.png');
   });
 }
 
@@ -388,7 +252,7 @@ function init() {
 
   grid = GridUtils.calcGrid(svgRoot);
 
-  showOptions(globalOptions);
+  Render.renderOptions(globalOptions, onOptionChange);
 
   // Prevent default events for dragging
   document.addEventListener('dragstart', (event) => event.preventDefault());
