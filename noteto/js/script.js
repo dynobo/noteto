@@ -1,14 +1,12 @@
 import Options from './blocks/Options.js';
 import { globalOptionsConfig, blockTypes, fonts } from './config.js';
-import { calcGrid } from './utils/grid.js';
-import { htmlToElement, removeChildElements, removeElements } from './utils/dom.js';
 import {
-  loadFont,
-  generateBlockPreview,
-  downloadSvgAsPng,
-  downloadObjectAsJson,
-  uploadJsonFromDisk,
-} from './utils.js';
+  DomUtils,
+  Graphics,
+  GridUtils,
+  Render,
+  Transfer,
+} from './utils/index.js';
 
 /** *******************
  * Global Variables
@@ -99,9 +97,9 @@ function buildOptionsForm(options) {
 
   // Create tab selectors
   const tabSelectorContainer = container.querySelector('ul');
-  removeChildElements(tabSelectorContainer);
+  DomUtils.removeChilds(tabSelectorContainer);
   tabs.forEach((tab) => {
-    const li = htmlToElement(`
+    const li = DomUtils.htmlToElement(`
       <li data-tab="${tab}" 
         class="${tabSelectorContainer.children.length === 0 ? 'is-active' : ''}"
       >
@@ -114,9 +112,9 @@ function buildOptionsForm(options) {
 
   // Create tab content containers
   const tabContentContainer = container.querySelector('.tabs-content');
-  removeChildElements(tabContentContainer);
+  DomUtils.removeChilds(tabContentContainer);
   tabs.forEach((tab) => {
-    const contentDiv = htmlToElement(`
+    const contentDiv = DomUtils.htmlToElement(`
     <div data-content="${tab}"
     class="${tabContentContainer.children.length === 0 ? 'is-active' : ''}"
     ></div>
@@ -149,21 +147,6 @@ function showOptions(options) {
   buildOptionsForm(options);
 }
 
-function renderBlockLibrary() {
-  // Add preview for every block type
-  const library = document.getElementById('library');
-  Object.entries(blockTypes).forEach(([blockType, BlockClass]) => {
-    const img = htmlToElement(`
-    <div>
-    <canvas id="library-${blockType}" width="288px" height="288px" class="image is-96x96">
-    </div>
-    `);
-    img.addEventListener('click', () => { onClickBlockInLibrary(BlockClass); });
-    library.append(img);
-    generateBlockPreview(blockType, BlockClass);
-  });
-}
-
 /** *******************
  * LISTENERS
  ******************** */
@@ -191,13 +174,14 @@ function onClickDeleteBlock() {
 
 function loadFonts() {
   Object.entries(fonts).forEach(([fontName, fontFile]) => {
-    loadFont(fontName, fontFile);
+    const defs = document.querySelector('#paper-svg > defs.font-defs');
+    Render.addStyleWithFontFamilyB64(fontName, fontFile, defs);
   });
 }
 
 function loadTemplate(data) {
   // Remove existing blocks
-  removeElements(svgRoot.querySelectorAll('svg'));
+  DomUtils.removeElements(svgRoot.querySelectorAll('svg'));
   loadFonts();
   blocks = {};
   // Hide block specific options
@@ -251,7 +235,7 @@ function onFileLoaded(data) {
 }
 
 function onClickLoadFileButton() {
-  uploadJsonFromDisk(onFileLoaded);
+  Transfer.uploadJsonFromDisk(onFileLoaded);
 }
 
 function onClickSaveFileButton() {
@@ -261,7 +245,7 @@ function onClickSaveFileButton() {
   data.grid = grid;
   data.globalOptionsConfig = globalOptions.opts;
 
-  downloadObjectAsJson(data);
+  Transfer.downloadObjectAsJson(data, 'noteto-template.json');
 }
 
 function onClickTabSelector(event) {
@@ -390,13 +374,19 @@ function onFontsLoaded(callback) {
   }, 200);
 }
 
+function onClickDownloadSvgAsPng() {
+  Graphics.convertSvgToCanvas(svgRoot, (canvas) => {
+    Transfer.downloadCanvasAsPng(canvas, 'noteto-template.png');
+  });
+}
+
 /** *******************
  * INIT
  ******************** */
 function init() {
   loadFonts();
 
-  grid = calcGrid(svgRoot);
+  grid = GridUtils.calcGrid(svgRoot);
 
   showOptions(globalOptions);
 
@@ -404,7 +394,7 @@ function init() {
   document.addEventListener('dragstart', (event) => event.preventDefault());
 
   const exportBtn = document.getElementById('export-button');
-  exportBtn.addEventListener('click', downloadSvgAsPng);
+  exportBtn.addEventListener('click', onClickDownloadSvgAsPng);
 
   const loadBtn = document.getElementById('load-button');
   loadBtn.addEventListener('click', onClickLoadFileButton);
@@ -466,7 +456,10 @@ function init() {
     })
     .on('tap', onBlockClick);
 
-  onFontsLoaded(renderBlockLibrary);
+  onFontsLoaded(() => {
+    const libraryEl = document.getElementById('library');
+    Render.renderBlockLibrary(libraryEl, blockTypes, onClickBlockInLibrary);
+  });
 }
 
 // wait for external resources to load if any
