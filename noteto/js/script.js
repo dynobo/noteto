@@ -1,13 +1,11 @@
 import Options from './blocks/Options.js';
 import { globalOptionsConfig, blockTypes, fonts } from './config.js';
+import { calcGrid } from './utils/grid.js';
+import { htmlToElement, removeChildElements, removeElements } from './utils/dom.js';
 import {
   loadFont,
   generateBlockPreview,
-  calcGrid,
   downloadSvgAsPng,
-  htmlToElement,
-  removeChildElements,
-  removeElements,
   downloadObjectAsJson,
   uploadJsonFromDisk,
 } from './utils.js';

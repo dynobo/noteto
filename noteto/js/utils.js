@@ -1,43 +1,6 @@
 import { globalOptionsConfig } from './config.js';
 import Options from './blocks/Options.js';
-
-/**
- * Calculate greatest common divisor of two numbers
- * @param {int} a first number
- * @param {int} b second number
- * @return {int} GCD
- */
-function gcd(a, b) {
-  if (!b) {
-    return a;
-  }
-  return gcd(b, a % b);
-}
-
-/**
-   * Calculate dimensions used for the SnapGrid.
-   * @param {*} root
-   * @return {dict} SnapGrid consisting of width (x), height (y) and offset
-   */
-function calcGrid(root) {
-  // Get GCD for calculating grid size.
-  const page = {
-    width: root.viewBox.baseVal.width,
-    height: root.viewBox.baseVal.height,
-  };
-  const pageGcd = gcd(page.height, page.width);
-
-  // Bounding Rect
-  const rect = root.getBoundingClientRect();
-
-  // Define grid dimensions using GCD to ensures a quadratic grid which fills
-  // the whole page. Add offset of element.
-  return {
-    x: pageGcd / 5,
-    y: pageGcd / 5,
-    offset: { x: rect.left, y: rect.top },
-  };
-}
+import { removeElements } from './utils/dom.js';
 
 /**
  * Convert a SVG element to a CANVAS element (with white background).
@@ -77,35 +40,6 @@ function downloadSvgAsPng() {
     a.click();
     document.body.removeChild(a);
   });
-}
-
-/**
- * @param {String} str representing a single element
- * @return {Element} DOM element
- */
-function htmlToElement(str) {
-  const template = document.createElement('template');
-  const html = str.trim();
-  template.innerHTML = html;
-  return template.content.firstChild;
-}
-
-/**
- * @param {Array} elements Array of elements to remove from DOM
- */
-function removeElements(elements) {
-  elements.forEach((el) => {
-    el.parentElement.removeChild(el);
-  });
-}
-
-/**
- * @param {Element} el DOM element which childs should be removed
- */
-function removeChildElements(el) {
-  while (el.firstChild) {
-    el.removeChild(el.firstChild);
-  }
 }
 
 /**
@@ -217,10 +151,6 @@ function loadFont(fontName, file) {
 
 export {
   loadFont,
-  htmlToElement,
-  calcGrid, // TODO: Move grid calculation to different file
-  removeChildElements,
-  removeElements,
   generateBlockPreview,
   uploadJsonFromDisk,
   downloadObjectAsJson,
