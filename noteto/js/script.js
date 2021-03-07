@@ -1,7 +1,6 @@
 import Options from './blocks/Options.js';
 import { globalOptionsConfig, blockTypes, fonts } from './config.js';
 import {
-  DomUtils,
   GraphicUtils,
   GridUtils,
   RenderLibrary,
@@ -33,7 +32,7 @@ function onClickBlockInLibrary(BlockClass) {
   blocks[newBlock.id] = newBlock;
 }
 
-function onClickDeleteBlock() {
+function onClickDeleteBlockBtn() {
   const container = document.getElementById('block-options-box');
   const blockId = container.getAttribute('data-scope');
 
@@ -57,11 +56,11 @@ function onFileLoaded(obj) {
   [blocks, globalOptions] = RenderTemplates.loadTemplate(obj, svgRoot, grid);
 }
 
-function onClickLoadFileButton() {
+function onClickLoadFileBtn() {
   TransferUtils.uploadJsonFromDisk(onFileLoaded);
 }
 
-function onClickSaveFileButton() {
+function onClickSaveFileBtn() {
   // Compose object with necessary data
   const data = {};
   data.blocks = blocks;
@@ -135,7 +134,7 @@ function onOptionChange(event) {
   }
 }
 
-function onBlockClick(event) {
+function onClickBlock(event) {
   const { currentTarget } = event;
   currentTarget.classList.toggle('selected');
 
@@ -162,7 +161,7 @@ function onBlockClick(event) {
   }
 }
 
-function onClickToFrontOrBack(event) {
+function onClickToFrontOrBackBtn(event) {
   const container = document.getElementById('block-options-box');
   const blockId = container.getAttribute('data-scope');
 
@@ -188,7 +187,7 @@ function onFontsLoaded(callback) {
   }, 200);
 }
 
-function onClickDownloadSvgAsPng() {
+function onClickDownloadPngBtn() {
   GraphicUtils.convertSvgToCanvas(svgRoot, (canvas) => {
     TransferUtils.downloadCanvasAsPng(canvas, 'noteto-template.png');
   });
@@ -198,32 +197,29 @@ function onClickDownloadSvgAsPng() {
  * INIT
  ******************** */
 function init() {
+  // Add Load font files and add to svg style
   RenderFonts.addFontsToSvg(fonts, svgRoot);
+  onFontsLoaded(() => {
+    const libraryEl = document.getElementById('library');
+    RenderLibrary.renderBlockLibrary(libraryEl, blockTypes, onClickBlockInLibrary);
+  });
 
-  grid = GridUtils.calcGrid(svgRoot);
-
+  // Add options to sidebar
   RenderOptions.renderOptions(globalOptions, onOptionChange);
 
   // Prevent default events for dragging
   document.addEventListener('dragstart', (event) => event.preventDefault());
 
-  const exportBtn = document.getElementById('export-button');
-  exportBtn.addEventListener('click', onClickDownloadSvgAsPng);
+  // Various listeners
+  document.getElementById('export-button').addEventListener('click', onClickDownloadPngBtn);
+  document.getElementById('load-button').addEventListener('click', onClickLoadFileBtn);
+  document.getElementById('save-button').addEventListener('click', onClickSaveFileBtn);
+  document.getElementById('delete-button').addEventListener('click', onClickDeleteBlockBtn);
+  document.getElementById('front-button').addEventListener('click', onClickToFrontOrBackBtn);
+  document.getElementById('back-button').addEventListener('click', onClickToFrontOrBackBtn);
 
-  const loadBtn = document.getElementById('load-button');
-  loadBtn.addEventListener('click', onClickLoadFileButton);
-
-  const saveBtn = document.getElementById('save-button');
-  saveBtn.addEventListener('click', onClickSaveFileButton);
-
-  const deleteBtn = document.getElementById('delete-button');
-  deleteBtn.addEventListener('click', onClickDeleteBlock);
-
-  const toFrontBtn = document.getElementById('front-button');
-  toFrontBtn.addEventListener('click', onClickToFrontOrBack);
-
-  const toBackBtn = document.getElementById('back-button');
-  toBackBtn.addEventListener('click', onClickToFrontOrBack);
+  // Calculate grid dimensions and restrictions
+  grid = GridUtils.calcGrid(svgRoot);
 
   const restrictions = [
     interact.modifiers.snap({
@@ -239,6 +235,7 @@ function init() {
     }),
   ];
 
+  // Initialize interact.js for moving/resizing
   interact('.dragit')
     .draggable({
       modifiers: restrictions,
@@ -268,12 +265,7 @@ function init() {
       },
       modifiers: restrictions,
     })
-    .on('tap', onBlockClick);
-
-  onFontsLoaded(() => {
-    const libraryEl = document.getElementById('library');
-    RenderLibrary.renderBlockLibrary(libraryEl, blockTypes, onClickBlockInLibrary);
-  });
+    .on('tap', onClickBlock);
 }
 
 // wait for external resources to load if any
