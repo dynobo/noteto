@@ -52,6 +52,7 @@ const GraphicUtils = {
       x: 93.6,
       y: 93.6,
       offset: { x: 285, y: 15 },
+      padding: 0,
     };
     const renderContainer = document.getElementById('paper-svg');
 

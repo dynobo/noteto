@@ -22,12 +22,17 @@ const GridUtils = {
    * @return {dict} SnapGrid consisting of width (x), height (y) and offset
    */
   calcGrid(root) {
+    const pagePadding = 4;
     // Get GCD for calculating grid size.
     const page = {
-      width: root.viewBox.baseVal.width,
-      height: root.viewBox.baseVal.height,
+      width: root.viewBox.baseVal.width - pagePadding * 2,
+      height: root.viewBox.baseVal.height - pagePadding * 2,
     };
     const pageGcd = this.gcd(page.height, page.width);
+    let gridSize = pageGcd;
+    while (gridSize < 50) {
+      gridSize += pageGcd;
+    }
 
     // Bounding Rect
     const rect = root.getBoundingClientRect();
@@ -35,9 +40,17 @@ const GridUtils = {
     // Define grid dimensions using GCD to ensures a quadratic grid which fills
     // the whole page. Add offset of element.
     return {
-      x: pageGcd / 5,
-      y: pageGcd / 5,
-      offset: { x: rect.left, y: rect.top },
+      x: gridSize,
+      y: gridSize,
+      offset: { x: rect.left + pagePadding, y: rect.top + pagePadding },
+      padding: pagePadding,
+      page: { width: root.viewBox.baseVal.width, height: root.viewBox.baseVal.height },
+      restriction: {
+        top: rect.top + pagePadding,
+        left: rect.left + pagePadding,
+        bottom: rect.top + root.viewBox.baseVal.height - pagePadding,
+        right: rect.left + root.viewBox.baseVal.width - pagePadding,
+      },
     };
   },
 

@@ -7,15 +7,14 @@ class BaseBlock {
 
     // Unique type to identify it in the library. This has to be added to config.js:blockTypes
     this.type = 'Base Block';
-
+    console.log(grid);
     // Position information. Handled by interact.js. Don't change manually.
     this.width = grid.x * 3;
     this.height = grid.y * 3;
-    this.x = 0;
-    this.y = 0;
+    this.x = grid.padding;
+    this.y = grid.padding;
     this.dataX = 0;
     this.dataY = 0;
-
     this.globalOpts = globalOptions;
 
     // Define block specific options

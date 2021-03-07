@@ -219,7 +219,7 @@ function init() {
   // Calculate grid dimensions and restrictions
   grid = GridUtils.calcGrid(svgRoot);
 
-  const restrictions = [
+  const resizeRestrictions = [
     interact.modifiers.snap({
       targets: [interact.snappers.grid(grid)],
       range: Infinity,
@@ -229,14 +229,25 @@ function init() {
       min: { width: grid.x, height: grid.y },
     }),
     interact.modifiers.restrictEdges({
-      outer: 'parent',
+      outer: grid.restriction,
+    }),
+  ];
+
+  const dragRestrictions = [
+    interact.modifiers.snap({
+      targets: [interact.snappers.grid(grid)],
+      range: Infinity,
+      relativePoints: [{ x: 0, y: 0 }],
+    }),
+    interact.modifiers.restrictRect({
+      restriction: grid.restriction,
     }),
   ];
 
   // Initialize interact.js for moving/resizing
   interact('.dragit')
     .draggable({
-      modifiers: restrictions,
+      modifiers: dragRestrictions,
       restrict: {
         restriction: 'parent',
         endOnly: false,
@@ -261,7 +272,7 @@ function init() {
       listeners: {
         move: onResizeMove,
       },
-      modifiers: restrictions,
+      modifiers: resizeRestrictions,
     })
     .on('tap', onClickBlock);
 }
