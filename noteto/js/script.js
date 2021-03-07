@@ -48,47 +48,6 @@ function onClickDeleteBlock() {
   container.classList.add('hidden');
 }
 
-// TODO: Move to utils
-function loadTemplate(data) {
-  // Remove existing blocks
-  DomUtils.removeElements(svgRoot.querySelectorAll('svg'));
-  RenderFonts.addFontsToSvg(fonts, svgRoot);
-
-  blocks = {};
-  // Hide block specific options
-  const blockOptionsBox = document.getElementById('block-options-box');
-  blockOptionsBox.classList.add('hidden');
-
-  // Load options
-  globalOptions = new Options(data.globalOptionsConfig, 'global');
-  const globalOptionsBox = document.getElementById('global-options-box');
-  Object.entries(globalOptions.opts).forEach(([optionName, optionProps]) => {
-    const field = globalOptionsBox.querySelector(`*[data-option="${optionName}"]`);
-    field.value = optionProps.value;
-  });
-
-  // Load Blocks
-  Object.values(data.blocks).forEach((blockData) => {
-    try {
-      const newBlock = new blockTypes[blockData.type](grid, globalOptions);
-      newBlock.width = blockData.width;
-      newBlock.height = blockData.height;
-      newBlock.x = blockData.x;
-      newBlock.y = blockData.y;
-      newBlock.dataX = blockData.dataX;
-      newBlock.dataY = blockData.dataY;
-      newBlock.blockOpts.opts = blockData.blockOpts.opts;
-      newBlock.svg.style.webkitTransform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
-      newBlock.svg.style.transform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
-      newBlock.add(svgRoot);
-      blocks[newBlock.id] = newBlock;
-    } catch (error) {
-      console.error(`Error loading block ${blockData.id} of type ${blockData.type}. Skipping.`);
-      console.error(error);
-    }
-  });
-}
-
 function onFileLoaded(obj) {
   // Validate roughly
   if (!('grid' in obj && 'blocks' in obj && 'globalOptionsConfig' in obj)) {
