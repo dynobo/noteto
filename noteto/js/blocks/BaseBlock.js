@@ -19,7 +19,7 @@ class BaseBlock {
 
     // Define block specific options
     // (will show up in the left sidebar on block select)
-    this.blockOpts = new Options({
+    this.opts = new Options({
       titleText: {
         group: 'Base Settings',
         label: 'Title',
@@ -58,7 +58,7 @@ class BaseBlock {
    */
   get titleHeight() {
     const calcHeight = this.globalOpts.get('titleFontSize') + this.globalOpts.get('titlePadding') * 2;
-    return (this.blockOpts.get('titleText').length <= 0) ? 0 : calcHeight;
+    return (this.opts.get('titleText').length <= 0) ? 0 : calcHeight;
   }
 
   /**
@@ -82,7 +82,7 @@ class BaseBlock {
    */
   get yOffset() {
     let yOffset = this.globalOpts.get('borderStrokeWidth') + this.globalOpts.get('borderMargin');
-    if (this.blockOpts.get('titleText').length > 0) {
+    if (this.opts.get('titleText').length > 0) {
       yOffset += this.globalOpts.get('titleFontSize') + this.globalOpts.get('titlePadding') * 2;
     }
     return yOffset;
@@ -145,7 +145,7 @@ class BaseBlock {
     this.titleGroup.innerHTML = '';
 
     // Check if title should be drawn at all
-    if (this.blockOpts.get('titleText').length <= 0) {
+    if (this.opts.get('titleText').length <= 0) {
       return;
     }
 
@@ -174,7 +174,7 @@ class BaseBlock {
     text.setAttribute('dominant-baseline', 'central');
     text.setAttribute('fill', titleFontColor);
     text.setAttribute('font-size', titleFontSize);
-    text.textContent = this.blockOpts.get('titleText');
+    text.textContent = this.opts.get('titleText');
     this.titleGroup.append(text);
   }
 

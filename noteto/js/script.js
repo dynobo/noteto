@@ -127,7 +127,7 @@ function onOptionChange(event) {
       blocks[blockKey].render();
     });
   } else {
-    blocks[optScope].blockOpts.opts[optName].value = optValue;
+    blocks[optScope].opts.opts[optName].value = optValue;
     blocks[optScope].render();
   }
 }
@@ -148,7 +148,7 @@ function onClickBlock(event) {
   const selectedBlock = document.querySelector('svg.dragit.selected');
   if (selectedBlock) {
     // If a block is select, render and show the options
-    const blockOptions = blocks[currentTarget.id].blockOpts;
+    const blockOptions = blocks[currentTarget.id].opts;
     RenderOptions.renderOptions(blockOptions, onOptionChange);
     container.setAttribute('data-scope', blockOptions.scope);
     container.classList.remove('hidden');

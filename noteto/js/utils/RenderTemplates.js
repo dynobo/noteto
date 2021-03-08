@@ -31,7 +31,7 @@ const RenderTemplates = {
         newBlock.y = blockData.y;
         newBlock.dataX = blockData.dataX;
         newBlock.dataY = blockData.dataY;
-        newBlock.blockOpts.opts = blockData.blockOpts.opts;
+        newBlock.opts.opts = blockData.opts.opts;
         newBlock.svg.style.webkitTransform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
         newBlock.svg.style.transform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
         newBlock.add(svg);

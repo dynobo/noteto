@@ -4,11 +4,11 @@ class IconBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
     this.type = 'Icon Block';
-    this.blockOpts.opts.titleText.value = 'Remember to smile!';
+    this.opts.opts.titleText.value = 'Remember to smile!';
 
     // Extend block specific options
-    this.blockOpts.opts = {
-      ...this.blockOpts.opts,
+    this.opts.opts = {
+      ...this.opts.opts,
       iconCode: {
         group: 'Icon Settings',
         label: 'Icon',
@@ -88,10 +88,10 @@ class IconBlock extends BaseBlock {
    * Add icons to block and style them.
    */
   renderIcons() {
-    const iconSize = this.blockOpts.get('iconSize');
-    const iconColor = this.blockOpts.get('iconColor');
-    const iconCount = this.blockOpts.get('iconCount');
-    const iconCode = this.blockOpts.get('iconCode');
+    const iconSize = this.opts.get('iconSize');
+    const iconColor = this.opts.get('iconColor');
+    const iconCount = this.opts.get('iconCount');
+    const iconCode = this.opts.get('iconCode');
 
     let iconWidth;
     for (let i = 0; i < iconCount; i += 1) {
