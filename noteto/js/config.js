@@ -11,6 +11,18 @@ const blockTypes = {
 };
 
 const globalOptionsConfig = {
+  useGlobal: {
+    group: 'Base',
+    label: 'Use global',
+    type: 'checkbox',
+    value: true,
+  },
+  titleText: {
+    group: 'Base',
+    label: 'Title',
+    type: 'text',
+    value: 'Scribble',
+  },
   borderMargin: {
     group: 'Borders',
     label: 'Border Margin',

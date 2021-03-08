@@ -34,6 +34,38 @@ class TimeBlock extends BaseBlock {
         value: 2,
       },
     };
+
+    // Append options specific to this block
+    const TimeBlockOptions = {
+      hourFontSize: {
+        group: 'Time Settings',
+        label: 'Font Size',
+        type: 'number',
+        value: 24,
+      },
+      startHour: {
+        group: 'Time Settings',
+        label: 'Start (hour)',
+        type: 'number',
+        value: 8,
+      },
+      endHour: {
+        group: 'Time Settings',
+        label: 'End (hour)',
+        type: 'number',
+        value: 10,
+      },
+      linesPerHour: {
+        group: 'Time Settings',
+        label: 'Lines per Hour',
+        type: 'number',
+        value: 2,
+      },
+    };
+    this.opts.add(TimeBlockOptions);
+
+    // Set values inherited by parent block class
+    this.opts.titleText.value = 'Agenda';
   }
 
   /**

@@ -15,35 +15,58 @@ const RenderOptions = {
         return;
       }
       counter += 1;
-      if (optVals.type !== 'select') {
-        fieldDiv += `
-          <div class="field">
-          <label class="label">${optVals.label}</label>
-          <div class="control">
-          <input class="input" 
-          type="${optVals.type}"
-          value="${optVals.value}"
-          data-option="${optKey}"
-          data-scope="${options.scope}"
-          ${optVals.type === 'number' ? 'min="0"' : ''}
-          >
-          </input>
-          </div>
-          </div>
-      `;
-      } else {
-        fieldDiv += `
-        <div class="field">
-        <label class="label">${optVals.label}</label>
-          <div class="control select">
-            <select type="${optVals.type}" data-option="${optKey}" data-scope="${options.scope}">`;
-        Object.entries(optVals.codes).forEach(([desc, code]) => {
-          fieldDiv += `<option value="${code}">${desc}</option>`;
-        });
-        fieldDiv += `
-            </select>
-          </div>
-        </div>`;
+
+      switch (optVals.type) {
+        case 'select':
+          fieldDiv += `
+            <div class="field">
+              <label class="label">${optVals.label}</label>
+              <div class="control">
+                <select
+                  class="select" 
+                  type="${optVals.type}" 
+                  data-option="${optKey}" 
+                  data-scope="${options.scope}"
+                >`;
+          Object.entries(optVals.codes).forEach(([desc, code]) => {
+            fieldDiv += `<option value="${code}">${desc}</option>`;
+          });
+          fieldDiv += `
+                </select>
+              </div>
+            </div>`;
+          break;
+        case 'checkbox':
+          fieldDiv += `
+            <div class="field">
+              <label class="label">${optVals.label}</label>
+              <div class="control">
+                <input class="checkbox" 
+                type="${optVals.type}"
+                data-option="${optKey}"
+                data-scope="${options.scope}"
+                ${optVals.value === true ? 'checked' : ''}
+                >
+                </input>
+              </div>
+            </div>`;
+          break;
+        default:
+          fieldDiv += `
+            <div class="field">
+              <label class="label">${optVals.label}</label>
+              <div class="control">
+                <input class="input" 
+                type="${optVals.type}"
+                value="${optVals.value}"
+                data-option="${optKey}"
+                data-scope="${options.scope}"
+                ${optVals.type === 'number' ? 'min="0"' : ''}
+                >
+                </input>
+              </div>
+            </div>
+          `;
       }
 
       if (counter % 2 === 0) {

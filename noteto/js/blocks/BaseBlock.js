@@ -1,4 +1,5 @@
 import Options from './Options.js';
+import NewOptions from './NewOptions.js';
 
 class BaseBlock {
   constructor(grid, globalOptions) {
@@ -27,6 +28,88 @@ class BaseBlock {
         value: 'Scribble',
       },
     }, this.id);
+
+    const BaseBlockOptions = {
+      useGlobal: {
+        group: 'Base',
+        label: 'Use global settings',
+        type: 'checkbox',
+        value: true,
+      },
+      titleText: {
+        group: 'Base',
+        label: 'Title',
+        type: 'text',
+        value: 'Scribble',
+      },
+      borderMargin: {
+        group: 'Borders',
+        label: 'Border Margin',
+        type: 'number',
+        value: 4,
+      },
+      borderStrokeWidth: {
+        group: 'Borders',
+        label: 'Border Width',
+        type: 'number',
+        value: 2,
+      },
+      borderStrokeColor: {
+        group: 'Borders',
+        label: 'Border Color',
+        type: 'color',
+        value: '#000000',
+      },
+      borderRadius: {
+        group: 'Borders',
+        label: 'Border Radius',
+        type: 'number',
+        value: 8,
+      },
+      titleFontSize: {
+        group: 'Titles',
+        label: 'Font Size',
+        type: 'number',
+        value: 28,
+      },
+      titleFontColor: {
+        group: 'Titles',
+        label: 'Text Color',
+        type: 'color',
+        value: '#000000',
+      },
+      titlePadding: {
+        group: 'Titles',
+        label: 'Title Padding',
+        type: 'number',
+        value: 4,
+      },
+      titleBackgroundColor: {
+        group: 'Titles',
+        label: 'Title BG Color',
+        type: 'color',
+        value: '#dddddd',
+      },
+      fontFamily: {
+        group: 'Titles',
+        label: 'Font Family',
+        type: 'select',
+        options: {
+          Roboto: 'RobotoRegular',
+          'Roboto Light': 'RobotoLight',
+          'Roboto Bold': 'RobotoBold',
+          'Crimson Pro': 'CrimsonPro',
+          Lora: 'LoraRegular',
+          OpenSans: 'OpenSansRegular',
+          'OpenSans Light': 'OpenSansLight',
+          'OpenSans Bold': 'OpenSansBold',
+          'OpenSansCondensed Light': 'OpenSansCondensedLight',
+          'OpenSansCondensed Bold': 'OpenSansCondensedBold',
+        },
+        value: 'RobotoRegular',
+      },
+    };
+    this.opts = new NewOptions(BaseBlockOptions);
 
     this.createBaseElements();
   }
@@ -261,6 +344,8 @@ class BaseBlock {
     this.renderTitle();
     this.renderBorder();
     this.onRender();
+    console.log(this.type);
+    console.log(this.opts);
   }
 }
 

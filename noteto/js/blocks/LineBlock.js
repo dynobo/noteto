@@ -5,6 +5,32 @@ class LineBlock extends BaseBlock {
     super(grid, globalOptions);
     this.type = 'Line Block';
     this.blockOpts.opts.titleText.value = 'Notes';
+
+    // Append options specific to this block
+    const LineBlockOptions = {
+      lineStrokeWidth: {
+        group: 'Lines',
+        label: 'Line Width',
+        type: 'number',
+        value: 1,
+      },
+      lineDistance: {
+        group: 'Lines',
+        label: 'Line Distance',
+        type: 'number',
+        value: 75,
+      },
+      lineStrokeColor: {
+        group: 'Lines',
+        label: 'Line Color',
+        type: 'color',
+        value: '#888888',
+      },
+    };
+    this.opts.add(LineBlockOptions);
+
+    // Set values inherited by parent block class
+    this.opts.titleText.value = 'Notes';
   }
 
   /**
