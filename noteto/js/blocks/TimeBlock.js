@@ -4,11 +4,11 @@ class TimeBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
     this.type = 'Time Block';
-    this.opts.opts.titleText.value = 'Agenda';
+    this.blockOpts.opts.titleText.value = 'Agenda';
 
     // Extend block specific options
-    this.opts.opts = {
-      ...this.opts.opts,
+    this.blockOpts.opts = {
+      ...this.blockOpts.opts,
       hourFontSize: {
         group: 'Time Settings',
         label: 'Font Size',
@@ -54,10 +54,10 @@ class TimeBlock extends BaseBlock {
     const lineStrokeWidth = this.globalOpts.get('lineStrokeWidth');
     const lineStrokeColor = this.globalOpts.get('lineStrokeColor');
 
-    const startHour = this.opts.get('startHour');
-    const endHour = this.opts.get('endHour');
-    const linesPerHour = this.opts.get('linesPerHour');
-    const hourFontSize = this.opts.get('hourFontSize');
+    const startHour = this.blockOpts.get('startHour');
+    const endHour = this.blockOpts.get('endHour');
+    const linesPerHour = this.blockOpts.get('linesPerHour');
+    const hourFontSize = this.blockOpts.get('hourFontSize');
 
     // Number of lines to draw
     const lineCount = (endHour - startHour + 1) * linesPerHour;

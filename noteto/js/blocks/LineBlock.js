@@ -4,7 +4,7 @@ class LineBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
     this.type = 'Line Block';
-    this.opts.opts.titleText.value = 'Notes';
+    this.blockOpts.opts.titleText.value = 'Notes';
   }
 
   /**

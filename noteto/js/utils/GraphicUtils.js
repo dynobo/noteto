@@ -57,7 +57,7 @@ const GraphicUtils = {
     const renderContainer = document.getElementById('paper-svg');
 
     const block = new BlockClass(previewGrid, previewOptions);
-    block.opts.opts.titleText.value = blockType;
+    block.blockOpts.opts.titleText.value = blockType;
     block.add(renderContainer);
     block.svg.setAttribute('width', previewSize);
     block.svg.setAttribute('height', previewSize);
