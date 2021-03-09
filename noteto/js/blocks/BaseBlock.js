@@ -1,5 +1,5 @@
 import Options from './Options.js';
-import NewOptions from './NewOptions.js';
+import NewOptions from './Options.js';
 
 class BaseBlock {
   constructor(grid, globalOptions) {
@@ -120,8 +120,8 @@ class BaseBlock {
    */
   get innerWidth() {
     return (this.width
-      - this.globalOpts.get('borderStrokeWidth') * 2
-      - this.globalOpts.get('borderMargin') * 2);
+      - this.opts.get('borderStrokeWidth') * 2
+      - this.opts.get('borderMargin') * 2);
   }
 
   /**
@@ -130,9 +130,10 @@ class BaseBlock {
    */
   get innerHeight() {
     return (this.height
-      - this.globalOpts.get('borderStrokeWidth') * 2
-      - this.globalOpts.get('borderMargin') * 2
-      - this.titleHeight);
+      - this.opts.get('borderStrokeWidth') * 2
+      - this.opts.get('borderMargin') * 2
+      - this.titleHeight
+    );
   }
 
   /**
@@ -140,15 +141,15 @@ class BaseBlock {
    * @return {int} height in pixel
    */
   get titleHeight() {
-    const calcHeight = this.globalOpts.get('titleFontSize') + this.globalOpts.get('titlePadding') * 2;
-    return (this.blockOpts.get('titleText').length <= 0) ? 0 : calcHeight;
+    const calcHeight = this.opts.get('titleFontSize') + this.opts.get('titlePadding') * 2;
+    return (this.opts.get('titleText').length <= 0) ? 0 : calcHeight;
   }
 
   /**
      * Gets space occupied by the block's border (stroke width + border margin).
      */
   get borderWidth() {
-    return this.globalOpts.get('borderStrokeWidth') + this.globalOpts.get('borderMargin');
+    return this.opts.get('borderStrokeWidth') + this.opts.get('borderMargin');
   }
 
   /**
@@ -156,7 +157,7 @@ class BaseBlock {
    * @return {int} x coord of top left
    */
   get xOffset() {
-    return this.borderWidth;
+    return this.opts.get('borderStrokeWidth');
   }
 
   /**
@@ -164,9 +165,9 @@ class BaseBlock {
    * @return {int} height in pixel
    */
   get yOffset() {
-    let yOffset = this.globalOpts.get('borderStrokeWidth') + this.globalOpts.get('borderMargin');
-    if (this.blockOpts.get('titleText').length > 0) {
-      yOffset += this.globalOpts.get('titleFontSize') + this.globalOpts.get('titlePadding') * 2;
+    let yOffset = this.opts.get('borderStrokeWidth') + this.opts.get('borderMargin');
+    if (this.opts.get('titleText').length > 0) {
+      yOffset += this.opts.get('titleFontSize') + this.opts.get('titlePadding') * 2;
     }
     return yOffset;
   }
@@ -228,7 +229,7 @@ class BaseBlock {
     this.titleGroup.innerHTML = '';
 
     // Check if title should be drawn at all
-    if (this.blockOpts.get('titleText').length <= 0) {
+    if (this.opts.get('titleText').length <= 0) {
       return;
     }
 
@@ -236,10 +237,10 @@ class BaseBlock {
     this.titleGroup.setAttribute('mask', `url(#${this.id}_clip)`);
 
     // Necessary option values
-    const titlePadding = this.globalOpts.get('titlePadding');
-    const titleFontSize = this.globalOpts.get('titleFontSize');
-    const titleFontColor = this.globalOpts.get('titleFontColor');
-    const titleBackgroundColor = this.globalOpts.get('titleBackgroundColor');
+    const titlePadding = this.opts.get('titlePadding');
+    const titleFontSize = this.opts.get('titleFontSize');
+    const titleFontColor = this.opts.get('titleFontColor');
+    const titleBackgroundColor = this.opts.get('titleBackgroundColor');
 
     // Background
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -257,7 +258,7 @@ class BaseBlock {
     text.setAttribute('dominant-baseline', 'central');
     text.setAttribute('fill', titleFontColor);
     text.setAttribute('font-size', titleFontSize);
-    text.textContent = this.blockOpts.get('titleText');
+    text.textContent = this.opts.get('titleText');
     this.titleGroup.append(text);
   }
 
@@ -270,7 +271,7 @@ class BaseBlock {
   renderStyleDef() {
     this.styleDef.innerHTML = `
     #${this.id} text {
-      font-family: '${this.globalOpts.get('fontFamily')}b64';
+      font-family: '${this.opts.get('fontFamily')}b64';
     }
     #${this.id} text.icon {
       font-family: 'FontAwesomeb64';
@@ -298,10 +299,10 @@ class BaseBlock {
    * Setup the border style and position.
    */
   renderBorder() {
-    const borderMargin = this.globalOpts.get('borderMargin');
-    const borderStrokeWidth = this.globalOpts.get('borderStrokeWidth');
-    const borderRadius = this.globalOpts.get('borderRadius');
-    const borderStrokeColor = this.globalOpts.get('borderStrokeColor');
+    const borderMargin = this.opts.get('borderMargin');
+    const borderStrokeWidth = this.opts.get('borderStrokeWidth');
+    const borderRadius = this.opts.get('borderRadius');
+    const borderStrokeColor = this.opts.get('borderStrokeColor');
 
     this.borderRect.classList.add('blockBorder');
     this.borderRect.setAttribute('x', borderMargin + borderStrokeWidth / 2);
@@ -344,8 +345,6 @@ class BaseBlock {
     this.renderTitle();
     this.renderBorder();
     this.onRender();
-    console.log(this.type);
-    console.log(this.opts);
   }
 }
 

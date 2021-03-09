@@ -4,7 +4,7 @@ class LineBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
     this.type = 'Line Block';
-    this.blockOpts.opts.titleText.value = 'Notes';
+    this.opts.titleText.value = 'Notes';
 
     // Append options specific to this block
     const LineBlockOptions = {
@@ -47,9 +47,9 @@ class LineBlock extends BaseBlock {
    * Add line to block and style them.
    */
   renderLines() {
-    const lineDistance = this.globalOpts.get('lineDistance');
-    const lineStrokeWidth = this.globalOpts.get('lineStrokeWidth');
-    const lineStrokeColor = this.globalOpts.get('lineStrokeColor');
+    const lineDistance = this.opts.get('lineDistance');
+    const lineStrokeWidth = this.opts.get('lineStrokeWidth');
+    const lineStrokeColor = this.opts.get('lineStrokeColor');
 
     // Number of lines to draw
     const lineCount = this.innerHeight / lineDistance;

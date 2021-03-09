@@ -2,91 +2,77 @@
  * Helper methods that render and/or insert elements in the DOM
  */
 import DomUtils from './DomUtils.js';
+import Helpers from './Helpers.js';
 
 const RenderOptions = {
-  // TODO: Refactor, create elements earlier, pairwise
-  addFormElements(tab, options, targetElement) {
-    // Fill tab content containers with form elments
-    let rowsHtml = '';
+  generateFormField(optName, optVals) {
     let fieldDiv = '';
-    let counter = 0;
-    Object.entries(options.opts).forEach(([optKey, optVals]) => {
-      if (optVals.group !== tab) {
-        return;
-      }
-      counter += 1;
-
-      switch (optVals.type) {
-        case 'select':
-          fieldDiv += `
-            <div class="field">
-              <label class="label">${optVals.label}</label>
-              <div class="control">
-                <select
-                  class="select" 
-                  type="${optVals.type}" 
-                  data-option="${optKey}" 
-                  data-scope="${options.scope}"
-                >`;
-          Object.entries(optVals.codes).forEach(([desc, code]) => {
-            fieldDiv += `<option value="${code}">${desc}</option>`;
-          });
-          fieldDiv += `
-                </select>
-              </div>
-            </div>`;
-          break;
-        case 'checkbox':
-          fieldDiv += `
-            <div class="field">
-              <label class="label">${optVals.label}</label>
-              <div class="control">
-                <input class="checkbox" 
-                type="${optVals.type}"
-                data-option="${optKey}"
-                data-scope="${options.scope}"
-                ${optVals.value === true ? 'checked' : ''}
-                >
-                </input>
-              </div>
-            </div>`;
-          break;
-        default:
-          fieldDiv += `
-            <div class="field">
-              <label class="label">${optVals.label}</label>
-              <div class="control">
-                <input class="input" 
-                type="${optVals.type}"
-                value="${optVals.value}"
-                data-option="${optKey}"
-                data-scope="${options.scope}"
-                ${optVals.type === 'number' ? 'min="0"' : ''}
-                >
-                </input>
-              </div>
+    switch (optVals.type) {
+      case 'select':
+        fieldDiv = `
+          <div class="field">
+            <label class="label">${optVals.label}</label>
+            <div class="control">
+              <select
+                class="select" 
+                type="${optVals.type}" 
+                data-option="${optName}" 
+              >`;
+        Object.entries(optVals.options).forEach(([desc, code]) => {
+          fieldDiv += `<option value="${code}">${desc}</option>`;
+        });
+        fieldDiv += `
+              </select>
             </div>
-          `;
-      }
+          </div>`;
+        break;
+      case 'checkbox':
+        fieldDiv = `
+          <div class="field">
+            <label class="label">${optVals.label}</label>
+            <div class="control">
+              <input class="checkbox" 
+              type="${optVals.type}"
+              data-option="${optName}"
+              ${optVals.value === true ? 'checked' : ''}
+              >
+              </input>
+            </div>
+          </div>`;
+        break;
+      default:
+        fieldDiv = `
+          <div class="field">
+            <label class="label">${optVals.label}</label>
+            <div class="control">
+              <input class="input" 
+              type="${optVals.type}"
+              value="${optVals.value}"
+              data-option="${optName}"
+              ${optVals.type === 'number' ? 'min="0"' : ''}
+              >
+              </input>
+            </div>
+          </div>
+        `;
+    }
+    return DomUtils.htmlToElement(fieldDiv);
+  },
 
-      if (counter % 2 === 0) {
-        const rowHtml = `<div class="field is-grouped">${fieldDiv}</div>`;
-        rowsHtml += rowHtml;
-        fieldDiv = '';
-      }
-    });
-
-    if (fieldDiv.length > 0) {
-      const rowHtml = `<div class="field is-grouped">${fieldDiv}</div>`;
-      rowsHtml += rowHtml;
+  generateFormRow(optNameLeft, optValsLeft, optNameRight, optValsRight) {
+    const leftField = this.generateFormField(optNameLeft, optValsLeft);
+    let rightField;
+    if (optNameRight) {
+      rightField = this.generateFormField(optNameRight, optValsRight);
+    } else {
+      rightField = document.createElement('div');
     }
 
-    // Render HTML in temp element than copy over to targetElement
-    const temp = document.createElement('template');
-    temp.innerHTML = rowsHtml;
-    while (temp.content.hasChildNodes()) {
-      targetElement.appendChild(temp.content.removeChild(temp.content.firstChild));
-    }
+    const formRow = document.createElement('div');
+    formRow.setAttribute('class', 'field is-grouped');
+    formRow.appendChild(leftField);
+    formRow.appendChild(rightField);
+    return formRow;
   },
 
   addTabs(tabNames, container, callback) {
@@ -139,39 +125,35 @@ const RenderOptions = {
     callback();
   },
 
-  addOptionsToTabContent(tabNames, tabOptions, onOptionChange) {
-    tabNames.forEach((name) => {
-      const contentDiv = document.querySelector(`div[data-content="${name}"]`);
-      this.addFormElements(name, tabOptions, contentDiv);
-
-      // Add event listeners on form elements
-      contentDiv.querySelectorAll('input, select').forEach((el) => {
-        el.addEventListener('input', onOptionChange);
+  // TODO: Continue here!
+  addOptionsToTabs(tabs, options, onOptionChange) {
+    const optionsBox = document.getElementById('options-box');
+    Object.entries(tabs).forEach(([tabName, optNames]) => {
+      const contentDiv = optionsBox.querySelector(`div[data-content="${tabName}"]`);
+      const optNamePairs = Helpers.chunkArray(optNames, 2);
+      optNamePairs.forEach(([left, right]) => {
+        const formRow = this.generateFormRow(left, options[left], right, options[right]);
+        contentDiv.appendChild(formRow);
       });
+    });
+    // Add event listeners on form elements
+    optionsBox.querySelectorAll('input, select').forEach((el) => {
+      el.addEventListener('input', onOptionChange);
     });
   },
 
   renderOptions(options, onOptionChange) {
-    let container;
-    if (options.scope === 'global') {
-      container = document.getElementById('global-options-box');
-    } else {
-      container = document.getElementById('block-options-box');
-    }
-
-    // Get needed tabs
-    const tabNames = [];
-    Object.values(options.opts).forEach((optValues) => {
-      if (tabNames.indexOf(optValues.group) < 0) {
-        tabNames.push(optValues.group);
-      }
+    // Generate dict: { tabName1: [optName1, optName2], tabName2: [...]}
+    const tabs = {};
+    Object.entries(options).forEach(([optName, optValues]) => {
+      (tabs[optValues.group] = tabs[optValues.group] || []).push(optName);
     });
 
-    this.addTabs(tabNames, container, () => {
-      this.addOptionsToTabContent(tabNames, options, onOptionChange);
+    const container = document.getElementById('options-box');
+    this.addTabs(Object.keys(tabs), container, () => {
+      this.addOptionsToTabs(tabs, options, onOptionChange);
     });
   },
-
 };
 
 export default RenderOptions;

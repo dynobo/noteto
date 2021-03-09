@@ -43,10 +43,10 @@ const GraphicUtils = {
     // Prepare Block
     const optionsCopy = JSON.parse(JSON.stringify(globalOptionsConfig));
     const previewOptions = new Options(optionsCopy, 'preview');
-    previewOptions.opts.borderMargin.value = 0;
-    previewOptions.opts.borderRadius.value = 15;
-    previewOptions.opts.titleFontSize.value = 28;
-    previewOptions.opts.titlePadding.value = 8;
+    previewOptions.borderMargin.value = 0;
+    previewOptions.borderRadius.value = 15;
+    previewOptions.titleFontSize.value = 28;
+    previewOptions.titlePadding.value = 8;
 
     const previewGrid = {
       x: 93.6,
@@ -57,7 +57,7 @@ const GraphicUtils = {
     const renderContainer = document.getElementById('paper-svg');
 
     const block = new BlockClass(previewGrid, previewOptions);
-    block.blockOpts.opts.titleText.value = blockType;
+    block.opts.titleText.value = blockType;
     block.add(renderContainer);
     block.svg.setAttribute('width', previewSize);
     block.svg.setAttribute('height', previewSize);

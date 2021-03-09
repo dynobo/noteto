@@ -16,8 +16,10 @@ import TransferUtils from './utils/TransferUtils.js';
 
 const svgRoot = document.getElementById('paper-svg');
 let blocks = {};
-let globalOptions = new Options(globalOptionsConfig, 'global');
+// let globalOptions = new Options(globalOptionsConfig, 'global');
 let grid = {};
+
+const optionsGlobal = new Options({});
 
 /** *******************
  * LISTENERS
@@ -25,9 +27,11 @@ let grid = {};
 
 function onClickBlockInLibrary(BlockClass) {
   // Insert new block instance into root svg
-  const newBlock = new BlockClass(grid, globalOptions);
+  const newBlock = new BlockClass(grid, optionsGlobal);
   newBlock.add(svgRoot);
+  optionsGlobal.add(newBlock.opts);
   blocks[newBlock.id] = newBlock;
+  RenderOptions.renderOptions(optionsGlobal, onOptionChange);
 }
 
 function onClickDeleteBlockBtn() {
@@ -149,7 +153,6 @@ function onClickBlock(event) {
   if (selectedBlock) {
     // If a block is select, render and show the options
     const blockOptions = blocks[currentTarget.id].blockOpts;
-    RenderOptions.renderOptions(blockOptions, onOptionChange);
     container.setAttribute('data-scope', blockOptions.scope);
     container.classList.remove('hidden');
   } else {
@@ -201,9 +204,6 @@ function init() {
     const libraryEl = document.getElementById('library');
     RenderLibrary.renderBlockLibrary(libraryEl, blockTypes, onClickBlockInLibrary);
   });
-
-  // Add options to sidebar
-  RenderOptions.renderOptions(globalOptions, onOptionChange);
 
   // Prevent default events for dragging
   document.addEventListener('dragstart', (event) => event.preventDefault());
