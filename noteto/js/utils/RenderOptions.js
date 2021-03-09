@@ -125,7 +125,6 @@ const RenderOptions = {
     callback();
   },
 
-  // TODO: Continue here!
   addOptionsToTabs(tabs, options, onOptionChange) {
     const optionsBox = document.getElementById('options-box');
     Object.entries(tabs).forEach(([tabName, optNames]) => {
@@ -149,8 +148,8 @@ const RenderOptions = {
       (tabs[optValues.group] = tabs[optValues.group] || []).push(optName);
     });
 
-    const container = document.getElementById('options-box');
-    this.addTabs(Object.keys(tabs), container, () => {
+    const optionsBox = document.getElementById('options-box');
+    this.addTabs(Object.keys(tabs), optionsBox, () => {
       this.addOptionsToTabs(tabs, options, onOptionChange);
     });
   },

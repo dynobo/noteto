@@ -1,5 +1,5 @@
 import Options from './blocks/Options.js';
-import { globalOptionsConfig, blockTypes, fonts } from './config.js';
+import { blockTypes, fonts } from './config.js';
 import RenderFonts from './utils/RenderFonts.js';
 import RenderLibrary from './utils/RenderLibrary.js';
 import RenderOptions from './utils/RenderOptions.js';
@@ -14,29 +14,42 @@ import TransferUtils from './utils/TransferUtils.js';
 
 /* global interact */
 
-const svgRoot = document.getElementById('paper-svg');
+const paperSvg = document.getElementById('paper-svg');
+const sharedOptions = new Options({});
 let blocks = {};
-// let globalOptions = new Options(globalOptionsConfig, 'global');
 let grid = {};
-
-const optionsGlobal = new Options({});
 
 /** *******************
  * LISTENERS
  ******************** */
 
+function onBlockChange() {
+  const optionsBox = document.getElementById('options-box');
+  const boxTitle = optionsBox.querySelector('p.box-title');
+  const selectedBlock = document.querySelector('svg.dragit.selected');
+  if (!selectedBlock) {
+    RenderOptions.renderOptions(sharedOptions, onOptionChange);
+    optionsBox.removeAttribute('data-blockid');
+    boxTitle.textContent = 'Shared Options';
+  } else {
+    optionsBox.setAttribute('data-blockid', selectedBlock.id);
+    boxTitle.textContent = `Block ${selectedBlock.id}`;
+    RenderOptions.renderOptions(blocks[selectedBlock.id].opts, onOptionChange);
+  }
+}
+
 function onClickBlockInLibrary(BlockClass) {
   // Insert new block instance into root svg
-  const newBlock = new BlockClass(grid, optionsGlobal);
-  newBlock.add(svgRoot);
-  optionsGlobal.add(newBlock.opts);
+  const newBlock = new BlockClass(grid);
+  newBlock.add(paperSvg);
+  sharedOptions.addShared(newBlock.opts);
   blocks[newBlock.id] = newBlock;
-  RenderOptions.renderOptions(optionsGlobal, onOptionChange);
+  onBlockChange();
 }
 
 function onClickDeleteBlockBtn() {
-  const container = document.getElementById('block-options-box');
-  const blockId = container.getAttribute('data-scope');
+  const optionsBox = document.getElementById('options-box');
+  const blockId = optionsBox.getAttribute('data-blockid');
 
   // Remove SVG
   const svg = document.getElementById(blockId);
@@ -45,8 +58,7 @@ function onClickDeleteBlockBtn() {
   // Remove entry from blocks dict
   delete blocks[blockId];
 
-  // Hide options box
-  container.classList.add('hidden');
+  onBlockChange();
 }
 
 function onFileLoaded(obj) {
@@ -55,7 +67,7 @@ function onFileLoaded(obj) {
     console.error('JSON file didn\'t contain the expected data.');
     return;
   }
-  [blocks, globalOptions] = RenderTemplates.loadTemplate(obj, svgRoot, grid);
+  [blocks, globalOptions] = RenderTemplates.loadTemplate(obj, paperSvg, grid);
 }
 
 function onClickLoadFileBtn() {
@@ -117,22 +129,35 @@ function onResizeMove(event) {
 function onOptionChange(event) {
   const { target } = event;
 
+  const optionsBox = document.getElementById('options-box');
+  const blockId = optionsBox.getAttribute('data-blockid');
+
   const dataType = target.getAttribute('type').toLowerCase();
   const optName = target.getAttribute('data-option');
-  const optScope = target.getAttribute('data-scope');
-  const optValue = dataType === 'number' ? parseInt(target.value, 10) : target.value;
+
+  let optValue;
+  switch (dataType) {
+    case 'number':
+      optValue = parseInt(target.value, 10);
+      break;
+    case 'checkbox':
+      optValue = target.checked;
+      break;
+    default:
+      optValue = target.checked;
+  }
 
   // If target provides global scope, apply options to all blocks,
   // else consider scope as blockId and apply option to individual block.
-  if (optScope === 'global') {
-    globalOptions.opts[optName].value = optValue;
+  if (!blockId) {
+    sharedOptions[optName].value = optValue;
     Object.keys(blocks).forEach((blockKey) => {
-      blocks[blockKey].globalOpts = globalOptions;
+      blocks[blockKey].opts.setShared(optName, optValue);
       blocks[blockKey].render();
     });
   } else {
-    blocks[optScope].blockOpts.opts[optName].value = optValue;
-    blocks[optScope].render();
+    blocks[blockId].opts.set(optName, optValue);
+    blocks[blockId].render();
   }
 }
 
@@ -147,24 +172,12 @@ function onClickBlock(event) {
       allBlocks[i].classList.remove('selected');
     }
   }
-
-  const container = document.getElementById('block-options-box');
-  const selectedBlock = document.querySelector('svg.dragit.selected');
-  if (selectedBlock) {
-    // If a block is select, render and show the options
-    const blockOptions = blocks[currentTarget.id].blockOpts;
-    container.setAttribute('data-scope', blockOptions.scope);
-    container.classList.remove('hidden');
-  } else {
-    // Just hide the block options
-    container.setAttribute('data-scope', '');
-    container.classList.add('hidden');
-  }
+  onBlockChange();
 }
 
 function onClickToFrontOrBackBtn(event) {
-  const container = document.getElementById('block-options-box');
-  const blockId = container.getAttribute('data-scope');
+  const container = document.getElementById('options-box');
+  const blockId = container.getAttribute('data-blockid');
 
   // Reorder SVG
   const svg = document.getElementById(blockId);
@@ -189,7 +202,7 @@ function onFontsLoaded(callback) {
 }
 
 function onClickDownloadPngBtn() {
-  GraphicUtils.convertSvgToCanvas(svgRoot, (canvas) => {
+  GraphicUtils.convertSvgToCanvas(paperSvg, (canvas) => {
     TransferUtils.downloadCanvasAsPng(canvas, 'noteto-template.png');
   });
 }
@@ -199,7 +212,7 @@ function onClickDownloadPngBtn() {
  ******************** */
 function init() {
   // Add Load font files and add to svg style
-  RenderFonts.addFontsToSvg(fonts, svgRoot);
+  RenderFonts.addFontsToSvg(fonts, paperSvg);
   onFontsLoaded(() => {
     const libraryEl = document.getElementById('library');
     RenderLibrary.renderBlockLibrary(libraryEl, blockTypes, onClickBlockInLibrary);
@@ -217,7 +230,7 @@ function init() {
   document.getElementById('back-button').addEventListener('click', onClickToFrontOrBackBtn);
 
   // Calculate grid dimensions and restrictions
-  grid = GridUtils.calcGrid(svgRoot);
+  grid = GridUtils.calcGrid(paperSvg);
 
   const resizeRestrictions = [
     interact.modifiers.snap({

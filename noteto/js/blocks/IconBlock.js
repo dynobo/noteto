@@ -7,8 +7,14 @@ class IconBlock extends BaseBlock {
 
     // Append options specific to this block
     const IconBlockOptions = {
+      iconCount: {
+        group: 'Block',
+        label: 'Icon Count',
+        type: 'number',
+        value: 5,
+      },
       iconCode: {
-        group: 'Icon Settings',
+        group: 'Block',
         label: 'Icon',
         type: 'select',
         options: {
@@ -52,19 +58,13 @@ class IconBlock extends BaseBlock {
         value: '\uf118',
       },
       iconColor: {
-        group: 'Icon Settings',
+        group: 'Icons',
         label: 'Icon Color',
         type: 'color',
         value: '#000000',
       },
-      iconCount: {
-        group: 'Icon Settings',
-        label: 'Icon Count',
-        type: 'number',
-        value: 5,
-      },
       iconSize: {
-        group: 'Icon Settings',
+        group: 'Icons',
         label: 'Icon Size',
         type: 'number',
         value: 48,

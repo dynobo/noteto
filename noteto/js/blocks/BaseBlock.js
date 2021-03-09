@@ -1,8 +1,7 @@
 import Options from './Options.js';
-import NewOptions from './Options.js';
 
 class BaseBlock {
-  constructor(grid, globalOptions) {
+  constructor(grid) {
     // Unique ID to identify an individual block instance
     this.id = `id_${Math.random().toString(16).slice(2)}`;
 
@@ -16,32 +15,22 @@ class BaseBlock {
     this.y = grid.padding;
     this.dataX = 0;
     this.dataY = 0;
-    this.globalOpts = globalOptions;
-
-    // Define block specific options
-    // (will show up in the left sidebar on block select)
-    this.blockOpts = new Options({
-      titleText: {
-        group: 'Base Settings',
-        label: 'Title',
-        type: 'text',
-        value: 'Scribble',
-      },
-    }, this.id);
 
     const BaseBlockOptions = {
-      useGlobal: {
-        group: 'Base',
-        label: 'Use global settings',
+      // Block specific options, can not be shared
+      useShared: {
+        group: 'Block',
+        label: 'Use shared options',
         type: 'checkbox',
         value: true,
       },
       titleText: {
-        group: 'Base',
+        group: 'Block',
         label: 'Title',
         type: 'text',
         value: 'Scribble',
       },
+      // Shared options, can be inherited
       borderMargin: {
         group: 'Borders',
         label: 'Border Margin',
@@ -109,7 +98,7 @@ class BaseBlock {
         value: 'RobotoRegular',
       },
     };
-    this.opts = new NewOptions(BaseBlockOptions);
+    this.opts = new Options(BaseBlockOptions);
 
     this.createBaseElements();
   }

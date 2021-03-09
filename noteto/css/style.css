@@ -66,12 +66,25 @@ html {
   font-weight: bold;
 }
 
-#sidebar > #block-options-box {
-  border: 3px solid hsl(204, 86%, 53%);
+/* Shared options active */
+#sidebar > #options-box .block-buttons {
+  display: none;
 }
 
-#sidebar > #block-options-box .block-buttons {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+/* Block options active */
+#sidebar > #options-box[data-blockid] {
+  border: 3px solid hsl(204, 86%, 53%);
+}
+#sidebar > #options-box[data-blockid] p.box-title {
+  color:hsl(204, 86%, 53%)
+}
+#sidebar > #options-box[data-blockid] .block-buttons {
+  display: block;
+}
+
+/* No blocks available */
+#sidebar > #options-box[data-blockid="none"] {
+  display: none;
 }
 
 #sidebar > .box {
