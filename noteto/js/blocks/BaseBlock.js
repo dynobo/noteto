@@ -146,7 +146,7 @@ class BaseBlock {
    * @return {int} x coord of top left
    */
   get xOffset() {
-    return this.opts.get('borderStrokeWidth');
+    return this.borderWidth;
   }
 
   /**
