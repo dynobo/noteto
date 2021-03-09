@@ -30,6 +30,16 @@ class Options {
     });
   }
 
+  delete(opt) {
+    if (Array.isArray(opt)) {
+      opt.forEach((o) => {
+        delete this[o];
+      });
+    } else {
+      delete this[opt];
+    }
+  }
+
   set(attr, value) {
     this[attr].value = value;
   }

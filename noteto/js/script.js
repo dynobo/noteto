@@ -23,7 +23,26 @@ let grid = {};
  * LISTENERS
  ******************** */
 
+function updateSharedOptions() {
+  // Add new options (if there are some)
+  Object.values(blocks).forEach((block) => {
+    sharedOptions.addShared(block.opts);
+  });
+
+  // Identify orphaned options (in case block was deleted)
+  let orphanedOptions = Object.keys(sharedOptions);
+  Object.values(blocks).forEach((block) => {
+    Object.keys(block.opts).forEach((optName) => {
+      if (orphanedOptions.indexOf(optName) >= 0) {
+        orphanedOptions = orphanedOptions.filter((e) => e !== optName);
+      }
+    });
+  });
+  sharedOptions.delete(orphanedOptions);
+}
+
 function onBlockChange() {
+  updateSharedOptions();
   const optionsBox = document.getElementById('options-box');
   const boxTitle = optionsBox.querySelector('p.box-title');
   const selectedBlock = document.querySelector('svg.dragit.selected');
@@ -42,7 +61,6 @@ function onClickBlockInLibrary(BlockClass) {
   // Insert new block instance into root svg
   const newBlock = new BlockClass(grid);
   newBlock.add(paperSvg);
-  sharedOptions.addShared(newBlock.opts);
   blocks[newBlock.id] = newBlock;
   onBlockChange();
 }
@@ -129,9 +147,6 @@ function onResizeMove(event) {
 function onOptionChange(event) {
   const { target } = event;
 
-  const optionsBox = document.getElementById('options-box');
-  const blockId = optionsBox.getAttribute('data-blockid');
-
   const dataType = target.getAttribute('type').toLowerCase();
   const optName = target.getAttribute('data-option');
 
@@ -147,13 +162,13 @@ function onOptionChange(event) {
       optValue = target.checked;
   }
 
-  // If target provides global scope, apply options to all blocks,
-  // else consider scope as blockId and apply option to individual block.
+  const optionsBox = document.getElementById('options-box');
+  const blockId = optionsBox.getAttribute('data-blockid');
   if (!blockId) {
     sharedOptions[optName].value = optValue;
-    Object.keys(blocks).forEach((blockKey) => {
-      blocks[blockKey].opts.setShared(optName, optValue);
-      blocks[blockKey].render();
+    Object.keys(blocks).forEach((id) => {
+      blocks[id].opts.setShared(optName, optValue);
+      blocks[id].render();
     });
   } else {
     blocks[blockId].opts.set(optName, optValue);
@@ -188,6 +203,8 @@ function onClickToFrontOrBackBtn(event) {
   } else {
     svgParent.prepend(svg);
   }
+
+  // TODO: Reorder in blocks!
 }
 
 function onFontsLoaded(callback) {
