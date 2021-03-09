@@ -49,6 +49,15 @@ class Options {
       this[attr].value = value;
     }
   }
+
+  inherit(options) {
+    if (this.useShared === false) {
+      return;
+    }
+    Object.entries(options).forEach(([optName, optValues]) => {
+      this[optName] = JSON.parse(JSON.stringify(optValues));
+    });
+  }
 }
 
 export default Options;

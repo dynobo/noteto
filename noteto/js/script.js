@@ -60,6 +60,7 @@ function onBlockChange() {
 function onClickBlockInLibrary(BlockClass) {
   // Insert new block instance into root svg
   const newBlock = new BlockClass(grid);
+  newBlock.opts.inherit(sharedOptions);
   newBlock.add(paperSvg);
   blocks[newBlock.id] = newBlock;
   onBlockChange();
