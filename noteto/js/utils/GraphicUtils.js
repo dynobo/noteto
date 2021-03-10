@@ -1,7 +1,6 @@
 /**
  * Helper methods to manipulate canvas and other graphic related things.
  */
-import Options from '../blocks/Options.js';
 import DomUtils from './DomUtils.js';
 
 const GraphicUtils = {

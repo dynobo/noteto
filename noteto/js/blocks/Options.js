@@ -1,4 +1,3 @@
-// Global options shared among all blocks
 class Options {
   constructor(options) {
     this.add(options);
@@ -21,7 +20,7 @@ class Options {
     });
   }
 
-  addShared(options) {
+  addGlobal(options) {
     Object.entries(options).forEach(([optName, optValues]) => {
       if ((optName in this) || optValues.group === 'Block') {
         return;
@@ -44,14 +43,14 @@ class Options {
     this[attr].value = value;
   }
 
-  setShared(attr, value) {
-    if ((this.useShared.value === true) && (attr in this)) {
+  setGlobal(attr, value) {
+    if ((this.useGlobal.value === true) && (attr in this)) {
       this[attr].value = value;
     }
   }
 
   inherit(options) {
-    if (this.useShared === false) {
+    if (this.useGlobal === false) {
       return;
     }
     Object.entries(options).forEach(([optName, optValues]) => {

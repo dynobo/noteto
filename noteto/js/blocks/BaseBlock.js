@@ -17,10 +17,10 @@ class BaseBlock {
     this.dataY = 0;
 
     const BaseBlockOptions = {
-      // Block specific options, can not be shared
-      useShared: {
+      // Block specific options, can not be global
+      useGlobal: {
         group: 'Block',
-        label: 'Use shared options',
+        label: 'Use global options',
         type: 'checkbox',
         value: true,
       },
@@ -30,7 +30,7 @@ class BaseBlock {
         type: 'text',
         value: 'Scribble',
       },
-      // Shared options, can be inherited
+      // Global options, can be shared accross blocks
       borderMargin: {
         group: 'Borders',
         label: 'Border Margin',

@@ -15,7 +15,7 @@ import TransferUtils from './utils/TransferUtils.js';
 /* global interact */
 
 const paperSvg = document.getElementById('paper-svg');
-const sharedOptions = new Options({});
+let globalOptions = new Options({});
 let blocks = {};
 let grid = {};
 
@@ -23,14 +23,14 @@ let grid = {};
  * LISTENERS
  ******************** */
 
-function updateSharedOptions() {
+function updateGlobalOptions() {
   // Add new options (if there are some)
   Object.values(blocks).forEach((block) => {
-    sharedOptions.addShared(block.opts);
+    globalOptions.addGlobal(block.opts);
   });
 
   // Identify orphaned options (in case block was deleted)
-  let orphanedOptions = Object.keys(sharedOptions);
+  let orphanedOptions = Object.keys(globalOptions);
   Object.values(blocks).forEach((block) => {
     Object.keys(block.opts).forEach((optName) => {
       if (orphanedOptions.indexOf(optName) >= 0) {
@@ -38,29 +38,35 @@ function updateSharedOptions() {
       }
     });
   });
-  sharedOptions.delete(orphanedOptions);
+  globalOptions.delete(orphanedOptions);
 }
 
 function onBlockChange() {
-  updateSharedOptions();
+  updateGlobalOptions();
   const optionsBox = document.getElementById('options-box');
   const boxTitle = optionsBox.querySelector('p.box-title');
   const selectedBlock = document.querySelector('svg.dragit.selected');
+
   if (!selectedBlock) {
-    RenderOptions.renderOptions(sharedOptions, onOptionChange);
+    RenderOptions.renderOptions(globalOptions, onOptionChange);
     optionsBox.removeAttribute('data-blockid');
-    boxTitle.textContent = 'Shared Options';
+    boxTitle.textContent = 'Global Options';
   } else {
     optionsBox.setAttribute('data-blockid', selectedBlock.id);
     boxTitle.textContent = `Block ${selectedBlock.id}`;
     RenderOptions.renderOptions(blocks[selectedBlock.id].opts, onOptionChange);
+  }
+
+  // If no blocks are left, we can hide the options box
+  if (Object.keys(blocks).length === 0) {
+    optionsBox.setAttribute('data-blockid', 'none');
   }
 }
 
 function onClickBlockInLibrary(BlockClass) {
   // Insert new block instance into root svg
   const newBlock = new BlockClass(grid);
-  newBlock.opts.inherit(sharedOptions);
+  newBlock.opts.inherit(globalOptions);
   newBlock.add(paperSvg);
   blocks[newBlock.id] = newBlock;
   onBlockChange();
@@ -145,36 +151,42 @@ function onResizeMove(event) {
   blocks[id].render();
 }
 
+function castFormValue(dataType, target) {
+  if (dataType === 'number') return parseInt(target.value, 10);
+  if (dataType === 'checkbox') return target.checked;
+  return target.value;
+}
+
 function onOptionChange(event) {
   const { target } = event;
 
   const dataType = target.getAttribute('type').toLowerCase();
   const optName = target.getAttribute('data-option');
-
-  let optValue;
-  switch (dataType) {
-    case 'number':
-      optValue = parseInt(target.value, 10);
-      break;
-    case 'checkbox':
-      optValue = target.checked;
-      break;
-    default:
-      optValue = target.checked;
-  }
+  const optValue = castFormValue(dataType, target);
 
   const optionsBox = document.getElementById('options-box');
   const blockId = optionsBox.getAttribute('data-blockid');
+
+  // If we are in global scope, update and re-render all blocks
   if (!blockId) {
-    sharedOptions[optName].value = optValue;
+    globalOptions[optName].value = optValue;
     Object.keys(blocks).forEach((id) => {
-      blocks[id].opts.setShared(optName, optValue);
+      blocks[id].opts.setGlobal(optName, optValue);
       blocks[id].render();
     });
-  } else {
-    blocks[blockId].opts.set(optName, optValue);
-    blocks[blockId].render();
+    return;
   }
+
+  // If we are in block scope, handle the "use Global" checkbox...
+  if (optName === 'useGlobal') {
+    RenderOptions.renderOptions(blocks[blockId].opts, onOptionChange);
+    if (optValue === true) {
+      blocks[blockId].opts.inherit(globalOptions);
+    }
+  }
+  // ...then set update option and re-render block
+  blocks[blockId].opts.set(optName, optValue);
+  blocks[blockId].render();
 }
 
 function onClickBlock(event) {

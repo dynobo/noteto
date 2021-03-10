@@ -143,10 +143,15 @@ const RenderOptions = {
 
   renderOptions(options, onOptionChange) {
     // Generate dict: { tabName1: [optName1, optName2], tabName2: [...]}
-    const tabs = {};
+    let tabs = {};
     Object.entries(options).forEach(([optName, optValues]) => {
       (tabs[optValues.group] = tabs[optValues.group] || []).push(optName);
     });
+
+    // Show options from global scope only if "use global" is deactivated
+    if (('useGlobal' in options) && (options.useGlobal.value === true)) {
+      tabs = { Block: tabs.Block };
+    }
 
     const optionsBox = document.getElementById('options-box');
     this.addTabs(Object.keys(tabs), optionsBox, () => {
