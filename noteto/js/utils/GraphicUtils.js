@@ -1,8 +1,6 @@
 /**
  * Helper methods to manipulate canvas and other graphic related things.
  */
-import { globalOptionsConfig } from '../config.js';
-import Options from '../blocks/Options.js';
 import DomUtils from './DomUtils.js';
 
 const GraphicUtils = {
@@ -39,15 +37,6 @@ const GraphicUtils = {
   generateBlockPreview(blockType, BlockClass, callback) {
     // Render larger than shown to improve quality
     const previewSize = 3 * 96;
-
-    // Prepare Block
-    const optionsCopy = JSON.parse(JSON.stringify(globalOptionsConfig));
-    const previewOptions = new Options(optionsCopy, 'preview');
-    previewOptions.opts.borderMargin.value = 0;
-    previewOptions.opts.borderRadius.value = 15;
-    previewOptions.opts.titleFontSize.value = 28;
-    previewOptions.opts.titlePadding.value = 8;
-
     const previewGrid = {
       x: 93.6,
       y: 93.6,
@@ -56,8 +45,13 @@ const GraphicUtils = {
     };
     const renderContainer = document.getElementById('paper-svg');
 
-    const block = new BlockClass(previewGrid, previewOptions);
-    block.blockOpts.opts.titleText.value = blockType;
+    const block = new BlockClass(previewGrid);
+    block.opts.titleText.value = blockType;
+    block.opts.borderMargin.value = 0;
+    block.opts.borderRadius.value = 15;
+    block.opts.titleFontSize.value = 28;
+    block.opts.titlePadding.value = 8;
+
     block.add(renderContainer);
     block.svg.setAttribute('width', previewSize);
     block.svg.setAttribute('height', previewSize);

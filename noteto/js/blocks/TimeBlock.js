@@ -4,62 +4,44 @@ class TimeBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
     this.type = 'Time Block';
-    this.blockOpts.opts.titleText.value = 'Agenda';
-
-    // Extend block specific options
-    this.blockOpts.opts = {
-      ...this.blockOpts.opts,
-      hourFontSize: {
-        group: 'Time Settings',
-        label: 'Font Size',
-        type: 'number',
-        value: 24,
-      },
-      startHour: {
-        group: 'Time Settings',
-        label: 'Start (hour)',
-        type: 'number',
-        value: 8,
-      },
-      endHour: {
-        group: 'Time Settings',
-        label: 'End (hour)',
-        type: 'number',
-        value: 10,
-      },
-      linesPerHour: {
-        group: 'Time Settings',
-        label: 'Lines per Hour',
-        type: 'number',
-        value: 2,
-      },
-    };
 
     // Append options specific to this block
     const TimeBlockOptions = {
       hourFontSize: {
-        group: 'Time Settings',
+        group: 'Time',
         label: 'Font Size',
         type: 'number',
         value: 24,
       },
       startHour: {
-        group: 'Time Settings',
+        group: 'Time',
         label: 'Start (hour)',
         type: 'number',
         value: 8,
       },
       endHour: {
-        group: 'Time Settings',
+        group: 'Time',
         label: 'End (hour)',
         type: 'number',
         value: 10,
       },
       linesPerHour: {
-        group: 'Time Settings',
+        group: 'Time',
         label: 'Lines per Hour',
         type: 'number',
         value: 2,
+      },
+      lineStrokeWidth: {
+        group: 'Lines',
+        label: 'Line Width',
+        type: 'number',
+        value: 1,
+      },
+      lineStrokeColor: {
+        group: 'Lines',
+        label: 'Line Color',
+        type: 'color',
+        value: '#888888',
       },
     };
     this.opts.add(TimeBlockOptions);
@@ -82,14 +64,14 @@ class TimeBlock extends BaseBlock {
    * Add line to block and style them.
    */
   renderLines() {
-    const titlePadding = this.globalOpts.get('titlePadding');
-    const lineStrokeWidth = this.globalOpts.get('lineStrokeWidth');
-    const lineStrokeColor = this.globalOpts.get('lineStrokeColor');
+    const titlePadding = this.opts.get('titlePadding');
+    const lineStrokeWidth = this.opts.get('lineStrokeWidth');
+    const lineStrokeColor = this.opts.get('lineStrokeColor');
 
-    const startHour = this.blockOpts.get('startHour');
-    const endHour = this.blockOpts.get('endHour');
-    const linesPerHour = this.blockOpts.get('linesPerHour');
-    const hourFontSize = this.blockOpts.get('hourFontSize');
+    const startHour = this.opts.get('startHour');
+    const endHour = this.opts.get('endHour');
+    const linesPerHour = this.opts.get('linesPerHour');
+    const hourFontSize = this.opts.get('hourFontSize');
 
     // Number of lines to draw
     const lineCount = (endHour - startHour + 1) * linesPerHour;
