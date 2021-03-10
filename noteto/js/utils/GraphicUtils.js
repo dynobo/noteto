@@ -10,6 +10,9 @@ const GraphicUtils = {
  * @param {Function} callback Function that gets call when canvas is ready, with the canvas as argument
       */
   convertSvgToCanvas(svg, callback) {
+    const svgCopy = svg.cloneNode(true);
+    const remarkableElements = svgCopy.querySelector('g.remarkable-elements');
+    remarkableElements.parentNode.removeChild(remarkableElements);
     const img = new Image();
     img.onload = function onImgLoad() {
       // Create canvas and fill from image
@@ -23,7 +26,7 @@ const GraphicUtils = {
       callback(canvas);
     };
     // Serialize and insert into image
-    const xml = new XMLSerializer().serializeToString(svg);
+    const xml = new XMLSerializer().serializeToString(svgCopy);
     const data = `data:image/svg+xml;utf8,${encodeURIComponent(xml)}`;
     img.setAttribute('src', data);
   },
@@ -64,6 +67,70 @@ const GraphicUtils = {
       };
     });
     DomUtils.removeElements(renderContainer.querySelectorAll('svg'));
+  },
+
+  renderRemarkableElements(svg) {
+    const color = 'black';
+    const opacity = 0.07;
+
+    const g = svg.querySelector('g.remarkable-elements');
+
+    const sidebarRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    sidebarRect.setAttribute('x', 0);
+    sidebarRect.setAttribute('y', 0);
+    sidebarRect.setAttribute('width', 120);
+    sidebarRect.setAttribute('height', svg.height.baseVal.value);
+    sidebarRect.setAttribute('fill', color);
+    sidebarRect.setAttribute('opacity', opacity);
+    g.appendChild(sidebarRect);
+
+    const sidebarCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    sidebarCircle.setAttribute('cx', 60);
+    sidebarCircle.setAttribute('cy', 60);
+    sidebarCircle.setAttribute('r', 20);
+    sidebarCircle.setAttribute('fill', 'transparent');
+    sidebarCircle.setAttribute('stroke', color);
+    sidebarCircle.setAttribute('stroke-width', 4);
+    sidebarCircle.setAttribute('opacity', opacity);
+    g.appendChild(sidebarCircle);
+
+    const innerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    innerCircle.setAttribute('cx', 55);
+    innerCircle.setAttribute('cy', 55);
+    innerCircle.setAttribute('r', 8);
+    innerCircle.setAttribute('fill', color);
+    innerCircle.setAttribute('opacity', opacity);
+    g.appendChild(innerCircle);
+
+    const closeCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    closeCircle.setAttribute('cx', svg.width.baseVal.value - 60);
+    closeCircle.setAttribute('cy', 60);
+    closeCircle.setAttribute('r', 20);
+    closeCircle.setAttribute('fill', 'transparent');
+    closeCircle.setAttribute('stroke', 'black');
+    closeCircle.setAttribute('stroke-width', 4);
+    closeCircle.setAttribute('opacity', 0.1);
+    g.appendChild(closeCircle);
+
+    const closeX1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    closeX1.setAttribute('x1', svg.width.baseVal.value - 65);
+    closeX1.setAttribute('y1', 65);
+    closeX1.setAttribute('x2', svg.width.baseVal.value - 55);
+    closeX1.setAttribute('y2', 55);
+    closeX1.setAttribute('stroke', 'black');
+    closeX1.setAttribute('stroke-width', 4);
+    closeX1.setAttribute('opacity', 0.1);
+    g.appendChild(closeX1);
+
+    const closeX2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    closeX2.setAttribute('x1', svg.width.baseVal.value - 65);
+    closeX2.setAttribute('y1', 55);
+    closeX2.setAttribute('x2', svg.width.baseVal.value - 55);
+    closeX2.setAttribute('y2', 65);
+    closeX2.setAttribute('stroke', 'black');
+    closeX2.setAttribute('stroke-width', 4);
+    closeX2.setAttribute('opacity', 0.1);
+    g.appendChild(closeX2);
   },
 };
 

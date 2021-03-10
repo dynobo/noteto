@@ -15,6 +15,7 @@ import TransferUtils from './utils/TransferUtils.js';
 /* global interact */
 
 const paperSvg = document.getElementById('paper-svg');
+const blocksGroup = document.getElementById('blocks-group');
 let globalOptions = new Options({});
 let blocks = {};
 let grid = {};
@@ -67,7 +68,7 @@ function onClickBlockInLibrary(BlockClass) {
   // Insert new block instance into root svg
   const newBlock = new BlockClass(grid);
   newBlock.opts.inherit(globalOptions);
-  newBlock.add(paperSvg);
+  newBlock.add(blocksGroup);
   blocks[newBlock.id] = newBlock;
   onBlockChange();
 }
@@ -92,7 +93,7 @@ function onFileLoaded(obj) {
     console.error('JSON file didn\'t contain the expected data.');
     return;
   }
-  [blocks, globalOptions] = RenderTemplates.loadTemplate(obj, paperSvg, grid);
+  [blocks, globalOptions] = RenderTemplates.loadTemplate(obj, blocksGroup, grid);
 }
 
 function onClickLoadFileBtn() {
@@ -268,6 +269,7 @@ function init() {
 
   // Calculate grid dimensions and restrictions
   grid = GridUtils.calcGrid(paperSvg);
+  GraphicUtils.renderRemarkableElements(paperSvg);
 
   const resizeRestrictions = [
     interact.modifiers.snap({

@@ -147,6 +147,10 @@ border: 3px solid hsl(0, 0%, 72.9%);
   content:"TEST"
 }
 
+#paper-svg .remarkable-elements {
+  pointer-events: none;
+}
+
 /******************
   Helper elements
   *****************/
