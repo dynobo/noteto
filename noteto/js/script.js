@@ -210,13 +210,21 @@ function onClickToFrontOrBackBtn(event) {
   const svg = document.getElementById(blockId);
   const svgParent = svg.parentElement;
   svgParent.removeChild(svg);
+  const newBlocks = {};
   if (event.currentTarget.getAttribute('id') === 'front-button') {
     svgParent.append(svg);
+    Object.entries(blocks).forEach(([id, block]) => {
+      if (id !== blockId) newBlocks[id] = block;
+    });
+    newBlocks[blockId] = blocks[blockId];
   } else {
     svgParent.prepend(svg);
+    newBlocks[blockId] = blocks[blockId];
+    Object.entries(blocks).forEach(([id, block]) => {
+      if (id !== blockId) newBlocks[id] = block;
+    });
   }
-
-  // TODO: Reorder in blocks!
+  blocks = newBlocks;
 }
 
 function onFontsLoaded(callback) {
