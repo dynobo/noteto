@@ -88,7 +88,7 @@ function onClickDeleteBlockBtn() {
 
 function onFileLoaded(obj) {
   // Validate roughly
-  if (!('grid' in obj && 'blocks' in obj && 'globalOptionsConfig' in obj)) {
+  if (!('grid' in obj && 'blocks' in obj && 'globalOptions' in obj)) {
     console.error('JSON file didn\'t contain the expected data.');
     return;
   }
@@ -104,8 +104,7 @@ function onClickSaveFileBtn() {
   const data = {};
   data.blocks = blocks;
   data.grid = grid;
-  data.globalOptionsConfig = globalOptions.opts;
-
+  data.globalOptions = globalOptions;
   TransferUtils.downloadObjectAsJson(data, 'noteto-template.json');
 }
 

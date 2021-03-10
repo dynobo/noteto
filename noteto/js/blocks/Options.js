@@ -50,7 +50,7 @@ class Options {
   }
 
   inherit(options) {
-    if (this.useGlobal === false) {
+    if (this.useGlobal.value === false) {
       return;
     }
     Object.entries(options).forEach(([optName, optValues]) => {

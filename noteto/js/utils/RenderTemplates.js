@@ -9,29 +9,22 @@ const RenderTemplates = {
     // RenderFonts.addFontsToSvg(fonts, svg); // TODO: Needed?
 
     const blocks = {};
-    // Hide block specific options
-    const blockOptionsBox = document.getElementById('block-options-box');
-    blockOptionsBox.classList.add('hidden');
 
     // Load options
-    const globalOptions = new Options(data.globalOptionsConfig, 'global');
-    const globalOptionsBox = document.getElementById('global-options-box');
-    Object.entries(globalOptions.opts).forEach(([optionName, optionProps]) => {
-      const field = globalOptionsBox.querySelector(`*[data-option="${optionName}"]`);
-      field.value = optionProps.value;
-    });
+    const globalOptions = new Options(data.globalOptions);
 
     // Load Blocks
     Object.values(data.blocks).forEach((blockData) => {
       try {
-        const newBlock = new blockTypes[blockData.type](grid, globalOptions);
+        const newBlock = new blockTypes[blockData.type](grid);
         newBlock.width = blockData.width;
         newBlock.height = blockData.height;
         newBlock.x = blockData.x;
         newBlock.y = blockData.y;
         newBlock.dataX = blockData.dataX;
         newBlock.dataY = blockData.dataY;
-        newBlock.blockOpts.opts = blockData.blockOpts.opts;
+        newBlock.opts = new Options(blockData.opts);
+        newBlock.opts.inherit(globalOptions);
         newBlock.svg.style.webkitTransform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
         newBlock.svg.style.transform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
         newBlock.add(svg);
