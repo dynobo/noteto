@@ -40,10 +40,10 @@ const GraphicUtils = {
    */
   generateBlockPreview(blockType, BlockClass, callback) {
     // Render larger than shown to improve quality
-    const previewSize = 3 * 96;
+    const previewSize = 600;
     const previewGrid = {
-      x: 93.6,
-      y: 93.6,
+      x: 60,
+      y: 60,
       offset: { x: 285, y: 15 },
       padding: 0,
     };

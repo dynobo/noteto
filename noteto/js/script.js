@@ -7,6 +7,7 @@ import RenderTemplates from './utils/RenderTemplates.js';
 import GraphicUtils from './utils/GraphicUtils.js';
 import GridUtils from './utils/GridUtils.js';
 import TransferUtils from './utils/TransferUtils.js';
+import Gallery from './gallery/Gallery.js';
 
 /** *******************
  * Global Variables
@@ -187,9 +188,13 @@ function onOptionChange(event) {
   }
   // ...then set update option and re-render block
   blocks[blockId].opts.set(optName, optValue);
-  console.log(blocks[blockId].opts.useGlobal.value);
   blocks[blockId].render();
   onBlockChange();
+}
+
+function onClickGalleryBtn(event) {
+  document.documentElement.classList.toggle('is-clipped');
+  document.getElementById('gallery-modal').classList.toggle('is-active');
 }
 
 function onClickBlock(event) {
@@ -269,6 +274,8 @@ function init() {
   document.getElementById('delete-button').addEventListener('click', onClickDeleteBlockBtn);
   document.getElementById('front-button').addEventListener('click', onClickToFrontOrBackBtn);
   document.getElementById('back-button').addEventListener('click', onClickToFrontOrBackBtn);
+  document.getElementById('gallery-button').addEventListener('click', onClickGalleryBtn);
+  document.getElementById('gallery-close-button').addEventListener('click', onClickGalleryBtn);
 
   // Calculate grid dimensions and restrictions
   grid = GridUtils.calcGrid(paperSvg);
@@ -330,7 +337,9 @@ function init() {
       modifiers: resizeRestrictions,
     })
     .on('tap', onClickBlock);
+
   GraphicUtils.renderRemarkableElements(paperSvg);
+  Gallery.renderGallery(document.getElementById('gallery-content'));
 }
 
 // wait for external resources to load if any

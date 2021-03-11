@@ -22,7 +22,7 @@ a:hover {
 }
 
 .button.is-danger.is-outlined {
-  border-color:#ff2e88;
+  border-color: #ff2e88;
 }
 
 .button.is-danger.is-outlined:hover {
@@ -210,6 +210,35 @@ a:hover {
 
 #remarkable-elements {
   pointer-events: none;
+}
+
+/******************
+  Gallery
+  *****************/
+
+#gallery-content .card {
+  width: 180px;
+  display: inline-block;
+  margin: 1rem;
+  background-color: #f5f5f5;
+}
+
+#gallery-content .card-image {
+  padding: 0.5rem 0.5rem 0rem 0.5rem;
+}
+
+#gallery-content .card-content {
+  height: 10rem;
+  overflow-y: scroll;
+}
+
+#gallery-content .card-footer,
+#gallery-content .card-footer-item {
+  border-color: #ccc;
+}
+
+#gallery-modal footer > p {
+  width: 100%;
 }
 
 /******************

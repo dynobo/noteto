@@ -10,13 +10,13 @@ const RenderLibrary = {
    * @param {Element} canvas <canvas> element where to draw on
    */
   drawResizedImgOnCanvas(img, canvas) {
-    const previewGrid = { x: 93.6, y: 93.6 };
+    const previewGrid = { x: 60, y: 60 };
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img,
       0, 0,
-      previewGrid.x * 3, previewGrid.y * 3,
+      previewGrid.x * 5, previewGrid.y * 5,
       0, 0,
-      288, 288);
+      96 * 4, 96 * 4);
   },
 
   /**
@@ -31,8 +31,8 @@ const RenderLibrary = {
       // Create canvas to draw preview on
       const previewCanvas = document.createElement('canvas');
       previewCanvas.setAttribute('id', `library-${blockType}`);
-      previewCanvas.setAttribute('width', '288px');
-      previewCanvas.setAttribute('height', '288px');
+      previewCanvas.setAttribute('width', '384px');
+      previewCanvas.setAttribute('height', '384px');
       previewCanvas.setAttribute('class', 'image is-96x96');
 
       // Canvas needs surrounding div for sizing
