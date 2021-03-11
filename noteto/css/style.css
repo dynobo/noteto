@@ -1,12 +1,71 @@
-@import 'https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css';
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css";
 
 html {
   font-size: 62.5%;
-  background-color: hsl(0, 0%, 48%);
+  background-color: #272b2c;
 }
 
-.hidden {
-  display: none !important;
+a {
+  color: #ff2e88;
+}
+a:hover {
+  background-color: #ff2e88;
+  color: #fff;
+}
+
+/******************
+  Override Bulma
+  *****************/
+
+.button.is-link {
+  background-color: #ff2e88;
+}
+
+.button.is-danger.is-outlined {
+  border-color:#ff2e88;
+}
+
+.button.is-danger.is-outlined:hover {
+  background-color: #ff2e88;
+}
+
+.tabs a {
+  padding: 0.5em 0.6em;
+}
+
+.tabs li.is-active a {
+  border-bottom-color: #ff2e88;
+  color: #ff2e88;
+}
+
+.tabs li a:hover {
+  border-bottom-color: #ff2e88;
+  color: #fff;
+}
+
+.checkbox-container > input {
+  height: 1.3em;
+  width: 1.3em;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  background-color: #ffffff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+
+.checkbox-container > input:hover {
+  border-color: #ff2e88;
+}
+
+.checkbox-container > input:checked::before {
+  position: relative;
+  display: block;
+  content: "✓";
+  font-size: 1.5em;
+  top: -6px;
+  text-align: center;
 }
 
 /******************
@@ -29,6 +88,7 @@ html {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
   right: 5px;
   top: 5px;
+  color: #ff2e88;
 }
 
 #sidebar .tabs-content > div {
@@ -56,11 +116,11 @@ html {
 #library > div:hover::after {
   position: absolute;
   display: inline-block;
-  content: 'Click to add';
+  content: "Click to add";
   bottom: 7px;
   left: 0px;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #ff2e88;
   color: #fff;
   text-align: center;
   font-weight: bold;
@@ -73,10 +133,11 @@ html {
 
 /* Block options active */
 #sidebar > #options-box[data-blockid] {
-  border: 3px solid hsl(204, 86%, 53%);
+  border: 3px solid #ff2e88;
+  background-color: hsl(334, 100%, 95%);
 }
 #sidebar > #options-box[data-blockid] p.box-title {
-  color:hsl(204, 86%, 53%)
+  color: #ff2e88;
 }
 #sidebar > #options-box[data-blockid] .block-buttons {
   display: block;
@@ -88,7 +149,7 @@ html {
 }
 
 #sidebar > .box {
-border: 3px solid hsl(0, 0%, 72.9%);
+  border: 3px solid #888888;
 }
 
 #sidebar p.box-title {
@@ -97,21 +158,21 @@ border: 3px solid hsl(0, 0%, 72.9%);
 }
 
 #sidebar div.field.is-grouped > .field {
-  width: 50%;
+  width: 48%;
+  margin: 0px 4px;
 }
 
 #delete-button {
-  background-color: #fff
+  background-color: #fff;
 }
 #delete-button:hover {
-  background-color: #f14668
+  background-color: #f14668;
 }
 
 #save-button,
 #load-button {
   width: 49.4%;
 }
-
 
 /******************
   Paper Template
@@ -139,15 +200,15 @@ border: 3px solid hsl(0, 0%, 72.9%);
   filter: drop-shadow(0px 0px 2px #777777);
 }
 #paper-svg .dragit.selected .blockBorder {
-  fill: hsl(205, 100%, 98%);
-  stroke: hsl(204, 86%, 53%)
+  fill: hsl(334, 100%, 95%);
+  stroke: #ff2e88;
 }
 
 #paper-svg .dragit::before {
-  content:"TEST"
+  content: "TEST";
 }
 
-#paper-svg .remarkable-elements {
+#remarkable-elements {
   pointer-events: none;
 }
 
@@ -158,6 +219,6 @@ border: 3px solid hsl(0, 0%, 72.9%);
   position: absolute;
   top: 0px;
   left: 0px;
-  opacity:0;
+  opacity: 0;
   z-index: -100;
 }

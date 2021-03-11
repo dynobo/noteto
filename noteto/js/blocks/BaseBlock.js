@@ -20,7 +20,7 @@ class BaseBlock {
       // Block specific options, can not be global
       useGlobal: {
         group: 'Block',
-        label: 'Use global options',
+        label: 'Use global Options',
         type: 'checkbox',
         value: true,
       },

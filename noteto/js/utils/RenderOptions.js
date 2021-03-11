@@ -12,7 +12,7 @@ const RenderOptions = {
         fieldDiv = `
           <div class="field">
             <label class="label">${optVals.label}</label>
-            <div class="control">
+            <div class="select">
               <select
                 class="select" 
                 type="${optVals.type}" 
@@ -29,15 +29,16 @@ const RenderOptions = {
       case 'checkbox':
         fieldDiv = `
           <div class="field">
-            <label class="label">${optVals.label}</label>
-            <div class="control">
-              <input class="checkbox" 
-              type="${optVals.type}"
-              data-option="${optName}"
-              ${optVals.value === true ? 'checked' : ''}
+          <label class="label"> ${optVals.label}</label>
+          <div class="checkbox-container">
+          <input class="checkbox" 
+          type="${optVals.type}"
+          data-option="${optName}"
+          ${optVals.value === true ? 'checked' : ''}
               >
               </input>
-            </div>
+             
+            </div
           </div>`;
         break;
       default:

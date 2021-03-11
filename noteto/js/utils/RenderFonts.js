@@ -32,7 +32,7 @@ const RenderFonts = {
 
   addFontsToSvg(fonts, svg) {
     Object.entries(fonts).forEach(([fontName, fontFile]) => {
-      const defs = svg.querySelector('defs.font-defs');
+      const defs = svg.getElementById('font-defs');
       RenderFonts.addStyleWithFontFamilyB64(fontName, fontFile, defs);
     });
   },

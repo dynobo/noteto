@@ -16,6 +16,7 @@ import TransferUtils from './utils/TransferUtils.js';
 
 const paperSvg = document.getElementById('paper-svg');
 const blocksGroup = document.getElementById('blocks-group');
+
 let globalOptions = new Options({});
 let blocks = {};
 let grid = {};
@@ -186,7 +187,9 @@ function onOptionChange(event) {
   }
   // ...then set update option and re-render block
   blocks[blockId].opts.set(optName, optValue);
+  console.log(blocks[blockId].opts.useGlobal.value);
   blocks[blockId].render();
+  onBlockChange();
 }
 
 function onClickBlock(event) {
@@ -230,7 +233,7 @@ function onClickToFrontOrBackBtn(event) {
 
 function onFontsLoaded(callback) {
   window.setTimeout(() => {
-    const countFonts = document.querySelectorAll('#paper-svg > defs.font-defs > style').length;
+    const countFonts = document.querySelectorAll('#font-defs > style').length;
     if (countFonts >= Object.keys(fonts).length) {
       callback();
     } else {
@@ -269,11 +272,12 @@ function init() {
 
   // Calculate grid dimensions and restrictions
   grid = GridUtils.calcGrid(paperSvg);
-  GraphicUtils.renderRemarkableElements(paperSvg);
 
+  // Define restrictions for resize/drag interactions
+  const snapTarget = [interact.snappers.grid(grid)];
   const resizeRestrictions = [
     interact.modifiers.snap({
-      targets: [interact.snappers.grid(grid)],
+      targets: snapTarget,
       range: Infinity,
       relativePoints: [{ x: 0, y: 0 }],
     }),
@@ -284,10 +288,9 @@ function init() {
       outer: grid.restriction,
     }),
   ];
-
   const dragRestrictions = [
     interact.modifiers.snap({
-      targets: [interact.snappers.grid(grid)],
+      targets: snapTarget,
       range: Infinity,
       relativePoints: [{ x: 0, y: 0 }],
     }),
@@ -327,6 +330,7 @@ function init() {
       modifiers: resizeRestrictions,
     })
     .on('tap', onClickBlock);
+  GraphicUtils.renderRemarkableElements(paperSvg);
 }
 
 // wait for external resources to load if any
