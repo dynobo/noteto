@@ -48,7 +48,7 @@ const Fonts = {
   getOptions() {
     const options = {};
     Object.entries(this.fontDict).forEach(([key, values]) => {
-      options[key] = values.label;
+      options[values.label] = key;
     });
     return options;
   },

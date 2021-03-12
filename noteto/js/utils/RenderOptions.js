@@ -19,7 +19,7 @@ const RenderOptions = {
                 data-option="${optName}" 
               >`;
         Object.entries(optVals.options).forEach(([desc, code]) => {
-          fieldDiv += `<option value="${code}">${desc}</option>`;
+          fieldDiv += `<option value="${code}" ${optVals.value === code ? 'selected' : ''}>${desc}</option>`;
         });
         fieldDiv += `
               </select>
