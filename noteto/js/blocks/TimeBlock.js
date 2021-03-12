@@ -48,7 +48,7 @@ class TimeBlock extends BaseBlock {
         group: 'Lines',
         label: 'Line Color',
         type: 'color',
-        value: '#888888',
+        value: '#777777',
       },
     };
     this.opts.add(TimeBlockOptions);

@@ -22,10 +22,7 @@ a:hover {
   background-color: #ff2e88;
 }
 
-.button.is-danger.is-outlined {
-  border-color: #ff2e88;
-}
-
+.button.is-danger.is-outlined,
 .button.is-danger.is-outlined:hover {
   background-color: #ff2e88;
 }
@@ -86,7 +83,7 @@ a:hover {
   position: absolute;
   transform: rotate(10deg);
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-  right: 5px;
+  right: 10px;
   top: 5px;
   color: #ff2e88;
 }
@@ -117,7 +114,7 @@ a:hover {
   position: absolute;
   display: inline-block;
   content: "Click to add";
-  bottom: 7px;
+  bottom: 9px;
   left: 0px;
   width: 100%;
   background-color: #ff2e88;
@@ -236,16 +233,4 @@ a:hover {
 
 #gallery-modal footer > p {
   width: 100%;
-}
-
-/******************
-  Helper elements
-  *****************/
-
-#render-container {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  opacity: 0;
-  z-index: -100;
 }
