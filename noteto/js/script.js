@@ -56,7 +56,7 @@ function onBlockChange() {
     boxTitle.textContent = 'Global Options';
   } else {
     optionsBox.setAttribute('data-blockid', selectedBlock.id);
-    boxTitle.textContent = `Block ${selectedBlock.id}`;
+    boxTitle.textContent = 'Block Options';
     RenderOptions.renderOptions(blocks[selectedBlock.id].opts, onOptionChange);
   }
 
