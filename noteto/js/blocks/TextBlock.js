@@ -1,5 +1,5 @@
 import BaseBlock from './BaseBlock.js';
-import { Fonts } from '../config.js';
+import Fonts from '../config.js';
 
 class TextBlock extends BaseBlock {
   constructor(grid, globalOptions) {
@@ -36,7 +36,7 @@ class TextBlock extends BaseBlock {
         group: 'Block',
         label: 'Font Family',
         type: 'select',
-        options: Fonts,
+        options: Fonts.getOptions(),
         value: 'RobotoRegular',
       },
       textHorizontalAlign: {

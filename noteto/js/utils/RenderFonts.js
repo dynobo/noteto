@@ -31,9 +31,9 @@ const RenderFonts = {
   },
 
   addFontsToSvg(fonts, svg) {
-    Object.entries(fonts).forEach(([fontName, fontFile]) => {
+    Object.entries(fonts).forEach(([fontName, fontProps]) => {
       const defs = svg.getElementById('font-defs');
-      RenderFonts.addStyleWithFontFamilyB64(fontName, fontFile, defs);
+      RenderFonts.addStyleWithFontFamilyB64(fontName, fontProps.file, defs);
     });
   },
 };
