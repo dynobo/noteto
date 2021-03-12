@@ -31,6 +31,12 @@ class TimeBlock extends BaseBlock {
         type: 'number',
         value: 2,
       },
+      verticalLinesCount: {
+        group: 'Time',
+        label: 'Vertical Lines',
+        type: 'number',
+        value: 2,
+      },
       lineStrokeWidth: {
         group: 'Lines',
         label: 'Line Width',
@@ -54,7 +60,7 @@ class TimeBlock extends BaseBlock {
    * Delete all line from block.
    */
   clearLines() {
-    const lines = this.svg.querySelectorAll('.horizontal-line, .hour-label');
+    const lines = this.svg.querySelectorAll('.horizontal-line, .hour-label, .vertical-line');
     lines.forEach((line) => {
       line.remove();
     });
@@ -116,6 +122,21 @@ class TimeBlock extends BaseBlock {
     hourLabels.forEach((label) => {
       label.setAttribute('x', this.xOffset + maxLabelWidth + titlePadding);
     });
+
+    // Draw vertical Lines
+    const posX = this.xOffset + maxLabelWidth + titlePadding;
+    for (let i = 0; i < this.opts.get('verticalLinesCount'); i += 1) {
+      const lineRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      lineRect.setAttribute('class', 'vertical-line');
+      lineRect.setAttribute('x', posX + titlePadding + lineDistance * i);
+      lineRect.setAttribute('y', this.yOffset);
+      lineRect.setAttribute('width', lineStrokeWidth);
+      lineRect.setAttribute('height', this.innerHeight);
+      lineRect.setAttribute('fill', lineStrokeColor);
+      lineRect.setAttribute('mask', `url(#${this.id}_clip)`);
+      lineRect.setAttribute('opacity', '0.5');
+      this.svg.appendChild(lineRect);
+    }
   }
 
   /**
