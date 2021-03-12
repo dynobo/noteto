@@ -192,7 +192,7 @@ function onOptionChange(event) {
   onBlockChange();
 }
 
-function onClickGalleryBtn(event) {
+function onClickGalleryBtn() {
   document.documentElement.classList.toggle('is-clipped');
   document.getElementById('gallery-modal').classList.toggle('is-active');
 }

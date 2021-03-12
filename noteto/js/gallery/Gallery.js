@@ -9,7 +9,8 @@ const templates = [
   {
     folder: 'day-planner2',
     contributor: 'dynobo2',
-    description: 'Some test description Some test description Some test description Some test description Some test description Some test description',
+    description: `Some test description Some test description Some test description Some test description 
+    Some test description Some test description`,
   },
 ];
 
