@@ -3,7 +3,7 @@ import Options from './Options.js';
 class BaseBlock {
   constructor(grid) {
     // Unique ID to identify an individual block instance
-    this.id = `id_${Math.random().toString(16).slice(2)}`;
+    this.id = `id_${Math.random().toString(16).slice(11)}`;
 
     // Unique type to identify it in the library. This has to be added to config.js:blockTypes
     this.type = 'Base Block';

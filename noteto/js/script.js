@@ -179,17 +179,18 @@ function onOptionChange(event) {
     return;
   }
 
+  // Update Option
+  blocks[blockId].opts.set(optName, optValue);
   // If we are in block scope, handle the "use Global" checkbox...
   if (optName === 'useGlobal') {
     RenderOptions.renderOptions(blocks[blockId].opts, onOptionChange);
     if (optValue === true) {
       blocks[blockId].opts.inherit(globalOptions);
     }
+    onBlockChange();
   }
   // ...then set update option and re-render block
-  blocks[blockId].opts.set(optName, optValue);
   blocks[blockId].render();
-  onBlockChange();
 }
 
 function onClickGalleryBtn() {
