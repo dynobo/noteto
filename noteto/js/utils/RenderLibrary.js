@@ -22,12 +22,12 @@ const RenderLibrary = {
   /**
    * Append previews for blocks to the target container and adds click listener
    * @param {Element} targetContainer Container element for library to append previews to
-   * @param {Object} blockTypes Contains BlockType (Name) and the Class to instanciate
+   * @param {Object} BlockTypes Contains BlockType (Name) and the Class to instanciate
    * @param {Function} onClickListener Listener that gets added to the preview and executed on click
    */
-  renderBlockLibrary(targetContainer, blockTypes, onClickListener) {
+  renderBlockLibrary(targetContainer, BlockTypes, onClickListener) {
     // Add preview for every block type
-    Object.entries(blockTypes).forEach(([blockType, BlockClass]) => {
+    Object.entries(BlockTypes).forEach(([blockType, BlockClass]) => {
       // Create canvas to draw preview on
       const previewCanvas = document.createElement('canvas');
       previewCanvas.setAttribute('id', `library-${blockType}`);

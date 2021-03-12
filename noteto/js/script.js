@@ -1,5 +1,6 @@
 import Options from './blocks/Options.js';
-import { blockTypes, fonts } from './config.js';
+import BlockTypes from './blocks.js';
+import fontFiles from './config.js';
 import RenderFonts from './utils/RenderFonts.js';
 import RenderLibrary from './utils/RenderLibrary.js';
 import RenderOptions from './utils/RenderOptions.js';
@@ -240,7 +241,7 @@ function onClickToFrontOrBackBtn(event) {
 function onFontsLoaded(callback) {
   window.setTimeout(() => {
     const countFonts = document.querySelectorAll('#font-defs > style').length;
-    if (countFonts >= Object.keys(fonts).length) {
+    if (countFonts >= Object.keys(fontFiles).length) {
       callback();
     } else {
       onFontsLoaded(callback);
@@ -259,10 +260,10 @@ function onClickDownloadPngBtn() {
  ******************** */
 function init() {
   // Add Load font files and add to svg style
-  RenderFonts.addFontsToSvg(fonts, paperSvg);
+  RenderFonts.addFontsToSvg(fontFiles, paperSvg);
   onFontsLoaded(() => {
     const libraryEl = document.getElementById('library');
-    RenderLibrary.renderBlockLibrary(libraryEl, blockTypes, onClickBlockInLibrary);
+    RenderLibrary.renderBlockLibrary(libraryEl, BlockTypes, onClickBlockInLibrary);
   });
 
   // Prevent default events for dragging

@@ -1,16 +1,4 @@
-import BaseBlock from './blocks/BaseBlock.js';
-import LineBlock from './blocks/LineBlock.js';
-import TimeBlock from './blocks/TimeBlock.js';
-import IconBlock from './blocks/IconBlock.js';
-
-const blockTypes = {
-  'Base Block': BaseBlock,
-  'Line Block': LineBlock,
-  'Time Block': TimeBlock,
-  'Icon Block': IconBlock,
-};
-
-const fonts = {
+const fontFiles = {
   CrimsonPro: 'fonts/crimson-pro-v14-latin-regular.woff2',
   FontAwesome: 'fonts/fontawesome-webfont.woff2',
   LoraRegular: 'fonts/lora-v17-latin-regular.woff2',
@@ -24,4 +12,18 @@ const fonts = {
   OpenSansCondensedLight: 'fonts/open-sans-condensed-v15-latin-300.woff2',
 };
 
-export { blockTypes, fonts };
+const fontOptions = {
+  Roboto: 'RobotoRegular',
+  'Roboto Light': 'RobotoLight',
+  'Roboto Bold': 'RobotoBold',
+  'Crimson Pro': 'CrimsonPro',
+  Lora: 'LoraRegular',
+  OpenSans: 'OpenSansRegular',
+  'OpenSans Light': 'OpenSansLight',
+  'OpenSans Bold': 'OpenSansBold',
+  'OpenSansCondensed Light': 'OpenSansCondensedLight',
+  'OpenSansCondensed Bold': 'OpenSansCondensedBold',
+};
+
+export default fontFiles;
+export { fontOptions as Fonts };

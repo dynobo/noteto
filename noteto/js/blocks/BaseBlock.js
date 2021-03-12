@@ -5,7 +5,7 @@ class BaseBlock {
     // Unique ID to identify an individual block instance
     this.id = `id_${Math.random().toString(16).slice(11)}`;
 
-    // Unique type to identify it in the library. This has to be added to config.js:blockTypes
+    // Unique type to identify it in the library. This has to be added to config.js:BlockTypes
     this.type = 'Base Block';
 
     // Position information. Handled by interact.js. Don't change manually.

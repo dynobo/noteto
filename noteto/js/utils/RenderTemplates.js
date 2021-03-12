@@ -1,6 +1,6 @@
 import DomUtils from './DomUtils.js';
 import Options from '../blocks/Options.js';
-import { blockTypes } from '../config.js';
+import BlockTypes from '../blocks.js';
 
 const RenderTemplates = {
   loadTemplate(data, svg, grid) {
@@ -16,7 +16,7 @@ const RenderTemplates = {
     // Load Blocks
     Object.values(data.blocks).forEach((blockData) => {
       try {
-        const newBlock = new blockTypes[blockData.type](grid);
+        const newBlock = new BlockTypes[blockData.type](grid);
         newBlock.width = blockData.width;
         newBlock.height = blockData.height;
         newBlock.x = blockData.x;

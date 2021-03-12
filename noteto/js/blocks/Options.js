@@ -4,6 +4,10 @@ class Options {
   }
 
   get(attr) {
+    if (!(attr in this)) {
+      console.error(`Option '${attr} not found.`);
+      return false;
+    }
     const opt = this[attr];
     if (opt.type === 'number') {
       return parseInt(opt.value, 10);
