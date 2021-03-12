@@ -3,6 +3,7 @@
 html {
   font-size: 62.5%;
   background-color: #272b2c;
+  overflow: auto;
 }
 
 a {
@@ -74,7 +75,6 @@ a:hover {
 
 #sidebar {
   width: 250px;
-  height: 100%;
   margin: 15px;
 }
 
@@ -179,16 +179,13 @@ a:hover {
   *****************/
 
 #paper-container {
-  width: 250px;
-  margin: 15px 15px 15px 15px;
-}
+  padding: 15px;
+  position: absolute;
+  top: 0px;
+  left: 270px;}
 
 #paper-svg {
   background-color: #fff;
-  /*  height: calc(100vh - 30px);*/
-  position: absolute;
-  top: 15px;
-  left: 285px;
 }
 
 #paper-svg .dragit {
@@ -228,7 +225,7 @@ a:hover {
 }
 
 #gallery-content .card-content {
-  height: 10rem;
+  height: 8rem;
   overflow-y: scroll;
 }
 
@@ -244,6 +241,7 @@ a:hover {
 /******************
   Helper elements
   *****************/
+
 #render-container {
   position: absolute;
   top: 0px;
