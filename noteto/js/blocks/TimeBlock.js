@@ -4,6 +4,7 @@ class TimeBlock extends BaseBlock {
   constructor(grid, globalOptions) {
     super(grid, globalOptions);
     this.type = 'Time Block';
+    this.opts.titleText.value = 'Agenda';
 
     // Append options specific to this block
     const TimeBlockOptions = {
@@ -51,9 +52,6 @@ class TimeBlock extends BaseBlock {
       },
     };
     this.opts.add(TimeBlockOptions);
-
-    // Set values inherited by parent block class
-    this.opts.titleText.value = 'Agenda';
   }
 
   /**

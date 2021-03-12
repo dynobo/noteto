@@ -7,7 +7,7 @@ class LineBlock extends BaseBlock {
     this.opts.titleText.value = 'Notes';
 
     // Append options specific to this block
-    const LineBlockOptions = {
+    this.opts.add({
       lineStrokeWidth: {
         group: 'Lines',
         label: 'Line Width',
@@ -26,11 +26,7 @@ class LineBlock extends BaseBlock {
         type: 'color',
         value: '#888888',
       },
-    };
-    this.opts.add(LineBlockOptions);
-
-    // Set values inherited by parent block class
-    this.opts.titleText.value = 'Notes';
+    });
   }
 
   /**
