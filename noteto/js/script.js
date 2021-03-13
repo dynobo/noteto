@@ -18,6 +18,7 @@ import Gallery from './gallery/Gallery.js';
 
 const paperSvg = document.getElementById('paper-svg');
 const blocksGroup = document.getElementById('blocks-group');
+const optionsBox = document.getElementById('options-box');
 
 let globalOptions = new Options({});
 let blocks = {};
@@ -47,7 +48,6 @@ function updateGlobalOptions() {
 
 function onBlockChange() {
   updateGlobalOptions();
-  const optionsBox = document.getElementById('options-box');
   const boxTitle = optionsBox.querySelector('p.box-title');
   const selectedBlock = document.querySelector('.dragit.selected');
 
@@ -77,7 +77,6 @@ function onClickBlockInLibrary(BlockClass) {
 }
 
 function onClickDeleteBlockBtn() {
-  const optionsBox = document.getElementById('options-box');
   const blockId = optionsBox.getAttribute('data-blockid');
 
   // Remove SVG
@@ -167,7 +166,6 @@ function onOptionChange(event) {
   const optName = target.getAttribute('data-option');
   const optValue = castFormValue(dataType, target);
 
-  const optionsBox = document.getElementById('options-box');
   const blockId = optionsBox.getAttribute('data-blockid');
 
   // If we are in global scope, update and re-render all blocks
@@ -177,21 +175,20 @@ function onOptionChange(event) {
       blocks[id].opts.setGlobal(optName, optValue);
       blocks[id].render();
     });
-    return;
-  }
-
-  // Update Option
-  blocks[blockId].opts.set(optName, optValue);
-  // If we are in block scope, handle the "use Global" checkbox...
-  if (optName === 'useGlobal') {
-    RenderOptions.renderOptions(blocks[blockId].opts, onOptionChange);
-    if (optValue === true) {
-      blocks[blockId].opts.inherit(globalOptions);
+  } else {
+    // Update Option
+    blocks[blockId].opts.set(optName, optValue);
+    // If we are in block scope, handle the "use Global" checkbox...
+    if (optName === 'useGlobal') {
+      RenderOptions.renderOptions(blocks[blockId].opts, onOptionChange);
+      if (optValue === true) {
+        blocks[blockId].opts.inherit(globalOptions);
+      }
+      onBlockChange();
     }
-    onBlockChange();
+    // ...then set update option and re-render block
+    blocks[blockId].render();
   }
-  // ...then set update option and re-render block
-  blocks[blockId].render();
 }
 
 function onClickGalleryBtn() {
@@ -221,6 +218,7 @@ function onClickToFrontOrBackBtn(event) {
   const blockRoot = document.getElementById(blockId);
   const rootParent = blockRoot.parentElement;
   rootParent.removeChild(blockRoot);
+
   const newBlocks = {};
   if (event.currentTarget.getAttribute('id') === 'front-button') {
     rootParent.append(blockRoot);

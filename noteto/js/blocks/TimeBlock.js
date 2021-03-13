@@ -74,7 +74,6 @@ class TimeBlock extends BaseBlock {
    * Add line to block and style them.
    */
   renderLines() {
-    const titlePadding = this.opts.get('titlePadding');
     const lineStrokeWidth = this.opts.get('lineStrokeWidth');
     const lineStrokeColor = this.opts.get('lineStrokeColor');
 
