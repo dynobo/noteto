@@ -1,3 +1,5 @@
+import Config from '../config.js';
+
 /**
  * Helper methods that render and/or insert elements in the DOM
  */
@@ -30,9 +32,9 @@ const RenderFonts = {
     xhr.send();
   },
 
-  addFontsToSvg(fonts, svg) {
-    Object.entries(fonts).forEach(([fontName, fontProps]) => {
-      const defs = svg.getElementById('font-defs');
+  appendFontData(element) {
+    Object.entries(Config.fonts).forEach(([fontName, fontProps]) => {
+      const defs = element.getElementById('font-defs');
       RenderFonts.addStyleWithFontFamilyB64(fontName, fontProps.file, defs);
     });
   },

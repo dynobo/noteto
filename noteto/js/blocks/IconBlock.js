@@ -105,6 +105,7 @@ class IconBlock extends BaseBlock {
       text.setAttribute('text-anchor', 'middle');
       text.setAttribute('y', this.innerHeight / 2 + this.yContentOffset);
       text.setAttribute('font-family', 'FontAwesomeb64');
+      text.setAttribute('mask', `url(#${this.id}_clip)`);
 
       // Add icon to block's svg to be able to calculate its dimensions
       text.textContent = iconCode;

@@ -260,7 +260,7 @@ function onClickDownloadPngBtn() {
  ******************** */
 function init() {
   // Add Load font files and add to svg style
-  RenderFonts.addFontsToSvg(Config.fonts, paperSvg);
+  RenderFonts.appendFontData(paperSvg);
   onFontsLoaded(() => {
     const libraryEl = document.getElementById('library');
     RenderLibrary.renderBlockLibrary(libraryEl, BlockTypes, onClickBlockInLibrary);
