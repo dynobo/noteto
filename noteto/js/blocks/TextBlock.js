@@ -72,6 +72,8 @@ class TextBlock extends BaseBlock {
 
   createText() {
     this.text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    this.text.setAttribute('mask', `url(#${this.id}_clip)`);
+    this.text.setAttribute('class', 'text-block');
     this.svg.appendChild(this.text);
   }
 
@@ -130,7 +132,7 @@ class TextBlock extends BaseBlock {
    */
   renderStyleDef() {
     this.styleDef.innerHTML = `
-      #${this.id} text {
+      #${this.id} text.text-block  {
         font-family: '${this.opts.get('textFontFamily')}b64';
       }`;
   }

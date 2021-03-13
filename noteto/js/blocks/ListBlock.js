@@ -18,7 +18,7 @@ class ListBlock extends LineBlock {
           'a), b), c)': 'alphabetic',
           '🢚': 'arrow',
           '—': 'dash',
-          '•': 'bullet',
+          '●': 'bullet',
         },
         value: 'box',
       },

@@ -38,6 +38,12 @@ class TimeBlock extends BaseBlock {
         type: 'number',
         value: 2,
       },
+      verticalLineDistance: {
+        group: 'Time',
+        label: 'vLine Distance',
+        type: 'number',
+        value: 48,
+      },
       lineStrokeWidth: {
         group: 'Lines',
         label: 'Line Width',
@@ -117,16 +123,17 @@ class TimeBlock extends BaseBlock {
 
     // As we know the length of the longest label now, let's align labels to the right
     const hourLabels = this.svg.querySelectorAll('.hour-label');
+    const hourPadding = hourFontSize * 0.4;
     hourLabels.forEach((label) => {
-      label.setAttribute('x', this.xOffset + maxLabelWidth + titlePadding);
+      label.setAttribute('x', this.xOffset + maxLabelWidth + hourPadding);
     });
 
     // Draw vertical Lines
-    const posX = this.xOffset + maxLabelWidth + titlePadding;
+    const posX = this.xOffset + maxLabelWidth + hourPadding * 2;
     for (let i = 0; i < this.opts.get('verticalLinesCount'); i += 1) {
       const lineRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       lineRect.setAttribute('class', 'vertical-line');
-      lineRect.setAttribute('x', posX + titlePadding + lineDistance * i);
+      lineRect.setAttribute('x', posX + this.opts.get('verticalLineDistance') * i);
       lineRect.setAttribute('y', this.yOffset);
       lineRect.setAttribute('width', lineStrokeWidth);
       lineRect.setAttribute('height', this.innerHeight);
