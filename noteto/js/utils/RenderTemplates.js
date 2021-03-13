@@ -23,9 +23,9 @@ const RenderTemplates = {
         newBlock.dataY = blockData.dataY;
         newBlock.opts = new Options(blockData.opts);
         newBlock.opts.inherit(globalOptions);
-        newBlock.svg.style.webkitTransform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
-        newBlock.svg.style.transform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
-        newBlock.add(svg);
+        newBlock.root.style.webkitTransform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
+        newBlock.root.style.transform = `translate(${newBlock.dataX}px,${newBlock.dataY}px)`;
+        newBlock.addTo(svg);
         blocks[newBlock.id] = newBlock;
       } catch (error) {
         console.error(`Error loading block ${blockData.id} of type ${blockData.type}. Skipping.`);

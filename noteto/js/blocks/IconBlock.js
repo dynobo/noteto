@@ -1,8 +1,8 @@
 import BaseBlock from './BaseBlock.js';
 
 class IconBlock extends BaseBlock {
-  constructor(grid, globalOptions) {
-    super(grid, globalOptions);
+  constructor(grid) {
+    super(grid);
     this.type = 'Icon Block';
 
     // Append options specific to this block

@@ -56,7 +56,7 @@ const GraphicUtils = {
     block.opts.titleFontSize.value = 28;
     block.opts.titlePadding.value = 8;
 
-    block.add(renderContainer);
+    block.addTo(renderContainer);
     block.root.setAttribute('width', previewSize);
     block.root.setAttribute('height', previewSize);
 

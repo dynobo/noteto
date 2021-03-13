@@ -31,7 +31,7 @@ const Gallery = {
       </div>
       <footer class="card-footer">
         <a href="${imgUrl}" class="card-footer-item" download>Download</a>
-        <a href="#" class="card-footer-item">Edit</a>
+        <a href="#" data-template="${template.folder}" class="card-footer-item edit-json">Edit</a>
       </footer>
     </div>
       `;

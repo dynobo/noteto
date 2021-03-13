@@ -62,6 +62,22 @@ const TransferUtils = {
     };
     fileInput.click();
   },
+
+  /**
+   * Trigger the file open dialog and uploads the file. Accepts *.json.
+   * @param {Function} callback Function to call after upload complete. Receives data as argument.
+   */
+  loadJsonFromUrl(url, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onerror = (() => { console.error('Error occurred while loading the template file.'); });
+    xhr.onload = function onload() {
+      if (this.status === 200) {
+        callback(JSON.parse(this.response));
+      }
+    };
+    xhr.send();
+  },
 };
 
 export default TransferUtils;

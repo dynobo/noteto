@@ -2,6 +2,7 @@
  * Helper methods that render and/or insert elements in the DOM
  */
 import GraphicUtils from './GraphicUtils.js';
+import Config from '../config.js';
 
 const RenderLibrary = {
   /**
@@ -13,7 +14,7 @@ const RenderLibrary = {
     const previewGrid = { x: 60, y: 60 };
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img,
-      0, 0,
+      Config.pagePadding, Config.pagePadding,
       previewGrid.x * 5, previewGrid.y * 5,
       0, 0,
       96 * 4, 96 * 4);

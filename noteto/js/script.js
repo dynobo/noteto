@@ -71,7 +71,7 @@ function onClickBlockInLibrary(BlockClass) {
   // Insert new block instance into root svg
   const newBlock = new BlockClass(grid);
   newBlock.opts.inherit(globalOptions);
-  newBlock.add(blocksGroup);
+  newBlock.addTo(blocksGroup);
   blocks[newBlock.id] = newBlock;
   onBlockChange();
 }
@@ -100,6 +100,14 @@ function onFileLoaded(obj) {
 
 function onClickLoadFileBtn() {
   TransferUtils.uploadJsonFromDisk(onFileLoaded);
+}
+
+function onClickEditJsonBtn(event) {
+  const { target } = event;
+  const template = target.getAttribute('data-template');
+  const url = `js/gallery/${template}/${template}.json`;
+  TransferUtils.loadJsonFromUrl(url, onFileLoaded);
+  onClickGalleryBtn();
 }
 
 function onClickSaveFileBtn() {
@@ -264,6 +272,8 @@ function init() {
     RenderLibrary.renderBlockLibrary(libraryEl, BlockTypes, onClickBlockInLibrary);
   });
 
+  Gallery.renderGallery(document.getElementById('gallery-content'));
+
   // Prevent default events for dragging
   document.addEventListener('dragstart', (event) => event.preventDefault());
 
@@ -276,6 +286,10 @@ function init() {
   document.getElementById('back-button').addEventListener('click', onClickToFrontOrBackBtn);
   document.getElementById('gallery-button').addEventListener('click', onClickGalleryBtn);
   document.getElementById('gallery-close-button').addEventListener('click', onClickGalleryBtn);
+  document.getElementById('gallery-close-button').addEventListener('click', onClickGalleryBtn);
+  document.querySelectorAll('#gallery-content a.edit-json').forEach((el) => {
+    el.addEventListener('click', onClickEditJsonBtn);
+  });
 
   // Calculate grid dimensions and restrictions
   grid = GridUtils.calcGrid(paperSvg);
@@ -339,7 +353,6 @@ function init() {
     .on('tap', onClickBlock);
 
   GraphicUtils.renderRemarkableElements(paperSvg);
-  Gallery.renderGallery(document.getElementById('gallery-content'));
 }
 
 // wait for external resources to load if any

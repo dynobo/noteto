@@ -177,9 +177,10 @@ class BaseBlock {
     // Block's root container
     this.root = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
-    //
+    // Transparent background, used to keep block margin
     this.bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    this.bgRect.setAttribute('fill', 'pink');
+    this.bgRect.setAttribute('fill', 'white');
+    this.bgRect.setAttribute('fill-opacity', '0');
     this.root.appendChild(this.bgRect);
 
     // Style container
@@ -209,7 +210,7 @@ class BaseBlock {
    * Add this block to the paper.
    * @param {SVG} svg Paper's root SVG element
    */
-  add(svg) {
+  addTo(svg) {
     svg.appendChild(this.root);
     this.render();
   }

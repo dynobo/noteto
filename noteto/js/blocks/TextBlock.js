@@ -2,8 +2,8 @@ import BaseBlock from './BaseBlock.js';
 import Config from '../config.js';
 
 class TextBlock extends BaseBlock {
-  constructor(grid, globalOptions) {
-    super(grid, globalOptions);
+  constructor(grid) {
+    super(grid);
     this.type = 'Text Block';
 
     // Append options specific to this block

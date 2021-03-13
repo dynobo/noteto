@@ -1,8 +1,8 @@
 import BaseBlock from './BaseBlock.js';
 
 class LineBlock extends BaseBlock {
-  constructor(grid, globalOptions) {
-    super(grid, globalOptions);
+  constructor(grid) {
+    super(grid);
     this.type = 'Line Block';
     this.opts.titleText.value = 'Notes';
 

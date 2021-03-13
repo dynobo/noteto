@@ -1,8 +1,8 @@
 import BaseBlock from './BaseBlock.js';
 
 class TimeBlock extends BaseBlock {
-  constructor(grid, globalOptions) {
-    super(grid, globalOptions);
+  constructor(grid) {
+    super(grid);
     this.type = 'Time Block';
     this.opts.titleText.value = 'Agenda';
 
