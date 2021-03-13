@@ -1,5 +1,6 @@
-const Fonts = {
-  fontDict: {
+const Config = {
+  pagePadding: 4,
+  fonts: {
     CrimsonPro: {
       file: 'fonts/crimson-pro-v14-latin-regular.woff2',
       label: 'Crimson Pro',
@@ -45,12 +46,13 @@ const Fonts = {
       label: 'OpenSansCondensed Light',
     },
   },
-  getOptions() {
+  fontsAsOptions() {
     const options = {};
-    Object.entries(this.fontDict).forEach(([key, values]) => {
+    Object.entries(this.fonts).forEach(([key, values]) => {
       options[values.label] = key;
     });
     return options;
   },
 };
-export default Fonts;
+
+export default Config;

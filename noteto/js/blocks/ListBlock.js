@@ -46,7 +46,7 @@ class ListBlock extends LineBlock {
    * Delete all list items from block.
    */
   clearList() {
-    const items = this.svg.querySelectorAll('.list-item');
+    const items = this.root.querySelectorAll('.list-item');
     items.forEach((item) => {
       item.remove();
     });
@@ -67,9 +67,9 @@ class ListBlock extends LineBlock {
       text.setAttribute('dominant-baseline', 'central');
       text.setAttribute('mask', `url(#${this.id}_clip)`);
       text.setAttribute('x', this.xOffset + lineDistance / 8);
-      text.setAttribute('y', lineDistance * i + this.yOffset - lineDistance * 0.5);
+      text.setAttribute('y', lineDistance * i + this.yContentOffset - lineDistance * 0.5);
       text.textContent = this.getListChars(i);
-      this.svg.appendChild(text);
+      this.root.appendChild(text);
     }
   }
 

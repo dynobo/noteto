@@ -1,5 +1,5 @@
 import BaseBlock from './BaseBlock.js';
-import Fonts from '../config.js';
+import Config from '../config.js';
 
 class TextBlock extends BaseBlock {
   constructor(grid, globalOptions) {
@@ -36,7 +36,7 @@ class TextBlock extends BaseBlock {
         group: 'Block',
         label: 'Font Family',
         type: 'select',
-        options: Fonts.getOptions(),
+        options: Config.fontsAsOptions(),
         value: 'RobotoRegular',
       },
       textHorizontalAlign: {
@@ -74,7 +74,7 @@ class TextBlock extends BaseBlock {
     this.text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     this.text.setAttribute('mask', `url(#${this.id}_clip)`);
     this.text.setAttribute('class', 'text-block');
-    this.svg.appendChild(this.text);
+    this.root.appendChild(this.text);
   }
 
   /**
@@ -110,11 +110,11 @@ class TextBlock extends BaseBlock {
     let y;
     switch (this.opts.get('textVerticalAlign')) {
       case 'top':
-        y = this.yOffset + padding;
+        y = this.yContentOffset + padding;
         this.text.setAttribute('dominant-baseline', 'hanging');
         break;
       case 'middle':
-        y = this.yOffset + this.innerHeight / 2;
+        y = this.yContentOffset + this.innerHeight / 2;
         this.text.setAttribute('dominant-baseline', 'middle');
         break;
       default:

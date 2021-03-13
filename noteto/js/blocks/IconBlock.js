@@ -80,7 +80,7 @@ class IconBlock extends BaseBlock {
    * Delete all icons from block.
    */
   clearIcons() {
-    const icons = this.svg.querySelectorAll('.icon');
+    const icons = this.root.querySelectorAll('.icon');
     icons.forEach((icon) => {
       icon.remove();
     });
@@ -103,12 +103,12 @@ class IconBlock extends BaseBlock {
       text.setAttribute('fill', iconColor);
       text.setAttribute('dominant-baseline', 'central');
       text.setAttribute('text-anchor', 'middle');
-      text.setAttribute('y', this.innerHeight / 2 + this.yOffset);
+      text.setAttribute('y', this.innerHeight / 2 + this.yContentOffset);
       text.setAttribute('font-family', 'FontAwesomeb64');
 
       // Add icon to block's svg to be able to calculate its dimensions
       text.textContent = iconCode;
-      this.svg.appendChild(text);
+      this.root.appendChild(text);
 
       // Retrieve width of icon and adjust x position it accordingly
       iconWidth = iconWidth || text.getBBox().width;

@@ -33,7 +33,7 @@ class LineBlock extends BaseBlock {
    * Delete all line from block.
    */
   clearLines() {
-    const lines = this.svg.querySelectorAll('.horizontal-line');
+    const lines = this.root.querySelectorAll('.horizontal-line');
     lines.forEach((line) => {
       line.remove();
     });
@@ -56,12 +56,12 @@ class LineBlock extends BaseBlock {
       const lineRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       lineRect.setAttribute('class', 'horizontal-line');
       lineRect.setAttribute('x', this.xOffset);
-      lineRect.setAttribute('y', lineDistance * i + this.yOffset);
+      lineRect.setAttribute('y', lineDistance * i + this.yContentOffset);
       lineRect.setAttribute('width', this.innerWidth);
       lineRect.setAttribute('height', lineStrokeWidth);
       lineRect.setAttribute('fill', lineStrokeColor);
       lineRect.setAttribute('mask', `url(#${this.id}_clip)`);
-      this.svg.appendChild(lineRect);
+      this.root.appendChild(lineRect);
     }
   }
 

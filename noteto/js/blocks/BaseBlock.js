@@ -1,4 +1,5 @@
 import Options from './Options.js';
+import Config from '../config.js';
 
 class BaseBlock {
   constructor(grid) {
@@ -146,7 +147,7 @@ class BaseBlock {
    * @return {int} x coord of top left
    */
   get xOffset() {
-    return this.borderWidth;
+    return this.borderWidth + Config.pagePadding;
   }
 
   /**
@@ -154,11 +155,19 @@ class BaseBlock {
    * @return {int} height in pixel
    */
   get yOffset() {
+    return this.opts.get('borderStrokeWidth') + this.opts.get('borderMargin') + Config.pagePadding;
+  }
+
+  /**
+   * Gets top offset of the block's content section
+   * @return {int} height in pixel
+   */
+  get yContentOffset() {
     let yOffset = this.opts.get('borderStrokeWidth') + this.opts.get('borderMargin');
     if (this.opts.get('titleText').length > 0) {
       yOffset += this.opts.get('titleFontSize') + this.opts.get('titlePadding') * 2;
     }
-    return yOffset;
+    return yOffset + Config.pagePadding;
   }
 
   /**
@@ -166,29 +175,34 @@ class BaseBlock {
    */
   createBaseElements() {
     // Block's root container
-    this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    this.root = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+    //
+    this.bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    this.bgRect.setAttribute('fill', 'pink');
+    this.root.appendChild(this.bgRect);
 
     // Style container
     this.styleDef = document.createElementNS('http://www.w3.org/2000/svg', 'style');
     const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
     defs.append(this.styleDef);
-    this.svg.append(defs);
+    this.root.append(defs);
 
     // Mask to crop off everything outside the border
     const mask = document.createElementNS('http://www.w3.org/2000/svg', 'mask');
     this.maskRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     mask.appendChild(this.maskRect);
     mask.setAttribute('id', `${this.id}_clip`);
-    this.svg.appendChild(mask);
+    this.root.appendChild(mask);
 
     // Add border
     this.borderRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    this.svg.appendChild(this.borderRect);
+    this.root.appendChild(this.borderRect);
 
     // Add title container group
     this.titleGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     this.titleGroup.setAttribute('class', 'title-group');
-    this.svg.appendChild(this.titleGroup);
+    this.root.appendChild(this.titleGroup);
   }
 
   /**
@@ -196,7 +210,7 @@ class BaseBlock {
    * @param {SVG} svg Paper's root SVG element
    */
   add(svg) {
-    svg.appendChild(this.svg);
+    svg.appendChild(this.root);
     this.render();
   }
 
@@ -233,8 +247,8 @@ class BaseBlock {
 
     // Background
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    rect.setAttribute('x', this.borderWidth);
-    rect.setAttribute('y', this.borderWidth);
+    rect.setAttribute('x', this.xOffset);
+    rect.setAttribute('y', this.yOffset);
     rect.setAttribute('width', this.innerWidth);
     rect.setAttribute('height', this.titleHeight);
     rect.setAttribute('fill', titleBackgroundColor);
@@ -242,8 +256,8 @@ class BaseBlock {
 
     // Text
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    text.setAttribute('x', this.borderWidth + titlePadding);
-    text.setAttribute('y', this.borderWidth + this.titleHeight / 2);
+    text.setAttribute('x', this.xOffset + titlePadding);
+    text.setAttribute('y', this.yOffset + this.titleHeight / 2);
     text.setAttribute('dominant-baseline', 'central');
     text.setAttribute('fill', titleFontColor);
     text.setAttribute('font-size', titleFontSize);
@@ -271,17 +285,22 @@ class BaseBlock {
    * Setup size of the block's root svg element.
    */
   renderContainer() {
-    this.svg.classList.add('dragit');
-    this.svg.setAttribute('id', this.id);
-    this.svg.setAttribute('version', '1.2');
-    this.svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    this.svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-    this.svg.setAttribute('x', this.x);
-    this.svg.setAttribute('y', this.y);
-    this.svg.setAttribute('data-x', this.dataX);
-    this.svg.setAttribute('data-y', this.dataY);
-    this.svg.setAttribute('width', this.width);
-    this.svg.setAttribute('height', this.height);
+    this.root.classList.add('dragit');
+    this.root.setAttribute('id', this.id);
+    this.root.setAttribute('version', '1.2');
+    this.root.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    this.root.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+    this.root.setAttribute('x', this.x);
+    this.root.setAttribute('y', this.y);
+    this.root.setAttribute('data-x', this.dataX);
+    this.root.setAttribute('data-y', this.dataY);
+    this.root.setAttribute('width', this.width);
+    this.root.setAttribute('height', this.height);
+
+    this.bgRect.setAttribute('x', this.x);
+    this.bgRect.setAttribute('y', this.y);
+    this.bgRect.setAttribute('width', this.width);
+    this.bgRect.setAttribute('height', this.height);
   }
 
   /**
@@ -294,8 +313,8 @@ class BaseBlock {
     const borderStrokeColor = this.opts.get('borderStrokeColor');
 
     this.borderRect.classList.add('blockBorder');
-    this.borderRect.setAttribute('x', borderMargin + borderStrokeWidth / 2);
-    this.borderRect.setAttribute('y', borderMargin + borderStrokeWidth / 2);
+    this.borderRect.setAttribute('x', Config.pagePadding + borderMargin + borderStrokeWidth / 2);
+    this.borderRect.setAttribute('y', Config.pagePadding + borderMargin + borderStrokeWidth / 2);
     this.borderRect.setAttribute('width', this.width - borderStrokeWidth - borderMargin * 2);
     this.borderRect.setAttribute('height', this.height - borderStrokeWidth - borderMargin * 2);
     this.borderRect.setAttribute('fill', 'white');
@@ -305,8 +324,8 @@ class BaseBlock {
     this.borderRect.setAttribute('ry', borderRadius);
 
     this.maskRect.classList.add('clipBorder');
-    this.maskRect.setAttribute('x', borderMargin + borderStrokeWidth / 2);
-    this.maskRect.setAttribute('y', borderMargin + borderStrokeWidth / 2);
+    this.maskRect.setAttribute('x', Config.pagePadding + borderMargin + borderStrokeWidth / 2);
+    this.maskRect.setAttribute('y', Config.pagePadding + borderMargin + borderStrokeWidth / 2);
     this.maskRect.setAttribute('width', this.width - borderStrokeWidth - borderMargin * 2);
     this.maskRect.setAttribute('height', this.height - borderStrokeWidth - borderMargin * 2);
     this.maskRect.setAttribute('stroke-width', borderStrokeWidth);

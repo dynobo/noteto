@@ -6,6 +6,10 @@ html {
   overflow: auto;
 }
 
+body {
+  padding: 15px;
+}
+
 a {
   color: #ff2e88;
 }
@@ -72,7 +76,6 @@ a:hover {
 
 #sidebar {
   width: 250px;
-  margin: 15px;
 }
 
 #sidebar h1 {

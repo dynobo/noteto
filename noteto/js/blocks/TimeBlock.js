@@ -64,7 +64,7 @@ class TimeBlock extends BaseBlock {
    * Delete all line from block.
    */
   clearLines() {
-    const lines = this.svg.querySelectorAll('.horizontal-line, .hour-label, .vertical-line');
+    const lines = this.root.querySelectorAll('.horizontal-line, .hour-label, .vertical-line');
     lines.forEach((line) => {
       line.remove();
     });
@@ -95,7 +95,7 @@ class TimeBlock extends BaseBlock {
       const lineRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       lineRect.setAttribute('class', 'horizontal-line');
       lineRect.setAttribute('x', this.xOffset);
-      lineRect.setAttribute('y', lineDistance * i + this.yOffset);
+      lineRect.setAttribute('y', lineDistance * i + this.yContentOffset);
       lineRect.setAttribute('width', this.innerWidth);
       lineRect.setAttribute('height', lineStrokeWidth);
       lineRect.setAttribute('fill', lineStrokeColor);
@@ -104,7 +104,7 @@ class TimeBlock extends BaseBlock {
       if ((i) % linesPerHour !== 0) {
         lineRect.setAttribute('opacity', '0.5');
       }
-      this.svg.appendChild(lineRect);
+      this.root.appendChild(lineRect);
 
       // Add labels
       if ((i - 1) % linesPerHour === 0) {
@@ -113,16 +113,16 @@ class TimeBlock extends BaseBlock {
         text.setAttribute('font-size', hourFontSize);
         text.setAttribute('text-anchor', 'end');
         text.setAttribute('dominant-baseline', 'central');
-        text.setAttribute('y', lineDistance * i + this.yOffset - lineDistance * 0.5);
+        text.setAttribute('y', lineDistance * i + this.yContentOffset - lineDistance * 0.5);
         text.textContent = `${currentHour}:00`;
-        this.svg.appendChild(text);
+        this.root.appendChild(text);
         currentHour += 1;
         maxLabelWidth = Math.max(maxLabelWidth, text.getBBox().width);
       }
     }
 
     // As we know the length of the longest label now, let's align labels to the right
-    const hourLabels = this.svg.querySelectorAll('.hour-label');
+    const hourLabels = this.root.querySelectorAll('.hour-label');
     const hourPadding = hourFontSize * 0.4;
     hourLabels.forEach((label) => {
       label.setAttribute('x', this.xOffset + maxLabelWidth + hourPadding);
@@ -134,13 +134,13 @@ class TimeBlock extends BaseBlock {
       const lineRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       lineRect.setAttribute('class', 'vertical-line');
       lineRect.setAttribute('x', posX + this.opts.get('verticalLineDistance') * i);
-      lineRect.setAttribute('y', this.yOffset);
+      lineRect.setAttribute('y', this.yContentOffset);
       lineRect.setAttribute('width', lineStrokeWidth);
       lineRect.setAttribute('height', this.innerHeight);
       lineRect.setAttribute('fill', lineStrokeColor);
       lineRect.setAttribute('mask', `url(#${this.id}_clip)`);
       lineRect.setAttribute('opacity', '0.5');
-      this.svg.appendChild(lineRect);
+      this.root.appendChild(lineRect);
     }
   }
 

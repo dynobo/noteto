@@ -6,8 +6,6 @@ const RenderTemplates = {
   loadTemplate(data, svg, grid) {
     // Remove existing blocks
     DomUtils.removeElements(svg.querySelectorAll('svg'));
-    // RenderFonts.addFontsToSvg(fonts, svg); // TODO: Needed?
-
     const blocks = {};
 
     // Load options

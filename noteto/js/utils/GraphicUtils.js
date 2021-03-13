@@ -57,8 +57,8 @@ const GraphicUtils = {
     block.opts.titlePadding.value = 8;
 
     block.add(renderContainer);
-    block.svg.setAttribute('width', previewSize);
-    block.svg.setAttribute('height', previewSize);
+    block.root.setAttribute('width', previewSize);
+    block.root.setAttribute('height', previewSize);
 
     GraphicUtils.convertSvgToCanvas(renderContainer, (canvas) => {
       const img = document.createElement('img');
@@ -67,7 +67,7 @@ const GraphicUtils = {
         callback(img);
       };
     });
-    DomUtils.removeElements(renderContainer.querySelectorAll('svg'));
+    DomUtils.removeElements(renderContainer.querySelectorAll('.dragit'));
   },
 
   renderRemarkableElements(svg) {

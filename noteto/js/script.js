@@ -1,6 +1,6 @@
 import Options from './blocks/Options.js';
 import BlockTypes from './blocks.js';
-import Fonts from './config.js';
+import Config from './config.js';
 import RenderFonts from './utils/RenderFonts.js';
 import RenderLibrary from './utils/RenderLibrary.js';
 import RenderOptions from './utils/RenderOptions.js';
@@ -49,7 +49,7 @@ function onBlockChange() {
   updateGlobalOptions();
   const optionsBox = document.getElementById('options-box');
   const boxTitle = optionsBox.querySelector('p.box-title');
-  const selectedBlock = document.querySelector('svg.dragit.selected');
+  const selectedBlock = document.querySelector('.dragit.selected');
 
   if (!selectedBlock) {
     RenderOptions.renderOptions(globalOptions, onOptionChange);
@@ -81,8 +81,8 @@ function onClickDeleteBlockBtn() {
   const blockId = optionsBox.getAttribute('data-blockid');
 
   // Remove SVG
-  const svg = document.getElementById(blockId);
-  svg.parentElement.removeChild(svg);
+  const blockRoot = document.getElementById(blockId);
+  blockRoot.parentElement.removeChild(blockRoot);
 
   // Remove entry from blocks dict
   delete blocks[blockId];
@@ -120,8 +120,8 @@ function onDragMove(event) {
   const y = (parseFloat(blocks[id].dataY) || 0) + event.dy;
 
   // translate the element
-  blocks[id].svg.style.webkitTransform = `translate(${x}px,${y}px)`;
-  blocks[id].svg.style.transform = `translate(${x}px,${y}px)`;
+  blocks[id].root.style.webkitTransform = `translate(${x}px,${y}px)`;
+  blocks[id].root.style.transform = `translate(${x}px,${y}px)`;
 
   // update the posiion attributes
   blocks[id].dataX = x;
@@ -145,8 +145,8 @@ function onResizeMove(event) {
   x += event.deltaRect.left;
   y += event.deltaRect.top;
 
-  blocks[id].svg.style.webkitTransform = `translate(${x}px,${y}px)`;
-  blocks[id].svg.style.transform = `translate(${x}px,${y}px)`;
+  blocks[id].root.style.webkitTransform = `translate(${x}px,${y}px)`;
+  blocks[id].root.style.transform = `translate(${x}px,${y}px)`;
 
   blocks[id].dataX = x;
   blocks[id].dataY = y;
@@ -204,7 +204,7 @@ function onClickBlock(event) {
   currentTarget.classList.toggle('selected');
 
   // Clear "selected" from all blocks except the clicked one
-  const allBlocks = document.querySelectorAll('svg.dragit');
+  const allBlocks = document.querySelectorAll('.dragit');
   for (let i = 0; i < allBlocks.length; i += 1) {
     if (allBlocks[i] !== currentTarget) {
       allBlocks[i].classList.remove('selected');
@@ -218,18 +218,18 @@ function onClickToFrontOrBackBtn(event) {
   const blockId = container.getAttribute('data-blockid');
 
   // Reorder SVG
-  const svg = document.getElementById(blockId);
-  const svgParent = svg.parentElement;
-  svgParent.removeChild(svg);
+  const blockRoot = document.getElementById(blockId);
+  const rootParent = blockRoot.parentElement;
+  rootParent.removeChild(blockRoot);
   const newBlocks = {};
   if (event.currentTarget.getAttribute('id') === 'front-button') {
-    svgParent.append(svg);
+    rootParent.append(blockRoot);
     Object.entries(blocks).forEach(([id, block]) => {
       if (id !== blockId) newBlocks[id] = block;
     });
     newBlocks[blockId] = blocks[blockId];
   } else {
-    svgParent.prepend(svg);
+    rootParent.prepend(blockRoot);
     newBlocks[blockId] = blocks[blockId];
     Object.entries(blocks).forEach(([id, block]) => {
       if (id !== blockId) newBlocks[id] = block;
@@ -241,7 +241,7 @@ function onClickToFrontOrBackBtn(event) {
 function onFontsLoaded(callback) {
   window.setTimeout(() => {
     const countFonts = document.querySelectorAll('#font-defs > style').length;
-    if (countFonts >= Object.keys(Fonts.fontDict).length) {
+    if (countFonts >= Object.keys(Config.fonts).length) {
       callback();
     } else {
       onFontsLoaded(callback);
@@ -260,7 +260,7 @@ function onClickDownloadPngBtn() {
  ******************** */
 function init() {
   // Add Load font files and add to svg style
-  RenderFonts.addFontsToSvg(Fonts.fontDict, paperSvg);
+  RenderFonts.addFontsToSvg(Config.fonts, paperSvg);
   onFontsLoaded(() => {
     const libraryEl = document.getElementById('library');
     RenderLibrary.renderBlockLibrary(libraryEl, BlockTypes, onClickBlockInLibrary);
