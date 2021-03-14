@@ -119,12 +119,19 @@ function onClickSaveFileBtn() {
   TransferUtils.downloadObjectAsJson(data, 'noteto-template.json');
 }
 
+function getRatio() {
+  const originalWidth = paperSvg.getAttribute('width');
+  const actualWidth = paperSvg.getBoundingClientRect().width;
+  return originalWidth / actualWidth;
+}
+
 function onDragMove(event) {
   const id = event.target.getAttribute('id');
+  const ratio = getRatio();
 
   // keep the dragged position in the data-x/data-y attributes
-  const x = (parseFloat(blocks[id].dataX) || 0) + event.dx;
-  const y = (parseFloat(blocks[id].dataY) || 0) + event.dy;
+  const x = (parseFloat(blocks[id].dataX) || 0) + (event.dx * ratio);
+  const y = (parseFloat(blocks[id].dataY) || 0) + (event.dy * ratio);
 
   // translate the element
   blocks[id].root.style.webkitTransform = `translate(${x}px,${y}px)`;
@@ -140,17 +147,18 @@ function onDragMove(event) {
 function onResizeMove(event) {
   const { target } = event;
   const id = target.getAttribute('id');
+  const ratio = getRatio();
 
   // keep the dragged position in the data-x/data-y attributes
   let x = parseFloat(blocks[id].dataX) || 0;
   let y = parseFloat(blocks[id].dataY) || 0;
 
-  blocks[id].width = event.rect.width;
-  blocks[id].height = event.rect.height;
+  blocks[id].width = event.rect.width * ratio;
+  blocks[id].height = event.rect.height * ratio;
 
   // translate when resizing from top or left edges
-  x += event.deltaRect.left;
-  y += event.deltaRect.top;
+  x += event.deltaRect.left * ratio;
+  y += event.deltaRect.top * ratio;
 
   blocks[id].root.style.webkitTransform = `translate(${x}px,${y}px)`;
   blocks[id].root.style.transform = `translate(${x}px,${y}px)`;
