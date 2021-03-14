@@ -171,9 +171,32 @@ a:hover {
 
 #save-button,
 #load-button {
-  width: 49.4%;
+  width: 44.4%;
 }
 
+#export-warning {
+  display: inline-block;
+  position: relative;
+}
+#export-warning span.icon{
+  margin-top: 5px;
+}
+#export-warning div {
+  display: none;
+  position: absolute;
+  width: 220px;
+  left: 25px;
+  top: -60px;
+  z-index: 999999;
+  padding: 5px 10px;
+  border: 3px solid #ffdd57;
+  border-radius: 5px;  
+  background-color: #ffffff;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+}
+#export-warning:hover div {
+  display: block;
+}
 /******************
   Paper Template
   *****************/
@@ -212,6 +235,10 @@ a:hover {
 /******************
   Gallery
   *****************/
+
+#gallery-button .fa {
+  color: #ff2e88;
+}
 
 #gallery-content .card {
   width: 180px;

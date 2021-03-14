@@ -28,8 +28,8 @@
         <strong>Te</strong>mplate
         <strong>To</strong>ol
       </p>
-      <p class="subtitle has-text-centered is-size-6"><a href="https://needleinthehay.de/projects/tetu">About</a> – <a
-          href="https://github.com/dynobo/noteto" target="_new">Github</a>
+      <p class="subtitle has-text-centered is-size-6"><a href="https://needleinthehay.de/imprint">Imprint</a> – <a
+          href="https://github.com/dynobo/noteto" target="_new">SourceCode</a>
       </p>
     </div>
 
@@ -70,7 +70,7 @@
 
 
     <div class="box">
-      <button id="gallery-button" class="button is-fullwidth">
+      <button id="gallery-button" class="button is-fullwidth is-large">
         <span class="icon">
           <i class="fa fa-file-image-o"></i>
         </span>
@@ -80,18 +80,29 @@
 
     <div class="box">
       <div class="mb-3">
-        <button id="save-button" class="button">
-          <span class="icon">
-            <i class="fa fa-download"></i>
-          </span>
-          <span>Save as JSON</span>
-        </button>
         <button id="load-button" class="button">
           <span class="icon">
             <i class="fa fa-upload"></i>
           </span>
           <span>Load from JSON</span>
         </button>
+        <button id="save-button" class="button">
+          <span class="icon">
+            <i class="fa fa-download"></i>
+          </span>
+          <span>Save as JSON</span>
+        </button>
+        <div id="export-warning">
+          <span class="icon has-text-warning is-normal">
+            <i class="fa fa-lg fa-exclamation-triangle"></i>
+          </span>
+          <div>
+            <strong>Warning! Import/export might break!</strong><br>
+            Due to the early development phase, backwards compability after
+            changes will not be assured. Please do not rely too much on this 
+            feature. Thanks!
+          </div>
+        </div>
       </div>
       <button id="export-button" class="button is-link is-fullwidth">
         <span class="icon">
@@ -115,7 +126,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">NoTeTo - Gallery</p>
+        <p class="modal-card-title">Template Gallery</p>
         <button id="gallery-close-button" class="delete" aria-label="close"></button>
       </header>
       <section id="gallery-content" class="modal-card-body">
