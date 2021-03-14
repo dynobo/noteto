@@ -9,6 +9,7 @@ import GraphicUtils from './utils/GraphicUtils.js';
 import GridUtils from './utils/GridUtils.js';
 import TransferUtils from './utils/TransferUtils.js';
 import Gallery from './gallery/Gallery.js';
+import Helpers from './utils/Helpers.js';
 
 /** *******************
  * Global Variables
@@ -121,10 +122,11 @@ function onClickSaveFileBtn() {
 
 function onDragMove(event) {
   const id = event.target.getAttribute('id');
+  const ratio = Helpers.getRatio(paperSvg);
 
   // keep the dragged position in the data-x/data-y attributes
-  const x = (parseFloat(blocks[id].dataX) || 0) + event.dx;
-  const y = (parseFloat(blocks[id].dataY) || 0) + event.dy;
+  const x = (parseFloat(blocks[id].dataX) || 0) + (event.dx * ratio);
+  const y = (parseFloat(blocks[id].dataY) || 0) + (event.dy * ratio);
 
   // translate the element
   blocks[id].root.style.webkitTransform = `translate(${x}px,${y}px)`;
@@ -140,17 +142,18 @@ function onDragMove(event) {
 function onResizeMove(event) {
   const { target } = event;
   const id = target.getAttribute('id');
+  const ratio = Helpers.getRatio(paperSvg);
 
   // keep the dragged position in the data-x/data-y attributes
   let x = parseFloat(blocks[id].dataX) || 0;
   let y = parseFloat(blocks[id].dataY) || 0;
 
-  blocks[id].width = event.rect.width;
-  blocks[id].height = event.rect.height;
+  blocks[id].width = event.rect.width * ratio;
+  blocks[id].height = event.rect.height * ratio;
 
   // translate when resizing from top or left edges
-  x += event.deltaRect.left;
-  y += event.deltaRect.top;
+  x += event.deltaRect.left * ratio;
+  y += event.deltaRect.top * ratio;
 
   blocks[id].root.style.webkitTransform = `translate(${x}px,${y}px)`;
   blocks[id].root.style.transform = `translate(${x}px,${y}px)`;
@@ -273,38 +276,7 @@ function onClickDownloadPngBtn() {
   });
 }
 
-/** *******************
- * INIT
- ******************** */
-function init() {
-  // Add Load font files and add to svg style
-  RenderFonts.appendFontData(paperSvg);
-  onFontsLoaded(() => {
-    const libraryEl = document.getElementById('library');
-    RenderLibrary.renderBlockLibrary(libraryEl, BlockTypes, onClickBlockInLibrary);
-  });
-
-  Gallery.renderGallery(document.getElementById('gallery-content'));
-
-  // Prevent default events for dragging
-  document.addEventListener('dragstart', (event) => event.preventDefault());
-
-  // Various listeners
-  document.getElementById('export-button').addEventListener('click', onClickDownloadPngBtn);
-  document.getElementById('load-button').addEventListener('click', onClickLoadFileBtn);
-  document.getElementById('save-button').addEventListener('click', onClickSaveFileBtn);
-  document.getElementById('delete-button').addEventListener('click', onClickDeleteBlockBtn);
-  document.getElementById('front-button').addEventListener('click', onClickToFrontOrBackBtn);
-  document.getElementById('back-button').addEventListener('click', onClickToFrontOrBackBtn);
-  document.getElementById('gallery-button').addEventListener('click', onClickGalleryBtn);
-  document.getElementById('gallery-close-button').addEventListener('click', onClickGalleryBtn);
-  document.getElementById('gallery-close-button').addEventListener('click', onClickGalleryBtn);
-  document.querySelectorAll('#gallery-content a.edit-json').forEach((el) => {
-    el.addEventListener('click', onClickEditJsonBtn);
-  });
-  paperSvg.addEventListener('click', onClickCanvas);
-
-  // Calculate grid dimensions and restrictions
+function initInteract() {
   grid = GridUtils.calcGrid(paperSvg);
 
   // Define restrictions for resize/drag interactions
@@ -333,7 +305,10 @@ function init() {
     }),
   ];
 
-  // Initialize interact.js for moving/resizing
+  // Remove inteactables (in case of resizing etc.)
+  interact('.dragit').unset();
+
+  // Set inteactables
   interact('.dragit')
     .draggable({
       modifiers: dragRestrictions,
@@ -364,7 +339,42 @@ function init() {
       modifiers: resizeRestrictions,
     })
     .on('tap', onClickBlock);
+}
 
+/** *******************
+ * INIT
+ ******************** */
+function init() {
+  // Add Load font files and add to svg style
+  RenderFonts.appendFontData(paperSvg);
+  onFontsLoaded(() => {
+    const libraryEl = document.getElementById('library');
+    RenderLibrary.renderBlockLibrary(libraryEl, BlockTypes, onClickBlockInLibrary);
+  });
+
+  Gallery.renderGallery(document.getElementById('gallery-content'));
+
+  // Prevent default events for dragging
+  document.addEventListener('dragstart', (event) => event.preventDefault());
+
+  // Various listeners
+  document.getElementById('export-button').addEventListener('click', onClickDownloadPngBtn);
+  document.getElementById('load-button').addEventListener('click', onClickLoadFileBtn);
+  document.getElementById('save-button').addEventListener('click', onClickSaveFileBtn);
+  document.getElementById('delete-button').addEventListener('click', onClickDeleteBlockBtn);
+  document.getElementById('front-button').addEventListener('click', onClickToFrontOrBackBtn);
+  document.getElementById('back-button').addEventListener('click', onClickToFrontOrBackBtn);
+  document.getElementById('gallery-button').addEventListener('click', onClickGalleryBtn);
+  document.getElementById('gallery-close-button').addEventListener('click', onClickGalleryBtn);
+  document.getElementById('gallery-close-button').addEventListener('click', onClickGalleryBtn);
+  document.querySelectorAll('#gallery-content a.edit-json').forEach((el) => {
+    el.addEventListener('click', onClickEditJsonBtn);
+  });
+  paperSvg.addEventListener('click', onClickCanvas);
+  window.addEventListener('resize', initInteract);
+
+  // Calculate grid dimensions and restrictions
+  initInteract();
   GraphicUtils.renderRemarkableElements(paperSvg);
 }
 

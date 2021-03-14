@@ -10,8 +10,8 @@ class BaseBlock {
     this.type = 'Base Block';
 
     // Position information. Handled by interact.js. Don't change manually.
-    this.width = grid.x * 5;
-    this.height = grid.y * 5;
+    this.width = grid.size * 5;
+    this.height = grid.size * 5;
     this.x = grid.padding;
     this.y = grid.padding;
     this.dataX = 0;

@@ -1,5 +1,5 @@
 import Config from '../config.js';
-
+import Helpers from './Helpers.js';
 /**
  * Helper methods for calculation around drag/drop/resize grid
  */
@@ -11,6 +11,8 @@ const GridUtils = {
    * @return {dict} SnapGrid consisting of width (x), height (y) and offset
    */
   calcGrid(paperSvg) {
+    const ratio = Helpers.getRatio(paperSvg);
+
     const gridSize = 60;
     const bodyRect = document.body.getBoundingClientRect();
     const rect = paperSvg.getBoundingClientRect();
@@ -21,16 +23,17 @@ const GridUtils = {
     // Define grid dimensions using GCD to ensures a quadratic grid which fills
     // the whole page. Add offset of element.
     return {
-      x: gridSize,
-      y: gridSize,
-      offset: { x: left + Config.pagePadding, y: top + Config.pagePadding },
+      x: gridSize / ratio,
+      y: gridSize / ratio,
+      size: gridSize,
+      offset: { x: left + Config.pagePadding / ratio, y: top + Config.pagePadding / ratio },
       padding: Config.pagePadding,
       page: { width: paperSvg.viewBox.baseVal.width, height: paperSvg.viewBox.baseVal.height },
       restriction: {
-        top: top + Config.pagePadding,
-        left: left + Config.pagePadding,
-        bottom: top + paperSvg.viewBox.baseVal.height - Config.pagePadding,
-        right: left + paperSvg.viewBox.baseVal.width - Config.pagePadding,
+        top: top + Config.pagePadding / ratio,
+        left: left + Config.pagePadding / ratio,
+        bottom: top + (paperSvg.viewBox.baseVal.height - Config.pagePadding) / ratio,
+        right: left + (paperSvg.viewBox.baseVal.width - Config.pagePadding) / ratio,
       },
     };
   },

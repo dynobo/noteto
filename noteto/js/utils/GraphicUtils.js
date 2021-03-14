@@ -44,6 +44,7 @@ const GraphicUtils = {
     const previewGrid = {
       x: 60,
       y: 60,
+      size: 60,
       offset: { x: 285, y: 15 },
       padding: 0,
     };
