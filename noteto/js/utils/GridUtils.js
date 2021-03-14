@@ -22,7 +22,6 @@ const GridUtils = {
 
     // Define grid dimensions using GCD to ensures a quadratic grid which fills
     // the whole page. Add offset of element.
-    console.log(ratio);
     return {
       x: gridSize / ratio,
       y: gridSize / ratio,
