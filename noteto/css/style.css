@@ -209,6 +209,8 @@ a:hover {
 
 #paper-svg {
   background-color: #fff;
+  height: calc(100vh - 45px);
+  width: auto;
 }
 
 #paper-svg .dragit {
@@ -235,10 +237,6 @@ a:hover {
 /******************
   Gallery
   *****************/
-
-#gallery-button .fa {
-  color: #ff2e88;
-}
 
 #gallery-content .card {
   width: 180px;
