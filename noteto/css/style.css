@@ -184,7 +184,7 @@ a:hover {
 #export-warning div {
   display: none;
   position: absolute;
-  width: 220px;
+  width: 210px;
   left: 25px;
   top: -60px;
   z-index: 999999;
@@ -210,6 +210,7 @@ a:hover {
 #paper-svg {
   background-color: #fff;
   height: calc(100vh - 45px);
+  max-height: 1872px;
   width: auto;
 }
 

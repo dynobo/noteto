@@ -18,5 +18,11 @@ const Helpers = {
 
     return tempArray;
   },
+
+  getRatio(element) {
+    const originalWidth = element.getAttribute('width');
+    const actualWidth = element.getBoundingClientRect().width;
+    return originalWidth / actualWidth;
+  },
 };
 export default Helpers;
