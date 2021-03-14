@@ -206,6 +206,7 @@ function onClickGalleryBtn() {
 
 function onClickBlock(event) {
   const { currentTarget } = event;
+
   currentTarget.classList.toggle('selected');
 
   // Clear "selected" from all blocks except the clicked one
@@ -216,6 +217,17 @@ function onClickBlock(event) {
     }
   }
   onBlockChange();
+}
+
+function onClickCanvas(event) {
+  // Clear "selected" from all blocks
+  if (event.target === paperSvg) {
+    const allBlocks = document.querySelectorAll('.dragit');
+    for (let i = 0; i < allBlocks.length; i += 1) {
+      allBlocks[i].classList.remove('selected');
+    }
+    onBlockChange();
+  }
 }
 
 function onClickToFrontOrBackBtn(event) {
@@ -290,6 +302,7 @@ function init() {
   document.querySelectorAll('#gallery-content a.edit-json').forEach((el) => {
     el.addEventListener('click', onClickEditJsonBtn);
   });
+  paperSvg.addEventListener('click', onClickCanvas);
 
   // Calculate grid dimensions and restrictions
   grid = GridUtils.calcGrid(paperSvg);
