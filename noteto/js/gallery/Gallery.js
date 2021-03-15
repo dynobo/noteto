@@ -2,15 +2,24 @@ import DomUtils from '../utils/DomUtils.js';
 
 const templates = [
   {
+    folder: 'test-template',
+    contributor: 'dynobo',
+    description: 'Template to test how fonts, dimensions and colors will show up.',
+  },
+  {
     folder: 'day-planner',
     contributor: 'dynobo',
     description: 'Some test description',
   },
   {
-    folder: 'day-planner2',
-    contributor: 'dynobo2',
-    description: `Some test description Some test description Some test description Some test description 
-    Some test description Some test description`,
+    folder: 'weekplanner-1',
+    contributor: 'dynobo',
+    description: 'Simple week planner. 3 rows, 2 columns.',
+  },
+  {
+    folder: 'storyboard-four',
+    contributor: 'dynobo',
+    description: '2 x 2 storyboards. Canvas and rows for descriptions.',
   },
 ];
 
@@ -26,8 +35,8 @@ const Gallery = {
       </figure>
     </div>
       <div class="card-content">
-          <div>${template.description}</div>
-          <div class="has-text-weight-bold is-italic">by ${template.contributor}</div>
+          <div class="has-text-weight-bold">${template.description}</div>
+          <div class="is-italic gallery-contributor">by ${template.contributor}</div>
       </div>
       <footer class="card-footer">
         <a href="${imgUrl}" class="card-footer-item" download>Download</a>
