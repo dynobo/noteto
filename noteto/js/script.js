@@ -1,4 +1,4 @@
-import Options from './blocks/Options.js';
+import Options from './utils/Options.js';
 import BlockTypes from './blocks.js';
 import Config from './config.js';
 import RenderFonts from './utils/RenderFonts.js';

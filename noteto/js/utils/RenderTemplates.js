@@ -1,5 +1,5 @@
 import DomUtils from './DomUtils.js';
-import Options from '../blocks/Options.js';
+import Options from './Options.js';
 import BlockTypes from '../blocks.js';
 
 const RenderTemplates = {
