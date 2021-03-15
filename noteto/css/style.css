@@ -101,7 +101,7 @@ a:hover {
 #library > div > .image {
   display: inline-block;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 #library > div > .image:hover {
   cursor: pointer;

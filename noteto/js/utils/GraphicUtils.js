@@ -1,7 +1,6 @@
 /**
  * Helper methods to manipulate canvas and other graphic related things.
  */
-import DomUtils from './DomUtils.js';
 
 const GraphicUtils = {
   /**
@@ -30,45 +29,6 @@ const GraphicUtils = {
     const xml = new XMLSerializer().serializeToString(svgCopy);
     const data = `data:image/svg+xml;utf8,${encodeURIComponent(xml)}`;
     img.setAttribute('src', data);
-  },
-
-  /**
-   *
-   * @param {str} blockType Name of the block type, will be rendered as title
-   * @param {BaseBlock} BlockClass Class of the block to instanciate
-   * @param {Function} callback Called when rendering is complete. Gets an <img> object as argument.
-   */
-  generateBlockPreview(blockType, BlockClass, callback) {
-    // Render larger than shown to improve quality
-    const previewSize = 600;
-    const previewGrid = {
-      x: 60,
-      y: 60,
-      size: 60,
-      offset: { x: 285, y: 15 },
-      padding: 0,
-    };
-    const renderContainer = document.getElementById('paper-svg');
-
-    const block = new BlockClass(previewGrid);
-    block.opts.titleText.value = blockType;
-    block.opts.borderMargin.value = 0;
-    block.opts.borderRadius.value = 15;
-    block.opts.titleFontSize.value = 28;
-    block.opts.titlePadding.value = 8;
-
-    block.addTo(renderContainer);
-    block.root.setAttribute('width', previewSize);
-    block.root.setAttribute('height', previewSize);
-
-    GraphicUtils.convertSvgToCanvas(renderContainer, (canvas) => {
-      const img = document.createElement('img');
-      img.setAttribute('src', canvas.toDataURL('image/png'));
-      img.onload = function onload() {
-        callback(img);
-      };
-    });
-    DomUtils.removeElements(renderContainer.querySelectorAll('.dragit'));
   },
 
   renderRemarkableElements(svg) {

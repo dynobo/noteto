@@ -288,7 +288,7 @@ function initInteract() {
       relativePoints: [{ x: 0, y: 0 }],
     }),
     interact.modifiers.restrictSize({
-      min: { width: grid.x, height: grid.y },
+      min: { width: grid.size, height: grid.size },
     }),
     interact.modifiers.restrictEdges({
       outer: grid.restriction,

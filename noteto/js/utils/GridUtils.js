@@ -13,7 +13,7 @@ const GridUtils = {
   calcGrid(paperSvg) {
     const ratio = Helpers.getRatio(paperSvg);
 
-    const gridSize = 60;
+    const gridSize = 12;
     const bodyRect = document.body.getBoundingClientRect();
     const rect = paperSvg.getBoundingClientRect();
 

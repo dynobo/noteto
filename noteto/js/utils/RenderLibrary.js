@@ -3,6 +3,7 @@
  */
 import GraphicUtils from './GraphicUtils.js';
 import Config from '../config.js';
+import DomUtils from './DomUtils.js';
 
 const RenderLibrary = {
   /**
@@ -11,13 +12,52 @@ const RenderLibrary = {
    * @param {Element} canvas <canvas> element where to draw on
    */
   drawResizedImgOnCanvas(img, canvas) {
-    const previewGrid = { x: 60, y: 60 };
+    const previewGrid = { x: 12, y: 12 };
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img,
       Config.pagePadding, Config.pagePadding,
-      previewGrid.x * 5, previewGrid.y * 5,
+      previewGrid.x * 30, previewGrid.y * 30,
       0, 0,
       96 * 4, 96 * 4);
+  },
+
+  /**
+   *
+   * @param {str} blockType Name of the block type, will be rendered as title
+   * @param {BaseBlock} BlockClass Class of the block to instanciate
+   * @param {Function} callback Called when rendering is complete. Gets an <img> object as argument.
+   */
+  generateBlockPreview(blockType, BlockClass, callback) {
+    // Render larger than shown to improve quality
+    const previewSize = 384;
+    const previewGrid = {
+      x: 0,
+      y: 0,
+      size: 12,
+      offset: { x: 285, y: 15 },
+      padding: 0,
+    };
+    const renderContainer = document.getElementById('paper-svg');
+
+    const block = new BlockClass(previewGrid);
+    block.opts.titleText.value = blockType;
+    block.opts.borderMargin.value = 0;
+    block.opts.borderRadius.value = 15;
+    block.opts.titleFontSize.value = 28;
+    block.opts.titlePadding.value = 8;
+
+    block.addTo(renderContainer);
+    block.root.setAttribute('width', previewSize);
+    block.root.setAttribute('height', previewSize);
+
+    GraphicUtils.convertSvgToCanvas(renderContainer, (canvas) => {
+      const img = document.createElement('img');
+      img.setAttribute('src', canvas.toDataURL('image/png'));
+      img.onload = function onload() {
+        callback(img);
+      };
+    });
+    DomUtils.removeElements(renderContainer.querySelectorAll('.dragit'));
   },
 
   /**
@@ -45,7 +85,7 @@ const RenderLibrary = {
       containerDiv.addEventListener('click', () => { onClickListener(BlockClass); });
 
       // Finally generate the preview image and draw it on the preview canvas
-      GraphicUtils.generateBlockPreview(blockType, BlockClass, (tempImg) => {
+      this.generateBlockPreview(blockType, BlockClass, (tempImg) => {
         RenderLibrary.drawResizedImgOnCanvas(tempImg, previewCanvas);
       });
     });
