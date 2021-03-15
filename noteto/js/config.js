@@ -1,5 +1,5 @@
 const Config = {
-  pagePadding: 4,
+  pagePadding: 0,
   fonts: {
     CrimsonPro: {
       file: 'fonts/crimson-pro-v14-latin-regular.woff2',
