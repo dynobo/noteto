@@ -131,7 +131,9 @@ class TextBlock extends BaseBlock {
    * the conversion to <canvas> (used for preview and png export).
    */
   renderStyleDef() {
+    super.renderStyleDef();
     this.styleDef.innerHTML = `
+      ${this.styleDef.innerHTML}
       #${this.id} text.text-block  {
         font-family: '${this.opts.get('textFontFamily')}b64';
       }`;
