@@ -17,23 +17,23 @@ const GridUtils = {
     const bodyRect = document.body.getBoundingClientRect();
     const rect = paperSvg.getBoundingClientRect();
 
+    const padding = Config.pagePadding;
+
     const top = Math.round(rect.top - bodyRect.top);
     const left = Math.round(rect.left - bodyRect.left);
 
-    // Define grid dimensions using GCD to ensures a quadratic grid which fills
-    // the whole page. Add offset of element.
     return {
       x: gridSize / ratio,
       y: gridSize / ratio,
       size: gridSize,
-      offset: { x: left + Config.pagePadding / ratio, y: top + Config.pagePadding / ratio },
-      padding: Config.pagePadding,
+      offset: { x: left + padding / ratio, y: top + padding / ratio },
+      padding,
       page: { width: paperSvg.viewBox.baseVal.width, height: paperSvg.viewBox.baseVal.height },
       restriction: {
-        top: top + Config.pagePadding / ratio,
-        left: left + Config.pagePadding / ratio,
-        bottom: top + (paperSvg.viewBox.baseVal.height - Config.pagePadding) / ratio,
-        right: left + (paperSvg.viewBox.baseVal.width - Config.pagePadding) / ratio,
+        top: top + padding / ratio,
+        left: left + padding / ratio,
+        bottom: top + (paperSvg.viewBox.baseVal.height - padding) / ratio,
+        right: left + (paperSvg.viewBox.baseVal.width - padding) / ratio,
       },
     };
   },
