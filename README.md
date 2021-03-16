@@ -19,7 +19,7 @@ This application was born from a specific need: I found [many useful templates](
 
 The transfer of the created `png`-image to the tablet is *not* in the scope of NoTeTo. Use one of the [available tools](#transfer-tools).
 
-## Development & Contributing
+## Development & contributing
 
 The app should be considered as unstable, unfortunately I won't have much time to work on it. Contributions as pull requests are very welcome.
 
