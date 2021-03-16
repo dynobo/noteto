@@ -277,8 +277,6 @@ function onClickDownloadPngBtn() {
 }
 
 function initInteract() {
-  grid = GridUtils.calcGrid(paperSvg);
-
   // Define restrictions for resize/drag interactions
   const snapTarget = [interact.snappers.grid(grid)];
   const resizeRestrictions = [
@@ -351,6 +349,8 @@ function init() {
     const libraryEl = document.getElementById('library');
     RenderLibrary.renderBlockLibrary(libraryEl, BlockTypes, onClickBlockInLibrary);
   });
+
+  grid = GridUtils.calcGrid(paperSvg);
 
   Gallery.renderGallery(document.getElementById('gallery-content'));
 

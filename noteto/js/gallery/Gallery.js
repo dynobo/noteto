@@ -7,11 +7,6 @@ const templates = [
     description: 'Template to test how fonts, dimensions and colors will show up.',
   },
   {
-    folder: 'day-planner',
-    contributor: 'dynobo',
-    description: 'Some test description',
-  },
-  {
     folder: 'weekplanner-1',
     contributor: 'dynobo',
     description: 'Simple week planner. 3 rows, 2 columns.',
