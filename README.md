@@ -17,7 +17,7 @@ This application was born from a specific need: I found [many useful templates](
 5. Export the template as `png`-image
 6. Save as `json` to load it later for further adjusments
 
-Copying the `png`-image to the tablet is *not* in the scope of NoTeTo. Use one of the available [tools for transfering templates to tablet](#transfer-tools).
+Copying the `png`-image to the tablet is *not* in the scope of NoTeTo. Use one of the available [tools for transferring templates to tablet](#transfer-tools).
 
 ## Development & contributing
 
@@ -46,7 +46,7 @@ eslint ./noteto/
 ```
 
 <a name="transfer-tools"></a>
-## Tools for transfering templates to tablet
+## Tools for transferring templates to tablet
 
 - [Remarkable Assistent](https://github.com/richeymichael/remarkable-assistant)
 - [reMarkable HyUtilities](https://github.com/moovida/remarkable-hyutilities)
