@@ -2,7 +2,7 @@
 
 **No**tetaking **Te**mplate **To**ol for the reMarkable tablet. Proof of concept!
 
-View on <https://noteto.needleinthehay.de> *(Alpha Stage!)*
+Try it on <https://noteto.needleinthehay.de> *(Alpha Stage!)*
 
 ## Introduction
 
