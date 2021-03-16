@@ -5,7 +5,7 @@ import BlockTypes from '../blocks.js';
 const RenderTemplates = {
   loadTemplate(data, svg, grid) {
     // Remove existing blocks
-    DomUtils.removeElements(svg.querySelectorAll('svg'));
+    DomUtils.removeElements(svg.querySelectorAll('.dragit'));
     const blocks = {};
 
     // Load options
