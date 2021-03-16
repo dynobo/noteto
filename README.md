@@ -54,7 +54,7 @@ eslint ./noteto/
 - [rM2 Template Helper](https://www.freeremarkabletools.com/) (Windows)
 - [reMarkable Connection Utility (RCU)](http://www.davisr.me/projects/rcu/) (paid)
 - [einkpads - Template installer](https://www.einkpads.com/products/remarkable-template-installer-apple-computers) (paid)
-- 
+
 <a name="template-resources"></a>
 ## Other template ressources
 
