@@ -20,4 +20,4 @@ jobs:
         METHOD: ftp
         LOCAL_DIR: noteto
         REMOTE_DIR: /  # is on remote: home/www/needleinthehay
-        ARGS: --reverse --no-perms --parallel=3 --delete --only-newer --ignore-time -vvv
+        ARGS: --reverse --no-perms --parallel=3 --delete -vvv
