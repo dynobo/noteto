@@ -17,7 +17,7 @@ This application was born from a specific need: I found [many useful templates](
 5. Export the template as `png`-image
 6. Save as `json` to load it later for further adjusments
 
-The transfer of the created `png`-image to the tablet is *not* in the scope of NoTeTo. Use one of the [available tools](#transfer-tools).
+Copying the `png`-image to the tablet is *not* in the scope of NoTeTo. Use one of the available [tools for transfering templates to tablet](#transfer-tools).
 
 ## Development & contributing
 
