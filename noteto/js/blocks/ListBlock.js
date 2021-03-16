@@ -3,7 +3,7 @@ import LineBlock from './LineBlock.js';
 class ListBlock extends LineBlock {
   constructor(grid) {
     super(grid);
-    this.type = 'Line Block';
+    this.type = 'List Block';
     this.opts.titleText.value = 'To Do';
 
     // Append options specific to this block

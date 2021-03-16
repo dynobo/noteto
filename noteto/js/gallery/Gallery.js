@@ -2,19 +2,28 @@ import DomUtils from '../utils/DomUtils.js';
 
 const templates = [
   {
-    folder: 'test-template',
-    contributor: 'dynobo',
-    description: 'Template to test how fonts, dimensions and colors will show up.',
-  },
-  {
+    name: 'Weekplanner 1',
     folder: 'weekplanner-1',
     contributor: 'dynobo',
     description: 'Simple week planner. 3 rows, 2 columns.',
   },
   {
+    name: 'Workday 1',
+    folder: 'workday-1',
+    contributor: 'dynobo',
+    description: 'Opinionated day planner with toolbar-margin on left side.',
+  },
+  {
+    name: 'Four Storyboards',
     folder: 'storyboard-four',
     contributor: 'dynobo',
     description: '2 x 2 storyboards. Canvas and rows for descriptions.',
+  },
+  {
+    name: 'Test Template',
+    folder: 'test-template',
+    contributor: 'dynobo',
+    description: 'For demonstrating how fonts, dimensions and colors will look like.',
   },
 ];
 
@@ -30,8 +39,8 @@ const Gallery = {
       </figure>
     </div>
       <div class="card-content">
-          <div class="has-text-weight-bold">${template.description}</div>
-          <div class="is-italic gallery-contributor">by ${template.contributor}</div>
+          <span class="has-text-weight-bold">${template.name}</span> — ${template.description}
+          <small class="is-italic has-text-grey">(by&nbsp;${template.contributor})</small>
       </div>
       <footer class="card-footer">
         <a href="${imgUrl}" class="card-footer-item" download>Download</a>
