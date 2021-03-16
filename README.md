@@ -21,7 +21,7 @@ Copying the `png`-image to the tablet is *not* in the scope of NoTeTo. Use one o
 
 ## Development & contributing
 
-The app should be considered as unstable, unfortunately I won't have much time to work on it. Contributions as pull requests are very welcome.
+The app should be considered as unstable, unfortunately I won't have much time to work on it. Contributions as pull requests are very welcome. 
 
 Development setup is kept minimal, no build is required:
 
