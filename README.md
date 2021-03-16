@@ -17,7 +17,7 @@ This application was born from a specific need: I found [many useful templates](
 5. Export the template as `png`-image
 6. Save as `json` to load it later for further adjusments
 
-The transfer of the created `png`-image to the tablet is *not* in the scope of NoTeTo. Use one of the [available tools](#import-tools).
+The transfer of the created `png`-image to the tablet is *not* in the scope of NoTeTo. Use one of the [available tools](#transfer-tools).
 
 ## Development & Contributing
 
@@ -45,19 +45,24 @@ npm install
 eslint ./noteto/
 ```
 
-<a name="import-tools"></a>
-## Tools for importing templates to the tablet
-*(not in any specific order)*
+<a name="transfer-tools"></a>
+## Tools for transfering templates to tablet
 
 - [Remarkable Assistent](https://github.com/richeymichael/remarkable-assistant)
 - [reMarkable HyUtilities](https://github.com/moovida/remarkable-hyutilities)
 - [remarkable-tweak](https://github.com/morngrar/remarkable-tweak)
-- [reMarkable Connection Utility (RCU)](http://www.davisr.me/projects/rcu/)
-
+- [rM2 Template Helper](https://www.freeremarkabletools.com/) (Windows)
+- [reMarkable Connection Utility (RCU)](http://www.davisr.me/projects/rcu/) (paid)
+- [einkpads - Template installer](https://www.einkpads.com/products/remarkable-template-installer-apple-computers) (paid)
+- 
 <a name="template-resources"></a>
-## Other *free* reMarkable template ressources
+## Other template ressources
 
 - [Download templates created by the community](https://rm.ezb.io/)
 - [Online Generator for templates with custom grids](https://templarian.github.io/remarkable/)
 - [Getting Things Done templates](https://github.com/BartKeulen/remarkable-gtd-templates)
 - [Business related templates](https://github.com/deo-so/reMarkable-Tablet-Templates---Free)
+
+## Further links
+
+- [RemarkableWiki - Templates](https://remarkablewiki.com/tips/templates) (customizing, further templates)
