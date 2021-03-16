@@ -1,44 +1,68 @@
-# NoTeTo  *alpha*
+# NoTeTo
 
-> Notetaking Template Tool for the reMarkable tablet (and maybe others?) 
+**No**tetaking **Te**mplate **To**ol for the reMarkable tablet. Proof of concept!
 
-**Visit the *alpha-state* web-application on: <https://noteto.needleinthehay.de>**
+Try it on **<https://noteto.needleinthehay.de>** *(Alpha Stage!)*
 
-## Overview
+## Introduction
 
-This application was born from a specific need: I found so many useful templates for my tablet (see next section), but none that included all the features I required. Supposly everyone has different needs, so I built this application for creating custom templates based on the building block principle. 
+This application was born from a specific need: I found [many useful templates](#template-resources) for my tablet, but none that included all the features I required. Supposly everyone has different needs, so I built this application for creating custom templates based on a building block principle.
 
-## Contributing
+**Features:**
 
-Unfortunately I probably won't have to much time to work on the app, it might not even make it to beta stage. 
+1. Choose a template from the "Gallery" as starting point (or start on empty page)
+2. Add predefined template elements ("blocks") 
+3. Move, resize and style the "blocks"
+4. Adjust texts and labels
+5. Export the template as `png`-image
+6. Save as `json` to load it later for further adjusments
 
-**But I welcome contributions as pull requests!**
+Copying the `png`-image to the tablet is *not* in the scope of NoTeTo. Use one of the available [tools for transferring templates to tablet](#transfer-tools).
 
-## Developing
+## Development & contributing
 
-Development setup is kept minimal, no build is required. Just:
-1. Clone the repo
-2. In the repo root, start your favorite local webserver
+The app should be considered as unstable, unfortunately I won't have much time to work on it. Contributions as pull requests are very welcome.
+
+Development setup is kept minimal, no build is required:
+
+1. Clone the repository
+2. In the repositories root, start your favorite local webserver
 3. Point your browser to the `index.html` on `localhost`
 
-For example run:
+E.g., you can run:
+
 ```
 git clone https://github.com/dynobo/noteto.git
 cd noteto
 python -m http.server
 ```
-Then open <http://0.0.0.0:8000/noteto/> in your browser.
+Then open <http://127.0.0.1:8000/noteto/> in your browser.
 
-If you plan to contribute PRs back to this repo, please also install and run `eslint` to ensure correct code formatting etc. In repo root, run:
+If you plan to contribute a Pull Request, please install and run `eslint` to ensure correct code formatting:
 
 ```
 npm install
 eslint ./noteto/
 ```
 
-## Further *free* reMarkable template ressources
+<a name="transfer-tools"></a>
+## Tools for transferring templates to tablet
+
+- [Remarkable Assistent](https://github.com/richeymichael/remarkable-assistant)
+- [reMarkable HyUtilities](https://github.com/moovida/remarkable-hyutilities)
+- [remarkable-tweak](https://github.com/morngrar/remarkable-tweak)
+- [rM2 Template Helper](https://www.freeremarkabletools.com/) (Windows)
+- [reMarkable Connection Utility (RCU)](http://www.davisr.me/projects/rcu/) (paid)
+- [einkpads - Template installer](https://www.einkpads.com/products/remarkable-template-installer-apple-computers) (paid)
+
+<a name="template-resources"></a>
+## Other template ressources
 
 - [Download templates created by the community](https://rm.ezb.io/)
 - [Online Generator for templates with custom grids](https://templarian.github.io/remarkable/)
 - [Getting Things Done templates](https://github.com/BartKeulen/remarkable-gtd-templates)
 - [Business related templates](https://github.com/deo-so/reMarkable-Tablet-Templates---Free)
+
+## Further links
+
+- [RemarkableWiki - Templates](https://remarkablewiki.com/tips/templates) (customizing, further templates)
