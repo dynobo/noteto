@@ -1,22 +1,27 @@
-# NoTeTo  *Proof of Concept*
+# NoTeTo
 
-> **No**tetaking **Te**mplate **To**ol for the reMarkable tablet (and maybe others?) 
+**No**tetaking **Te**mplate **To**ol for the reMarkable tablet. Proof of concept!
 
-**View the web-application on <https://noteto.needleinthehay.de> *(Alpha Stage!)*.**
+View on <https://noteto.needleinthehay.de> *(Alpha Stage!)*
 
-## Overview
+## Introduction
 
 This application was born from a specific need: I found [many useful templates](#template-resources) for my tablet, but none that included all the features I required. Supposly everyone has different needs, so I built this application for creating custom templates based on a building block principle.
 
-1. Start with an empty paper *or* choose a template from the "Gallery" as starting point.
-2. Add/remove/resize elements, adjust labels and styles.
-3. Export the template as `png`-image.
+**Features:**
 
-The *import* of the created `png`-image into the reMarkable is *not* in the scope of NoTeTo. Please use [one of the tools that are already available](#import-tools).
+1. Choose a template from the "Gallery" as starting point (or start on empty page)
+2. Add predefined template elements ("blocks") 
+3. Move, resize and style the "blocks"
+4. Adjust texts and labels
+5. Export the template as `png`-image
+6. Save as `json` to load it later for further adjusments
+
+The transfer of the created `png`-image to the tablet is *not* in the scope of NoTeTo. Use one of the [available tools](#import-tools).
 
 ## Development & Contributing
 
-The app should be considered as unstable, and unfortunately I probably won't have much time to work on the app. **Contributions as pull requests are very welcome.**
+The app should be considered as unstable, unfortunately I won't have much time to work on it. Contributions as pull requests are very welcome.
 
 Development setup is kept minimal, no build is required:
 
@@ -33,7 +38,7 @@ python -m http.server
 ```
 Then open <http://127.0.0.1:8000/noteto/> in your browser.
 
-If you plan to contribute a Pull Request, please also install and run `eslint` to ensure correct code formatting:
+If you plan to contribute a Pull Request, please install and run `eslint` to ensure correct code formatting:
 
 ```
 npm install
