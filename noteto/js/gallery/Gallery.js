@@ -20,6 +20,12 @@ const templates = [
     description: '2 x 2 storyboards. Canvas and rows for descriptions.',
   },
   {
+    name: 'Day Structure',
+    folder: 'day-structure',
+    contributor: 'dynobo',
+    description: 'Helper for planning and reflecting a day mindfully.',
+  },
+  {
     name: 'Test Template',
     folder: 'test-template',
     contributor: 'dynobo',
