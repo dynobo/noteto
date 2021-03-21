@@ -25,6 +25,9 @@ const RenderFonts = {
         @font-face {
           font-family: '${fontName}b64';
           src: url(data:font/woff2;base64,${fontBase64});
+        }
+        text {
+          white-space: break-spaces;
         }`;
         element.appendChild(style);
       }
