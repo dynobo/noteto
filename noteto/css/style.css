@@ -197,6 +197,7 @@ a:hover {
 #export-warning:hover div {
   display: block;
 }
+
 /******************
   Paper Template
   *****************/
@@ -226,10 +227,6 @@ a:hover {
 #paper-svg .dragit.selected .blockBorder {
   fill: hsl(334, 100%, 95%);
   stroke: #ff2e88;
-}
-
-#paper-svg .dragit::before {
-  content: "TEST";
 }
 
 #remarkable-elements {
