@@ -276,6 +276,15 @@ function onClickDownloadPngBtn() {
   });
 }
 
+function onClickViewCheckbox(event) {
+  const { target } = event;
+  const option = target.getAttribute('data-option');
+  if (option) {
+    const group = document.getElementById(option);
+    group.classList.toggle('hidden');
+  }
+}
+
 function initInteract() {
   // Define restrictions for resize/drag interactions
   const snapTarget = [interact.snappers.grid(grid)];
@@ -371,12 +380,19 @@ function init() {
   document.querySelectorAll('#gallery-content a.edit-json').forEach((el) => {
     el.addEventListener('click', onClickEditJsonBtn);
   });
+  document.querySelectorAll('#view-box input[type="checkbox"]').forEach((el) => {
+    el.addEventListener('click', onClickViewCheckbox);
+  });
+
   paperSvg.addEventListener('click', onClickCanvas);
   window.addEventListener('resize', initInteract);
 
   // Calculate grid dimensions and restrictions
   initInteract();
   GraphicUtils.renderRemarkableElements(paperSvg);
+  GraphicUtils.renderRemarkableElementsLefthand(paperSvg);
+  GraphicUtils.renderGuideLines(paperSvg);
+  GraphicUtils.renderGridLines(paperSvg);
 }
 
 // wait for external resources to load if any

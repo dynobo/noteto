@@ -229,8 +229,14 @@ a:hover {
   stroke: #ff2e88;
 }
 
-#remarkable-elements {
+#remarkable-elements,
+#remarkable-elements-lefthand,
+#page-lines {
   pointer-events: none;
+}
+
+#paper-svg .hidden {
+  display: none;
 }
 
 /******************

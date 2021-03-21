@@ -114,6 +114,43 @@
         <span>Export to PNG</span>
       </button>
     </div>
+
+    <div id="view-box" class="box">
+      <p class="box-title has-text-centered is-size-6 is-uppercase has-text-weight-bold">Toggle Layout Helper</p>
+      <div class="field is-grouped">
+        <div class="field">
+          <label class="label"> reMarkable right</label>
+          <div class="checkbox-container">
+            <input class="checkbox" type="checkbox" data-option="remarkable-elements" checked>
+            </input>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label"> reMarkable left</label>
+          <div class="checkbox-container">
+            <input class="checkbox" type="checkbox" data-option="remarkable-elements-lefthand">
+            </input>
+          </div>
+        </div>
+      </div>
+      <div class="field is-grouped">
+        <div class="field">
+          <label class="label"> Page lines</label>
+          <div class="checkbox-container">
+            <input class="checkbox" type="checkbox" data-option="page-lines">
+            </input>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label"> Grid lines</label>
+          <div class="checkbox-container">
+            <input class="checkbox" type="checkbox" data-option="gridlines">
+            </input>
+          </div>
+        </div>        
+      </div>
+    </div>
+    
   </div>
 
   <div id="paper-container">
@@ -121,7 +158,12 @@
       viewBox="0 0 1404 1872" width="1404" height="1872">
       <defs id="font-defs"></defs>
       <g id="blocks-group"></g>
-      <g id="remarkable-elements"></g>
+      <g id="view-elements">
+        <g id="remarkable-elements"></g>
+        <g id="remarkable-elements-lefthand" class="hidden"></g>
+        <g id="page-lines" class="hidden"></g>
+        <g id="gridlines" class="hidden"></g>
+      </g>
     </svg>
   </div>
 
