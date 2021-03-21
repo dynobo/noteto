@@ -286,7 +286,7 @@ function initInteract() {
       relativePoints: [{ x: 0, y: 0 }],
     }),
     interact.modifiers.restrictSize({
-      min: { width: grid.size, height: grid.size },
+      min: { width: grid.size * 3, height: grid.size * 3 },
     }),
     interact.modifiers.restrictEdges({
       outer: grid.restriction,
@@ -335,6 +335,7 @@ function initInteract() {
         move: onResizeMove,
       },
       modifiers: resizeRestrictions,
+      margin: 7,
     })
     .on('tap', onClickBlock);
 }
