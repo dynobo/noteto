@@ -19,6 +19,26 @@ This application was born from a specific need: I found [many useful templates](
 
 Copying the `png`-image to the tablet is *not* in the scope of NoTeTo. Use one of the available [tools for transferring templates to tablet](#transfer-tools).
 
+## Contribute templates for the Gallery
+
+**Via Pull Request (preferred):**
+1. Create a nice template
+2. "Download as PNG" as well as "Export to JSON"
+3. Give both files _the_same_ meaningful name (all lower-case, hyphen separated)
+4. Fork noteto-repo and put the two files in a new subfolder in [/js/gallery/](https://github.com/dynobo/noteto/tree/main/noteto/js/gallery) with the _same_name_ as your files.
+5. Add a new object _at_the_end_ of the `templates`-Array in  [`Gallery.js`](https://github.com/dynobo/noteto/blob/main/noteto/js/gallery/Gallery.js) with the appropriate information
+6. Run NoTeTo locally (see section "Development & Contributing") as see if your template shows up as expected
+7. Create a Pull Request.
+
+**Via issue:**
+1. Create a nice template
+2. "Download as PNG" as well as "Export to JSON"
+3. Give both files _the_same_ meaningful name (all lower-case, hyphen separated)
+5. Open a ticket, upload both files along with the information to be shown in the Gallery:
+   - Template Name
+   - Contributor Name
+   - Short(!) description 
+
 ## Development & contributing
 
 The app should be considered as unstable, unfortunately I won't have much time to work on it. Contributions as pull requests are very welcome. 
