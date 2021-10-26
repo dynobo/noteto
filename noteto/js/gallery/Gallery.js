@@ -31,6 +31,12 @@ const templates = [
     contributor: 'dynobo',
     description: 'For demonstrating how fonts, dimensions and colors will look like.',
   },
+  {
+    name: 'Weekly Overview',
+    folder: 'weekly-overview',
+    contributor: 'simplykyra',
+    description: 'A quick overview of the week.',
+  },
 ];
 
 const Gallery = {
