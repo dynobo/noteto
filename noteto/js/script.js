@@ -90,6 +90,30 @@ function onClickDeleteBlockBtn() {
   onBlockChange();
 }
 
+function onClickDuplicateBlockBtn() {
+  // Grabs the selected block
+  const originalBlock = blocks[optionsBox.getAttribute('data-blockid')];
+
+  // Creates a new block with the right type, new id, and default values.
+  const newBlock = new BlockTypes[originalBlock.type](grid);
+
+  // Copy by value all the block's opts one by one
+  const data = Object.entries(originalBlock.opts);
+  for (let i = 0; i < data.length; i += 1) {
+    newBlock.opts[data[i][0]] = { ...data[i][1] };
+  }
+
+  // Manually set the other values. Will need to update for other changes.
+  newBlock.height = originalBlock.height;
+  newBlock.width = originalBlock.width;
+
+  // Adds the block to the blocks group
+  newBlock.addTo(blocksGroup);
+  blocks[newBlock.id] = newBlock;
+
+  onBlockChange();
+}
+
 function onFileLoaded(obj) {
   // Validate roughly
   if (!('grid' in obj && 'blocks' in obj && 'globalOptions' in obj)) {
@@ -372,6 +396,7 @@ function init() {
   document.getElementById('load-button').addEventListener('click', onClickLoadFileBtn);
   document.getElementById('save-button').addEventListener('click', onClickSaveFileBtn);
   document.getElementById('delete-button').addEventListener('click', onClickDeleteBlockBtn);
+  document.getElementById('duplicate-button').addEventListener('click', onClickDuplicateBlockBtn);
   document.getElementById('front-button').addEventListener('click', onClickToFrontOrBackBtn);
   document.getElementById('back-button').addEventListener('click', onClickToFrontOrBackBtn);
   document.getElementById('gallery-button').addEventListener('click', onClickGalleryBtn);
