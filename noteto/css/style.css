@@ -82,15 +82,6 @@ a:hover {
   position: relative;
 }
 
-#sidebar h1 > span.alpha-warning {
-  position: absolute;
-  transform: rotate(10deg);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-  right: 10px;
-  top: 5px;
-  color: #ff2e88;
-}
-
 #sidebar .tabs-content > div {
   display: none;
 }
