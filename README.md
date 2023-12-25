@@ -1,6 +1,8 @@
+***Note: I do not actively develop this tool anymore! Contributions via Pull Requests are still appreciated.***
+
 # NoTeTo
 
-**No**tetaking **Te**mplate **To**ol for the reMarkable tablet.
+Proof of Concept for a **No**tetaking **Te**mplate **To**ol for the reMarkable tablet.
 
 Try it on **<https://noteto.needleinthehay.de>**.
 
