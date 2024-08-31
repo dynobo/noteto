@@ -1,5 +1,3 @@
-***Note: I do not actively develop this tool anymore! Contributions via Pull Requests are still appreciated.***
-
 # NoTeTo
 
 Proof of Concept for a **No**tetaking **Te**mplate **To**ol for the reMarkable tablet.
